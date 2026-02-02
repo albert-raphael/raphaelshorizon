@@ -15,7 +15,7 @@ git pull origin main
 
 # Rebuild and restart backend services
 echo "🔄 Rebuilding services..."
-docker-compose -f docker-compose.prod.yml up -d --build --remove-orphans
+docker compose -f docker-compose.prod.yml up -d --build --remove-orphans
 
 # Prune unused images to save space
 docker image prune -f
