@@ -3,6 +3,7 @@ const cors = require('cors');
 const path = require('path');
 const fs = require('fs');
 const session = require('express-session');
+const cookieParser = require('cookie-parser');
 
 // Load environment variables
 require('dotenv').config();
@@ -13,8 +14,15 @@ const app = express();
 
 // Basic middleware
 app.use(cors());
+app.use(cookieParser());
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: false, limit: '10mb' }));
+
+// Request logging middleware
+app.use((req, res, next) => {
+  console.log(`[${new Date().toISOString()}] ${req.method} ${req.url}`);
+  next();
+});
 
 // Session middleware for Passport
 // app.use(session({
@@ -71,15 +79,16 @@ app.get('/health', (req, res) => {
 
 // Config route for frontend
 app.get('/api/config/google-client-id', (req, res) => {
+  console.log('[Config] Request for Google Client ID from:', req.ip);
   try {
     const clientId = process.env.GOOGLE_CLIENT_ID;
     if (!clientId) {
       console.warn('[Config] GOOGLE_CLIENT_ID is missing from environment');
     }
-    res.json({ clientId: clientId });
+    res.json({ success: true, clientId: clientId });
   } catch (error) {
     console.error('[Config] Error returning Google Client ID:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    res.status(500).json({ success: false, error: 'Internal server error' });
   }
 });
 

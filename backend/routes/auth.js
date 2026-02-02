@@ -45,16 +45,21 @@ const writeData = (file, data) => {
 
 // Helper: Find user
 const findUser = async (email) => {
+    console.log(`[Auth] Finding user: ${email} (Mode: ${EMBEDDED_MODE ? 'Embedded' : 'Database'})`);
     if (!EMBEDDED_MODE) {
         try {
-            return await User.findOne({ email }).select('+password');
+            const user = await User.findOne({ email }).select('+password');
+            console.log(`[Auth] DB lookup result for ${email}: ${user ? 'Found' : 'Not Found'}`);
+            return user;
         } catch (e) {
-            console.error('DB Find User Error:', e);
+            console.error('[Auth] DB Find User Error:', e);
             // Fallback to file for safety or during transition
         }
     }
     const users = readData(USERS_FILE);
-    return users.find(u => u.email === email);
+    const user = users.find(u => u.email === email);
+    console.log(`[Auth] File lookup result for ${email}: ${user ? 'Found' : 'Not Found'}`);
+    return user;
 };
 
 // Helper: Create user
