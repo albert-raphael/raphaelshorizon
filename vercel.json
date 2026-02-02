@@ -1,6 +1,6 @@
 {
-  "buildCommand": "echo 'No build step required'",
-  "outputDirectory": "frontend",
+  "buildCommand": "cp -r frontend .vercel/output",
+  "outputDirectory": ".vercel/output",
   "installCommand": "echo 'No dependencies to install'",
   "framework": null,
   "rewrites": [
