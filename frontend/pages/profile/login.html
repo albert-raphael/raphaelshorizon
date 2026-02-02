@@ -43,56 +43,56 @@
             color: var(--primary-color);
         }
         
-        /* Google Sign-In Button Specific Styles */
-        #google-signin-button {
-            display: block !important;
-            min-height: 44px !important;
+        /* Google Sign-In Button Styling */
+        .google-signin-container {
+            width: 100%;
             margin: 1rem 0;
-            opacity: 1 !important;
-            visibility: visible !important;
-            width: 100% !important;
+            min-height: 44px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
         
-        #google-signin-button .google-loading-placeholder {
+        #google-signin-button {
             width: 100% !important;
             min-height: 44px !important;
-            opacity: 1 !important;
         }
         
-        #google-signin-button > div {
-            width: 100% !important;
+        .google-loading-placeholder {
+            width: 100%;
+            height: 44px;
+            background: #f8f9fa;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .auth-divider {
+            display: flex;
+            align-items: center;
+            margin: 1.5rem 0;
+            color: #666;
+        }
+        
+        .auth-divider::before,
+        .auth-divider::after {
+            content: "";
+            flex: 1;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .auth-divider span {
+            padding: 0 15px;
+            font-size: 14px;
         }
     </style>
-    <!-- Google Sign-In -->
+    
+    <!-- Google Sign-In Library -->
     <script src="https://accounts.google.com/gsi/client" async defer></script>
-    <!-- Environment Configuration (must load first) -->
-    <script src="/js/config.js"></script>
-    
-    <!-- Check if user is already logged in -->
-    <script>
-    (function() {
-        const token = localStorage.getItem('authToken') || localStorage.getItem('adminToken');
-        const userStr = localStorage.getItem('user') || localStorage.getItem('adminUser');
-        if (token && userStr) {
-            try {
-                const user = JSON.parse(userStr);
-                // User is already logged in - redirect appropriately
-                const returnTo = sessionStorage.getItem('returnTo');
-                if (returnTo) {
-                    sessionStorage.removeItem('returnTo');
-                    window.location.href = returnTo;
-                } else if (user.role === 'admin') {
-                    window.location.href = '/pages/admin/admin-dashboard.html';
-                } else {
-                    window.location.href = '/homepage.html';
-                }
-            } catch(e) { /* ignore parse errors */ }
-        }
-    })();
-    </script>
-    
-    <!-- Load auth.js early so API_BASE_URL and handlers are available -->
-    <script src="/js/auth.js"></script>
 </head>
 <body>
 
@@ -106,7 +106,7 @@
         </div>
 
         <!-- Login form -->
-        <form id="page-login-form" onsubmit="handleAuthSubmit(event, 'login'); return false;">
+        <form id="page-login-form" class="auth-form">
             <div class="form-group">
                 <label for="login-email">Email Address</label>
                 <input type="email" id="login-email" name="email" class="form-input" placeholder="name@example.com" required>
@@ -122,7 +122,7 @@
         </form>
 
         <!-- Register form (accessible via #register hash) -->
-        <form id="page-register-form" onsubmit="handleAuthSubmit(event, 'register'); return false;" style="display:none; margin-top:1.5rem;">
+        <form id="page-register-form" class="auth-form" style="display:none;">
             <div class="form-group">
                 <label for="register-name">Full Name</label>
                 <input type="text" id="register-name" name="name" class="form-input" placeholder="John Doe" required>
@@ -149,84 +149,120 @@
         <div class="auth-divider"><span>OR</span></div>
 
         <!-- Google Sign In Button Container -->
-        <div id="google-signin-button" style="display: block; min-height: 44px; opacity: 1; visibility: visible;"></div>
+        <div class="google-signin-container">
+            <div id="google-signin-button" class="google-loading-placeholder">
+                Loading Google Sign-In...
+            </div>
+        </div>
 
         <a href="/homepage.html" class="back-link">← Back to Home</a>
+    </div>
 
-    <script>
-    // Ensure Google button is visible immediately
-    document.addEventListener('DOMContentLoaded', function() {
-        const googleBtn = document.getElementById('google-signin-button');
-        if (googleBtn) {
-            googleBtn.style.display = 'block';
-            googleBtn.style.minHeight = '44px';
-            googleBtn.style.opacity = '1';
-            googleBtn.style.visibility = 'visible';
-            console.log('Google button container made visible');
-        }
-    });
-    </script>
+    <!-- Configuration -->
+    <script src="/js/config.js"></script>
+    
+    <!-- Main Application Scripts -->
+    <script src="/js/api.js"></script>
+    <script src="/js/auth.js"></script>
+    <script src="/js/scripts.js"></script>
 
     <script>
     (function() {
-      const loginForm = document.getElementById('page-login-form');
-      const registerForm = document.getElementById('page-register-form');
-      const loginToggle = document.getElementById('login-toggle');
-
-      function showLogin() {
-        loginForm.style.display = 'block';
-        registerForm.style.display = 'none';
-        loginToggle.style.display = 'block';
-        document.querySelector('.login-header h2').textContent = 'Welcome Back';
-        document.querySelector('.login-header p').textContent = 'Sign in to access your library and subscription';
-      }
-
-      function showRegister() {
-        loginForm.style.display = 'none';
-        registerForm.style.display = 'block';
-        loginToggle.style.display = 'none';
-        document.querySelector('.login-header h2').textContent = 'Create Account';
-        document.querySelector('.login-header p').textContent = 'Join us to access exclusive content';
-      }
-
-      function handleHash() {
-        const hash = window.location.hash || '';
-        if (hash.toLowerCase().includes('register')) {
-          showRegister();
-        } else {
-          showLogin();
+        // Check if user is already logged in
+        const token = localStorage.getItem('authToken') || localStorage.getItem('adminToken');
+        const userStr = localStorage.getItem('user') || localStorage.getItem('adminUser');
+        if (token && userStr) {
+            try {
+                const user = JSON.parse(userStr);
+                const returnTo = sessionStorage.getItem('returnTo');
+                if (returnTo) {
+                    sessionStorage.removeItem('returnTo');
+                    window.location.href = returnTo;
+                } else if (user.role === 'admin') {
+                    window.location.href = '/pages/admin/admin-dashboard.html';
+                } else {
+                    window.location.href = '/homepage.html';
+                }
+                return; // Stop further execution if redirecting
+            } catch(e) {
+                console.error('Error parsing user data:', e);
+            }
         }
-      }
 
-      // On load
-      handleHash();
-      
-      // Handle hash changes
-      window.addEventListener('hashchange', handleHash);
+        // Form toggle functionality
+        const loginForm = document.getElementById('page-login-form');
+        const registerForm = document.getElementById('page-register-form');
+        const loginToggle = document.getElementById('login-toggle');
+        const loginHeader = document.querySelector('.login-header h2');
+        const loginSubheader = document.querySelector('.login-header p');
 
-      // Handle toggle clicks
-      document.getElementById('switch-to-register')?.addEventListener('click', () => {
-        window.location.hash = 'register';
-      });
-      document.getElementById('switch-to-login')?.addEventListener('click', () => {
-        window.location.hash = 'login';
-      });
-
-      // Render Google button if authManager is available
-      const initGoogleBtn = setInterval(() => {
-        if (window.authManager && typeof window.authManager.renderGoogleButton === 'function') {
-            clearInterval(initGoogleBtn);
-            window.authManager.renderGoogleButton();
+        function showLogin() {
+            loginForm.style.display = 'block';
+            registerForm.style.display = 'none';
+            loginToggle.style.display = 'block';
+            loginHeader.textContent = 'Welcome Back';
+            loginSubheader.textContent = 'Sign in to access your library and subscription';
         }
-      }, 100);
-      setTimeout(() => clearInterval(initGoogleBtn), 5000);
+
+        function showRegister() {
+            loginForm.style.display = 'none';
+            registerForm.style.display = 'block';
+            loginToggle.style.display = 'none';
+            loginHeader.textContent = 'Create Account';
+            loginSubheader.textContent = 'Join us to access exclusive content';
+        }
+
+        function handleHash() {
+            const hash = window.location.hash || '';
+            if (hash.toLowerCase().includes('register')) {
+                showRegister();
+            } else {
+                showLogin();
+            }
+        }
+
+        // Initialize form toggle
+        handleHash();
+        window.addEventListener('hashchange', handleHash);
+
+        // Toggle click handlers
+        document.getElementById('switch-to-register')?.addEventListener('click', (e) => {
+            e.preventDefault();
+            window.location.hash = 'register';
+        });
+        
+        document.getElementById('switch-to-login')?.addEventListener('click', (e) => {
+            e.preventDefault();
+            window.location.hash = 'login';
+        });
+
+        // Form submission handlers
+        loginForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            if (typeof handleAuthSubmit === 'function') {
+                handleAuthSubmit(e, 'login');
+            } else {
+                console.error('handleAuthSubmit function not found');
+                alert('Authentication system is not ready. Please try again.');
+            }
+        });
+
+        registerForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            if (typeof handleAuthSubmit === 'function') {
+                handleAuthSubmit(e, 'register');
+            } else {
+                console.error('handleAuthSubmit function not found');
+                alert('Authentication system is not ready. Please try again.');
+            }
+        });
+
+        // Google Sign-In will be initialized by auth.js when it's ready
+        console.log('Login page ready - Google Sign-In will be initialized by auth.js');
+
+    })();
+
     })();
     </script>
-    </div>
-
-    <script src="/js/config.js"></script>
-    <script src="/js/auth.js"></script>
-    <script src="/js/scripts.js"></script>
-    <script src="/js/api.js"></script>
 </body>
 </html>
