@@ -1,0 +1,9 @@
+node_modules
+backend
+tools
+public
+.git
+.vscode
+*.bat
+*.txt
+README.md

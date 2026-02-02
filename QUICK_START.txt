@@ -1,0 +1,124 @@
+# 🚀 QUICK START GUIDE - Raphael's Horizon
+
+## Prerequisites
+- Node.js (v14+)
+- MongoDB (Atlas recommended)
+- Python 3.x (for frontend serving)
+
+## ⚡ Fast Setup (3 minutes)
+
+### 1. Backend Setup
+```bash
+cd backend
+npm install
+npm start
+```
+✅ Backend runs on http://localhost:5002
+
+### 2. Frontend Setup
+```bash
+cd frontend
+python -m http.server 3000
+```
+✅ Frontend runs on http://localhost:3000
+
+### 3. Database Setup
+```bash
+cd backend
+node create-admin.js
+```
+✅ Creates admin user: admin@raphaelshorizon.com / admin123
+
+## 🎯 Key URLs
+- **Main Site:** http://localhost:3000
+- **Admin Login:** http://localhost:3000/pages/admin/login_admin.html
+- **API Health:** http://localhost:5002/api/health
+
+## 📁 Project Structure
+```
+raphaelshorizon/
+├── backend/           # Node.js API server
+├── frontend/          # Static HTML/CSS/JS
+├── SITE_ARCHITECTURE.txt  # Complete documentation
+└── tools/             # Development utilities
+```
+
+## 🔧 Development Commands
+
+### Backend
+```bash
+cd backend
+npm run dev          # Development mode with nodemon
+npm start            # Production mode
+npm test             # Run tests
+```
+
+### Database
+```bash
+# Create admin user
+cd backend && node create-admin.js
+
+# Check MongoDB connection
+cd backend && node -e "require('./config/database')"
+```
+
+### Frontend
+```bash
+cd frontend
+python -m http.server 3000    # Simple server
+# OR
+npx serve . -p 3000          # Better server with features
+```
+
+## 🐛 Troubleshooting
+
+### "Failed to fetch" errors
+- Check backend is running: `curl http://localhost:5002/api/health`
+- Verify ports aren't blocked
+- Check CORS settings in backend
+
+### Admin login not working
+- Run: `cd backend && node create-admin.js`
+- Check credentials: admin@raphaelshorizon.com / admin123
+
+### MongoDB connection issues
+- Verify `.env` MONGO_URI is correct
+- Check MongoDB Atlas IP whitelist
+- Ensure network connectivity
+
+## 📊 API Endpoints
+
+### Auth
+- `POST /api/auth/login` - User login
+- `POST /api/auth/register` - User registration
+- `POST /api/auth/admin/login` - Admin login
+- `GET /api/auth/google` - Google OAuth
+
+### Content
+- `GET /api/blog` - Get blog posts
+- `POST /api/blog` - Create blog post (admin)
+- `GET /api/comments/:postId` - Get comments
+- `POST /api/upload` - Upload files
+
+## 🔐 Environment Variables (.env)
+
+```env
+# Database
+MONGO_URI=mongodb+srv://username:password@cluster.mongodb.net/dbname
+
+# Authentication
+JWT_SECRET=your_secure_jwt_secret
+GOOGLE_CLIENT_ID=your_google_client_id
+GOOGLE_CLIENT_SECRET=your_google_client_secret
+
+# Server
+NODE_ENV=development
+```
+
+## 📞 Support
+
+For detailed documentation, see: `SITE_ARCHITECTURE.txt`
+
+---
+*Raphael's Horizon - Quick Start Guide*</content>
+<parameter name="filePath">d:\My Website\raphaelshorizon\QUICK_START.md

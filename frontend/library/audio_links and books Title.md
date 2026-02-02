@@ -1,0 +1,35 @@
+# Books Titles
+
+
+
+1. Light After The Tunnel: Discovery Your True Purpose in Hard Times
+2. Das Licht nach dem Tunnel: Entdecken Sie Ihren wahren Zweck in schweren Zeiten
+3. Divine Jurisprudence: The Covenant Code for a Flourishing Life
+4. Göttliche Rechtsprechung: Der Bundeskodex für ein blühendes Leben
+5. Embracing Elegance: A Gentle Guide for Women on Cultivating the Best Version of Themselves.
+
+
+
+
+
+
+
+
+
+# YouTube Audio Links
+
+
+
+1. https://www.youtube.com/watch?v=CLi1iYZb82M		Title: Example One
+2. https://www.youtube.com/watch?v=IFBRsBNM\_bY		Title: Example Two		
+3. https://www.youtube.com/watch?v=MaE26E03MhU		Title: Example Three
+
+
+
+# Rumble Audio Links
+
+
+
+1. https://rumble.com/v73kcbi-evangelist-shina-reprogramme-yourself..html?e9s=src\_v1\_ucp\_a	Title: Example Four
+2. https://rumble.com/v73bb4g-mass-prayer-21st-december-2025.html?e9s=src\_v1\_ucp\_a		Title: Example Five
+3. https://rumble.com/v73lgym-mass-prayer-28th-december-2025.html?e9s=src\_v1\_ucp\_a		Title: Example Six

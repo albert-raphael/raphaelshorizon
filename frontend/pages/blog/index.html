@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<meta content="Raphael's Horizon Blog - Inspirational articles, spiritual insights, and Christian teachings" name="description">
+<title>Blog — Raphael's Horizon</title>
+
+<link href="/css/styles.css" rel="stylesheet">
+<style>
+        .blog-hero {
+            padding: calc(var(--header-height) + 4rem) 0 4rem;
+            background: var(--gradient-primary);
+            color: var(--white);
+            text-align: center;
+        }
+
+        .blog-content {
+            padding: var(--space-xxl) 0;
+            background: var(--light-bg);
+        }
+
+        .blog-container {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: var(--space-xl);
+            max-width: var(--container-max-width);
+            margin: 0 auto;
+        }
+
+        .featured-article {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-lg);
+            margin-bottom: var(--space-xl);
+        }
+
+        .featured-article-image {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+        }
+
+        .featured-article-content {
+            padding: var(--space-xl);
+        }
+
+        .featured-badge {
+            background: var(--accent-color);
+            color: var(--white);
+            padding: var(--space-xs) var(--space-sm);
+            border-radius: var(--radius-sm);
+            font-size: 0.875rem;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: var(--space-md);
+        }
+
+        .articles-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: var(--space-lg);
+            margin-bottom: var(--space-xl);
+        }
+
+        .article-card {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+            transition: var(--transition-normal);
+        }
+
+        .article-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .article-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .article-content {
+            padding: var(--space-lg);
+        }
+
+        .article-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--space-sm);
+            font-size: 0.875rem;
+            color: var(--text-light);
+        }
+
+        .article-category {
+            background: var(--primary-light);
+            color: var(--white);
+            padding: 0.25rem 0.5rem;
+            border-radius: var(--radius-sm);
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .article-title {
+            font-size: 1.25rem;
+            margin-bottom: var(--space-sm);
+            line-height: 1.4;
+        }
+
+        .article-excerpt {
+            color: var(--text-light);
+            line-height: 1.6;
+            margin-bottom: var(--space-md);
+        }
+
+        .read-more {
+            color: var(--primary-light);
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-xs);
+        }
+
+        .blog-sidebar {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            padding: var(--space-lg);
+            box-shadow: var(--shadow-md);
+            height: fit-content;
+        }
+
+        .sidebar-widget {
+            margin-bottom: var(--space-xl);
+        }
+
+        .sidebar-widget:last-child {
+            margin-bottom: 0;
+        }
+
+        .sidebar-widget h3 {
+            color: var(--primary-color);
+            margin-bottom: var(--space-lg);
+            font-size: 1.25rem;
+        }
+
+        .categories-list {
+            list-style: none;
+        }
+
+        .categories-list li {
+            margin-bottom: var(--space-sm);
+        }
+
+        .categories-list a {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--text-color);
+            text-decoration: none;
+            padding: var(--space-sm);
+            border-radius: var(--radius-md);
+            transition: var(--transition-normal);
+        }
+
+        .categories-list a:hover {
+            background: var(--light-bg);
+            color: var(--primary-light);
+        }
+
+        .category-count {
+            background: var(--light-gray);
+            color: var(--text-light);
+            padding: 0.25rem 0.5rem;
+            border-radius: var(--radius-sm);
+            font-size: 0.75rem;
+        }
+
+        .recent-posts-list {
+            list-style: none;
+        }
+
+        .recent-post {
+            display: flex;
+            gap: var(--space-md);
+            margin-bottom: var(--space-lg);
+            padding-bottom: var(--space-lg);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .recent-post:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .recent-post-image {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: var(--radius-md);
+            flex-shrink: 0;
+        }
+
+        .recent-post-content h4 {
+            font-size: 0.875rem;
+            margin-bottom: var(--space-xs);
+            line-height: 1.4;
+        }
+
+        .recent-post-date {
+            font-size: 0.75rem;
+            color: var(--text-light);
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: var(--space-sm);
+            margin-top: var(--space-xl);
+        }
+
+        .pagination a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            color: var(--text-color);
+            text-decoration: none;
+            transition: var(--transition-normal);
+        }
+
+        .pagination a:hover,
+        .pagination a.active {
+            background: var(--primary-light);
+            color: var(--white);
+            border-color: var(--primary-light);
+        }
+
+        @media (max-width: 968px) {
+            .blog-container {
+                grid-template-columns: 1fr;
+            }
+
+            .articles-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .featured-article-image {
+                height: 300px;
+            }
+
+            .featured-article-content {
+                padding: var(--space-lg);
+            }
+        }
+    </style>
+</head>
+<body><!-- COOKIE CONSENT BANNER -->
+<div class="cookie-banner" id="cookie-banner">
+<div class="cookie-content">
+<div class="cookie-icon">🍪</div>
+<p>
+            This website uses cookies to ensure you get the best experience on our site.
+            <a href="../contact/privacy-policy.html">Learn more</a>
+</p>
+<div class="cookie-actions">
+<button type="button" class="btn-cookie-preferences" id="cookie-preferences">Preferences</button>
+<button type="button" class="btn-accept-cookies" id="accept-cookies">Accept All</button>
+</div>
+</div>
+</div>
+<!-- COOKIE PREFERENCES MODAL -->
+<div class="cookie-modal" id="cookie-modal">
+<div class="modal-content">
+<div class="modal-header">
+<div class="modal-title">
+<div class="cookie-icon">🍪</div>
+<h3>Cookie Preferences</h3>
+</div>
+<button type="button" class="modal-close">×</button>
+</div>
+<div class="modal-body">
+<div class="cookie-category">
+<div class="category-header">
+<h4>Essential Cookies</h4>
+<span class="cookie-required">Required</span>
+</div>
+<p>Necessary for the website to function properly. Cannot be disabled.</p>
+</div>
+<div class="cookie-category">
+<div class="category-header">
+<h4>Analytics Cookies</h4>
+<label class="toggle-switch">
+<input checked id="analytics-toggle" type="checkbox">
+<span class="slider"></span>
+</label>
+</div>
+<p>Help us understand how visitors interact with our website.</p>
+</div>
+<div class="cookie-category">
+<div class="category-header">
+<h4>Functional Cookies</h4>
+<label class="toggle-switch">
+<input checked id="functional-toggle" type="checkbox">
+<span class="slider"></span>
+</label>
+</div>
+<p>Enable enhanced features and personalization.</p>
+</div>
+</div>
+<div class="modal-footer">
+<button type="button" class="btn-save-preferences" id="save-preferences">Save Preferences</button>
+</div>
+</div>
+</div>
+<!-- HEADER NAVIGATION -->
+<header class="main-header">
+<div class="container">
+<nav class="main-nav" aria-label="Primary navigation">
+<div class="nav-brand">
+<a class="logo-link" href="../../homepage.html">
+<img alt="Raphael's Horizon" class="nav-logo" src="/assets/icons/logo-square.png">
+<span class="brand-name">Raphael's Horizon</span>
+</a>
+</div>
+<ul class="nav-menu">
+<li><a class="nav-link" href="../../homepage.html">Home</a></li>
+<!-- Books Dropdown -->
+<li class="nav-dropdown">
+<a aria-controls="books-menu" aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle" href="../books/books.html">
+                        Books <span class="dropdown-arrow">Ôû╝</span>
+</a>
+<div class="dropdown-menu" id="books-menu" role="menu">
+<a class="dropdown-link" href="../books/books.html" role="menuitem">Purchase Books</a>
+<a class="dropdown-link" href="../books/books-online.html" role="menuitem">Read Books Online</a>
+<a class="dropdown-link" href="../books/audio-books.html" role="menuitem">Audio Books Online</a>
+</div>
+</li>
+<!-- About Dropdown -->
+<li class="nav-dropdown">
+<a href="javascript:void(0)" aria-controls="about-menu" aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle" role="button" tabindex="0">
+                        About <span class="dropdown-arrow">Ôû╝</span>
+</a>
+<div class="dropdown-menu" id="about-menu" role="menu">
+<a class="dropdown-link" href="../about/about-us.html" role="menuitem">About Us</a>
+<a class="dropdown-link" href="../about/assimagbe-albert-raphael.html" role="menuitem">Assimagbe Albert Raphael</a>
+</div>
+</li>
+<!-- Contact Dropdown -->
+<li class="nav-dropdown">
+<a href="javascript:void(0)" aria-controls="contact-menu" aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle" role="button" tabindex="0">
+                        Contact <span class="dropdown-arrow">Ôû╝</span>
+</a>
+<div class="dropdown-menu" id="contact-menu" role="menu">
+<a class="dropdown-link" href="../contact/index.html" role="menuitem">Contact Us</a>
+<a class="dropdown-link" href="../contact/speaking-request.html" role="menuitem">Speaking Request</a>
+<a class="dropdown-link" href="../contact/privacy-policy.html" role="menuitem">Privacy Policy</a>
+</div>
+</li>
+<!-- Blog Dropdown -->
+<li class="nav-dropdown">
+<a href="javascript:void(0)" aria-controls="blog-menu" aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle active" role="button" tabindex="0">
+                        Blog <span class="dropdown-arrow">Ôû╝</span>
+</a>
+<div class="dropdown-menu" id="blog-menu" role="menu">
+<a class="dropdown-link active" href="index.html" role="menuitem">Blog Home</a>
+<a class="dropdown-link" href="categories.html" role="menuitem">Categories</a>
+<a class="dropdown-link" href="publish.html" role="menuitem">Publish New Post</a>
+<a class="dropdown-link external" href="https://raphaelshorizon.blogspot.com/" rel="noopener noreferrer" role="menuitem" target="_blank">Legacy Blog</a>
+</div>
+</li>
+<li>
+<a class="nav-link external" href="https://raphaelshorizon.wordpress.com/" rel="noopener noreferrer" target="_blank">WordPress</a>
+</li>
+<!-- DONATE BUTTON - Visible prominently -->
+<li class="nav-donate">
+<a class="btn-donate" href="../../donation.html">
+<i class="fas fa-heart"></i> Donate
+</a>
+</li>
+<!-- Login / Account (visible when NOT authenticated) -->
+<li class="nav-dropdown auth-menu-guest">
+<a href="javascript:void(0)" aria-controls="account-menu" aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle" role="button" tabindex="0">
+                        Account <span class="dropdown-arrow">Ôû╝</span>
+</a>
+<div class="dropdown-menu" id="account-menu" role="menu">
+<button class="dropdown-link" id="show-login-btn" role="menuitem" type="button">Sign in</button>
+<button class="dropdown-link" id="show-register-btn" role="menuitem" type="button">Create account</button>
+<button class="dropdown-link" id="show-subscription-btn" role="menuitem" type="button">Subscription plans</button>
+</div>
+</li>
+<!-- User menu (visible when authenticated) -->
+<li class="user-menu-container" style="display:none;">
+
+<button type="button" aria-controls="user-menu" aria-expanded="false" aria-haspopup="true" class="user-menu dropdown-toggle">
+<span class="user-avatar">U</span>
+<span class="user-name">User</span>
+<span class="dropdown-arrow">Ôû╝</span>
+</a>
+<div class="user-dropdown dropdown-menu" id="user-menu" role="menu">
+<a href="../profile/index.html" role="menuitem">My Profile</a>
+<a href="../profile/subscription.html" role="menuitem">Subscription</a>
+<a href="../profile/library.html" role="menuitem">My Library</a>
+<div class="dropdown-divider" role="separator"></div>
+<button id="logout-btn" role="menuitem" type="button">Logout</button>
+</div>
+</li>
+</ul>
+<!-- Mobile Menu Toggle -->
+<button class="mobile-menu-toggle" type="button" aria-label="Toggle navigation">
+<span></span>
+<span></span>
+<span></span>
+</button>
+</nav>
+</div>
+</header>
+<!-- BLOG HERO SECTION -->
+<section class="blog-hero">
+<div class="container">
+<div class="section-header">
+<h1>Raphael's Horizon Blog</h1>
+<p>Inspirational articles, spiritual insights, and Christian teachings for your journey of faith</p>
+</div>
+</div>
+</section>
+<!-- BLOG CONTENT -->
+<section class="blog-content">
+<div class="container">
+<div class="blog-container">
+<!-- Main Content -->
+<div class="blog-main">
+<!-- Featured Article (About Raphael's Horizon - Kept as top post) -->
+<div class="featured-article">
+<img alt="About Raphael's Horizon" class="featured-article-image" src="/assets/images/about-raphaelshorizon.png">
+<div class="featured-article-content">
+<span class="featured-badge">Featured</span>
+<span class="article-category">Our Mission</span>
+<h2 class="article-title">About Raphael's Horizon</h2>
+<div class="article-meta">
+<span>By Assimagbe Albert Raphael</span>
+<span>January 15, 2025</span>
+</div>
+<p class="article-excerpt">
+                                At Raphael's Horizon, we are dedicated to the pursuit of unveiling God's promises through boundless possibilities. With faith as our guide, we embark on a professional journey of exploration, unwavering in our commitment to wisdom and understanding...
+                            </p>
+<a class="read-more" href="post-about-raphaelshorizon.html">
+                                Read Full Article
+                                <svg fill="currentColor" height="16" viewbox="0 0 24 24" width="16">
+<path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path>
+</svg>
+</a>
+</div>
+</div>
+<!-- Articles Grid (2 per row) - Following post1 to post6 format -->
+<div class="articles-grid">
+<!-- POST 1: Finding Strength in Scripture -->
+<article class="article-card">
+<img alt="Finding Strength in Scripture" class="article-image" src="/assets/images/blog-post-1.png">
+<div class="article-content">
+<span class="article-category">Faith & Scripture</span>
+<h3 class="article-title">Finding Strength in Scripture: Navigating Life's Challenges with Faith</h3>
+<div class="article-meta">
+<span>By Assimagbe Albert Raphael</span>
+<span>January 20, 2025</span>
+</div>
+<p class="article-excerpt">
+                                    Biblical guidance for overcoming fear and finding peace through scripture during difficult times.
+                                </p>
+<a class="read-more" href="post-1.html">
+                                    Read More
+                                    <svg fill="currentColor" height="16" viewbox="0 0 24 24" width="16">
+<path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path>
+</svg>
+</a>
+</div>
+</article>
+<!-- POST 2: Embracing The Journey -->
+<article class="article-card">
+<img alt="Embracing The Journey" class="article-image" src="/assets/images/blog-post-2.jpg">
+<div class="article-content">
+<span class="article-category">Personal Growth</span>
+<h3 class="article-title">Embracing The Journey: Unlocking The Power Within</h3>
+<div class="article-meta">
+<span>By Assimagbe Albert Raphael</span>
+<span>January 12, 2025</span>
+</div>
+<p class="article-excerpt">
+                                    Discovering personal resilience and purpose by transforming challenges into opportunities for growth.
+                                </p>
+<a class="read-more" href="post-2.html">
+                                    Read More
+                                    <svg fill="currentColor" height="16" viewbox="0 0 24 24" width="16">
+<path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path>
+</svg>
+</a>
+</div>
+</article>
+<!-- POST 3: Embracing the Journey of Self-Discovery -->
+<article class="article-card">
+<img alt="Embracing the Journey of Self-Discovery" class="article-image" src="/assets/images/blog-post-3.jpg">
+<div class="article-content">
+<span class="article-category">Personal Growth</span>
+<h3 class="article-title">Embracing the Journey of Self-Discovery</h3>
+<div class="article-meta">
+<span>By Assimagbe Albert Raphael</span>
+<span>January 10, 2025</span>
+</div>
+<p class="article-excerpt">
+                                    Practical steps for personal transformation through change, resilience, and discovering your authentic self.
+                                </p>
+<a class="read-more" href="post-3.html">
+                                    Read More
+                                    <svg fill="currentColor" height="16" viewbox="0 0 24 24" width="16">
+<path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path>
+</svg>
+</a>
+</div>
+</article>
+<!-- POST 4: The Power of Reading -->
+<article class="article-card">
+<img alt="The Power of Reading" class="article-image" src="/assets/images/blog-post-4.jpg">
+<div class="article-content">
+<span class="article-category">Personal Development</span>
+<h3 class="article-title">The Power of Reading: Illuminating Your Path to True Purpose</h3>
+<div class="article-meta">
+<span>By Assimagbe Albert Raphael</span>
+<span>January 8, 2025</span>
+</div>
+<p class="article-excerpt">
+                                    How cultivating reading habits can lead to personal growth and help discover your life's purpose.
+                                </p>
+<a class="read-more" href="post-4.html">
+                                    Read More
+                                    <svg fill="currentColor" height="16" viewbox="0 0 24 24" width="16">
+<path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path>
+</svg>
+</a>
+</div>
+</article>
+<!-- POST 5: Breaking Boundaries -->
+<article class="article-card">
+<img alt="Breaking Boundaries" class="article-image" src="/assets/images/blog-post-5.jpg">
+<div class="article-content">
+<span class="article-category">Freedom in Christ</span>
+<h3 class="article-title">Breaking Boundaries: Embracing Your Future Beyond Family Limitations</h3>
+<div class="article-meta">
+<span>By Assimagbe Albert Raphael</span>
+<span>January 5, 2025</span>
+</div>
+<p class="article-excerpt">
+                                    Overcoming generational patterns and family limitations through faith in Christ to claim your divine destiny.
+                                </p>
+<a class="read-more" href="post-5.html">
+                                    Read More
+                                    <svg fill="currentColor" height="16" viewbox="0 0 24 24" width="16">
+<path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path>
+</svg>
+</a>
+</div>
+</article>
+<!-- POST 6: Navigating Challenges -->
+<article class="article-card">
+<img alt="Navigating Challenges" class="article-image" src="/assets/images/blog-post-6.jpg">
+<div class="article-content">
+<span class="article-category">Purpose & Focus</span>
+<h3 class="article-title">Navigating Challenges: Maintaining Focus on Your Goals and Purpose</h3>
+<div class="article-meta">
+<span>By Assimagbe Albert Raphael</span>
+<span>January 3, 2025</span>
+</div>
+<p class="article-excerpt">
+                                    Staying committed to your purpose despite obstacles by maintaining unwavering focus on God-given goals.
+                                </p>
+<a class="read-more" href="post-6.html">
+                                    Read More
+                                    <svg fill="currentColor" height="16" viewbox="0 0 24 24" width="16">
+<path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path>
+</svg>
+</a>
+</div>
+</article>
+</div>
+<!-- Placeholder for Future Posts -->
+<div style="text-align: center; margin-top: var(--space-xl); padding: var(--space-lg); background: var(--light-bg); border-radius: var(--radius-lg); border: 2px dashed var(--border-color);">
+<h3 style="color: var(--primary-color); margin-bottom: var(--space-sm);">More Articles Coming Soon!</h3>
+<p style="color: var(--text-light); margin-bottom: var(--space-md);">Stay tuned for more inspirational content and spiritual insights.</p>
+<a href="publish.html" class="btn btn-primary" style="display: inline-block;">Suggest a Topic</a>
+</div>
+<!-- Pagination -->
+<div class="pagination">
+<a class="prev" href="#">Previous</a>
+<a class="page active" href="#">1</a>
+<a class="page" href="#">2</a>
+<a class="next" href="#">Next</a>
+</div>
+</div>
+<!-- Sidebar -->
+<aside class="blog-sidebar">
+<!-- Categories Widget -->
+<div class="sidebar-widget">
+<h3>Categories</h3>
+<ul class="categories-list">
+<li><a href="categories.html#faith">Faith & Belief <span class="category-count">8</span></a></li>
+<li><a href="categories.html#guidance">Divine Guidance <span class="category-count">6</span></a></li>
+<li><a href="categories.html#growth">Spiritual Growth <span class="category-count">5</span></a></li>
+<li><a href="categories.html#promises">God's Promises <span class="category-count">4</span></a></li>
+<li><a href="categories.html#purpose">Life Purpose <span class="category-count">3</span></a></li>
+</ul>
+</div>
+<!-- Recent Posts Widget -->
+<div class="sidebar-widget">
+<h3>Recent Posts</h3>
+<ul class="recent-posts-list">
+<li class="recent-post">
+<img alt="About Raphael's Horizon" class="recent-post-image" src="/assets/images/about-raphaelshorizon.png">
+<div class="recent-post-content">
+<h4>About Raphael's Horizon</h4>
+<span class="recent-post-date">Jan 15, 2025</span>
+</div>
+</li>
+<li class="recent-post">
+<img alt="Finding Strength in Scripture" class="recent-post-image" src="/assets/images/blog-post-1.png">
+<div class="recent-post-content">
+<h4>Finding Strength in Scripture</h4>
+<span class="recent-post-date">Jan 20, 2025</span>
+</div>
+</li>
+<li class="recent-post">
+<img alt="Embracing The Journey" class="recent-post-image" src="/assets/images/blog-post-2.jpg">
+<div class="recent-post-content">
+<h4>Embracing The Journey</h4>
+<span class="recent-post-date">Jan 12, 2025</span>
+</div>
+</li>
+</ul>
+</div>
+<!-- Newsletter Widget -->
+<div class="sidebar-widget">
+<h3>Stay Updated</h3>
+<p>Subscribe to our newsletter for the latest articles and inspiration.</p>
+<form class="newsletter-form">
+<input class="form-input" placeholder="Your email address" required type="email">
+<button class="btn btn-primary" type="submit">Subscribe</button>
+</form>
+</div>
+</aside>
+</div>
+</div>
+</section>
+<!-- FOOTER -->
+<footer class="main-footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-brand">
+          <img src="/assets/icons/logo-square.png" alt="Raphael's Horizon" class="footer-logo">
+          <div class="footer-mission">
+            <h3>Raphael's Horizon</h3>
+            <p>Unveiling God's Promises through Boundless Possibilities</p>
+          </div>
+        </div>
+
+        <nav class="footer-nav" aria-label="Footer navigation">
+          <div class="footer-nav-column">
+            <h4>Navigation</h4>
+            <ul>
+              <li><a href="../../homepage.html">Home</a></li>
+              <li><a href="../books/books.html">Books</a></li>
+              <li><a href="../about/about-us.html">About</a></li>
+              <li><a href="../contact/index.html">Contact</a></li>
+            </ul>
+          </div>
+
+          <div class="footer-nav-column">
+            <h4>Resources</h4>
+            <ul>
+              <li><a href="https://raphaelshorizon.blogspot.com/" target="_blank" rel="noopener noreferrer">Blog</a></li>
+              <li><a href="https://raphaelshorizon.wordpress.com/" target="_blank" rel="noopener noreferrer">WordPress</a></li>
+              <li><a href="../contact/speaking-request.html">Speaking</a></li>
+              <li><a href="../../donation.html"><i class="fas fa-heart"></i> Support Us</a></li>
+            </ul>
+          </div>
+
+          <!-- LEGAL AND CONNECT COLUMNS SIDE BY SIDE -->
+          <div class="footer-columns-group">
+            <div class="footer-nav-column">
+              <h4>Legal</h4>
+              <ul>
+                <li><a href="../contact/privacy-policy.html">Privacy Policy</a></li>
+                <li><a href="javascript:void(0)" onclick="showCookiePreferences()">Cookie Preferences</a></li>
+              </ul>
+            </div>
+
+            <div class="footer-nav-column">
+                <h4>Newsletter</h4>
+                <p>Stay updated with our latest books and teachings.</p>
+                <form class="newsletter-form">
+                    <input type="email" placeholder="Your email address" aria-label="Email for newsletter" required>
+                    <button type="submit" class="btn btn-primary">Subscribe</button>
+                </form>
+            </div>
+          </div>
+        </nav>
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2026 Raphael's Horizon. All Rights Reserved. | Unveiling God's Promises Through Boundless Possibilities</p>
+      </div>
+    </div>
+</footer>
+
+<!-- JavaScript for current year in footer -->
+<script>
+    document.getElementById('current-year').textContent = new Date().getFullYear();
+</script>
+
+
+<!-- Main JavaScript file for site functionality -->
+<script src="/js/scripts.js"></script>
+<!-- Configuration for API endpoints -->
+<script src="/js/config.js"></script>
+<!-- Authentication for universal login state -->
+<script src="/js/auth.js"></script>
+
+<!-- Font Awesome for icons (if not already included) -->
+<script src="https://kit.fontawesome.com/your-font-awesome-kit-id.js" crossorigin="anonymous"></script>
+
+<!-- FLOATING DONATE BUTTON (visible on mobile) -->
+<a href="../../donation.html" class="btn-donate floating-donate-btn" aria-label="Donate to Raphael's Horizon">
+  <i class="fas fa-heart"></i> Donate
+</a>
+
+</body>
+</html>

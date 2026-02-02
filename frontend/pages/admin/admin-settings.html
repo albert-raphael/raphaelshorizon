@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings - Admin Dashboard</title>
+    <link href="/css/styles.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    
+    <!-- Auth Guard - Requires admin role -->
+    <script src="/js/auth-guard.js" data-require-auth="true" data-require-role="admin" data-admin-login-page="/pages/admin/login_admin.html"></script>
+    
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --success-color: #27ae60;
+            --warning-color: #f39c12;
+        }
+        
+        body {
+            background: #f5f6fa;
+            min-height: 100vh;
+        }
+        
+        .admin-container {
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .admin-header h1 {
+            margin: 0;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .btn-back {
+            background: #95a5a6;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .btn-back:hover {
+            background: #7f8c8d;
+            color: white;
+        }
+        
+        /* Settings Sections */
+        .settings-grid {
+            display: grid;
+            gap: 1.5rem;
+        }
+        
+        .settings-section {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            overflow: hidden;
+        }
+        
+        .section-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        
+        .section-header i {
+            color: var(--secondary-color);
+            font-size: 1.25rem;
+        }
+        
+        .section-header h2 {
+            margin: 0;
+            font-size: 1.25rem;
+            color: var(--primary-color);
+        }
+        
+        .section-content {
+            padding: 1.5rem;
+        }
+        
+        .setting-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        .setting-row:last-child {
+            border-bottom: none;
+        }
+        
+        .setting-info {
+            flex: 1;
+        }
+        
+        .setting-info h4 {
+            margin: 0 0 0.25rem;
+            color: var(--primary-color);
+        }
+        
+        .setting-info p {
+            margin: 0;
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .setting-value {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        /* Toggle Switch */
+        .toggle-switch {
+            position: relative;
+            width: 50px;
+            height: 26px;
+        }
+        
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: 0.3s;
+            border-radius: 26px;
+        }
+        
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 20px;
+            width: 20px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: 0.3s;
+            border-radius: 50%;
+        }
+        
+        input:checked + .toggle-slider {
+            background-color: var(--success-color);
+        }
+        
+        input:checked + .toggle-slider:before {
+            transform: translateX(24px);
+        }
+        
+        /* Status Badges */
+        .status-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+        
+        .status-enabled {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .status-disabled {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        .status-configured {
+            background: #e8f4fd;
+            color: #2980b9;
+        }
+        
+        .status-not-configured {
+            background: #fef9e7;
+            color: #f39c12;
+        }
+        
+        /* Input Styles */
+        .setting-input {
+            padding: 0.5rem 1rem;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 1rem;
+            width: 250px;
+        }
+        
+        .setting-input:focus {
+            outline: none;
+            border-color: var(--secondary-color);
+        }
+        
+        /* Buttons */
+        .btn-save {
+            background: var(--success-color);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1rem;
+        }
+        
+        .btn-save:hover {
+            background: #219a52;
+        }
+        
+        .btn-test {
+            background: var(--secondary-color);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+        
+        .btn-test:hover {
+            background: #2980b9;
+        }
+        
+        /* Info Box */
+        .info-box {
+            background: #e8f4fd;
+            border-left: 4px solid var(--secondary-color);
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 0 6px 6px 0;
+        }
+        
+        .info-box i {
+            color: var(--secondary-color);
+            margin-right: 0.5rem;
+        }
+        
+        @media (max-width: 768px) {
+            .setting-row {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+            
+            .setting-input {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-container">
+        <div class="admin-header">
+            <h1><i class="fas fa-cog"></i> Settings</h1>
+            <a href="admin-dashboard.html" class="btn-back"><i class="fas fa-arrow-left"></i> Back to Dashboard</a>
+        </div>
+
+        <div class="settings-grid">
+            <!-- Site Settings -->
+            <div class="settings-section">
+                <div class="section-header">
+                    <i class="fas fa-globe"></i>
+                    <h2>Site Settings</h2>
+                </div>
+                <div class="section-content">
+                    <div class="setting-row">
+                        <div class="setting-info">
+                            <h4>Site Name</h4>
+                            <p>The name of your website</p>
+                        </div>
+                        <div class="setting-value">
+                            <input type="text" id="site-name" class="setting-input" value="Raphael's Horizon" readonly>
+                        </div>
+                    </div>
+                    <div class="setting-row">
+                        <div class="setting-info">
+                            <h4>Contact Email</h4>
+                            <p>Email address for contact forms</p>
+                        </div>
+                        <div class="setting-value">
+                            <input type="email" id="contact-email" class="setting-input" value="" placeholder="contact@example.com" readonly>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Payment Settings -->
+            <div class="settings-section">
+                <div class="section-header">
+                    <i class="fas fa-credit-card"></i>
+                    <h2>Payment Settings</h2>
+                </div>
+                <div class="section-content">
+                    <div class="info-box">
+                        <i class="fas fa-info-circle"></i>
+                        Payment settings are configured via environment variables for security.
+                    </div>
+                    <div class="setting-row">
+                        <div class="setting-info">
+                            <h4>Stripe Integration</h4>
+                            <p>Accept payments via Stripe</p>
+                        </div>
+                        <div class="setting-value">
+                            <span id="stripe-status" class="status-badge status-not-configured">Loading...</span>
+                        </div>
+                    </div>
+                    <div class="setting-row">
+                        <div class="setting-info">
+                            <h4>PayPal Integration</h4>
+                            <p>Accept payments via PayPal</p>
+                        </div>
+                        <div class="setting-value">
+                            <span id="paypal-status" class="status-badge status-not-configured">Loading...</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Feature Toggles -->
+            <div class="settings-section">
+                <div class="section-header">
+                    <i class="fas fa-toggle-on"></i>
+                    <h2>Features</h2>
+                </div>
+                <div class="section-content">
+                    <div class="setting-row">
+                        <div class="setting-info">
+                            <h4>Donations</h4>
+                            <p>Allow users to donate to support the site</p>
+                        </div>
+                        <div class="setting-value">
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="feature-donations" checked disabled>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="setting-row">
+                        <div class="setting-info">
+                            <h4>Subscriptions</h4>
+                            <p>Allow users to subscribe for premium content</p>
+                        </div>
+                        <div class="setting-value">
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="feature-subscriptions" checked disabled>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="setting-row">
+                        <div class="setting-info">
+                            <h4>Comments</h4>
+                            <p>Allow comments on blog posts</p>
+                        </div>
+                        <div class="setting-value">
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="feature-comments" checked disabled>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="setting-row">
+                        <div class="setting-info">
+                            <h4>Newsletter</h4>
+                            <p>Allow users to subscribe to newsletter</p>
+                        </div>
+                        <div class="setting-value">
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="feature-newsletter" checked disabled>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- System Info -->
+            <div class="settings-section">
+                <div class="section-header">
+                    <i class="fas fa-server"></i>
+                    <h2>System Information</h2>
+                </div>
+                <div class="section-content">
+                    <div class="setting-row">
+                        <div class="setting-info">
+                            <h4>API Status</h4>
+                            <p>Backend API server status</p>
+                        </div>
+                        <div class="setting-value">
+                            <span id="api-status" class="status-badge status-enabled">Checking...</span>
+                            <button type="button" class="btn-test" onclick="testAPI()">Test</button>
+                        </div>
+                    </div>
+                    <div class="setting-row">
+                        <div class="setting-info">
+                            <h4>Server Mode</h4>
+                            <p>Current server operation mode</p>
+                        </div>
+                        <div class="setting-value">
+                            <span id="server-mode" class="status-badge status-configured">Loading...</span>
+                        </div>
+                    </div>
+                    <div class="setting-row">
+                        <div class="setting-info">
+                            <h4>Last Health Check</h4>
+                            <p>Time of last server health check</p>
+                        </div>
+                        <div class="setting-value">
+                            <span id="last-check">-</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = window.location.origin;
+        
+        function getToken() {
+            return localStorage.getItem('authToken');
+        }
+
+        // Load settings
+        async function loadSettings() {
+            try {
+                const response = await fetch(`${API_BASE}/api/admin/settings`, {
+                    headers: {
+                        'Authorization': `Bearer ${getToken()}`
+                    }
+                });
+                
+                if (response.ok) {
+                    const result = await response.json();
+                    if (result.success) {
+                        applySettings(result.data);
+                    }
+                }
+            } catch (error) {
+                console.error('Failed to load settings:', error);
+            }
+        }
+
+        // Apply settings to UI
+        function applySettings(data) {
+            // Site settings
+            if (data.siteName) {
+                document.getElementById('site-name').value = data.siteName;
+            }
+            if (data.contactEmail) {
+                document.getElementById('contact-email').value = data.contactEmail;
+            }
+            
+            // Payment status
+            const stripeStatus = document.getElementById('stripe-status');
+            if (data.payment?.stripeEnabled) {
+                stripeStatus.textContent = 'Configured';
+                stripeStatus.className = 'status-badge status-configured';
+            } else {
+                stripeStatus.textContent = 'Not Configured';
+                stripeStatus.className = 'status-badge status-not-configured';
+            }
+            
+            const paypalStatus = document.getElementById('paypal-status');
+            if (data.payment?.paypalEnabled) {
+                paypalStatus.textContent = 'Configured';
+                paypalStatus.className = 'status-badge status-configured';
+            } else {
+                paypalStatus.textContent = 'Not Configured';
+                paypalStatus.className = 'status-badge status-not-configured';
+            }
+            
+            // Features
+            if (data.features) {
+                document.getElementById('feature-donations').checked = data.features.donations;
+                document.getElementById('feature-subscriptions').checked = data.features.subscriptions;
+                document.getElementById('feature-comments').checked = data.features.comments;
+                document.getElementById('feature-newsletter').checked = data.features.newsletter;
+            }
+        }
+
+        // Test API health
+        async function testAPI() {
+            const statusEl = document.getElementById('api-status');
+            const lastCheckEl = document.getElementById('last-check');
+            const modeEl = document.getElementById('server-mode');
+            
+            statusEl.textContent = 'Checking...';
+            statusEl.className = 'status-badge';
+            
+            try {
+                const response = await fetch(`${API_BASE}/api/health`);
+                const data = await response.json();
+                
+                if (data.success) {
+                    statusEl.textContent = 'Online';
+                    statusEl.className = 'status-badge status-enabled';
+                    modeEl.textContent = data.mode || 'Unknown';
+                    modeEl.className = 'status-badge status-configured';
+                } else {
+                    statusEl.textContent = 'Error';
+                    statusEl.className = 'status-badge status-disabled';
+                }
+                
+                lastCheckEl.textContent = new Date().toLocaleTimeString();
+            } catch (error) {
+                statusEl.textContent = 'Offline';
+                statusEl.className = 'status-badge status-disabled';
+                lastCheckEl.textContent = new Date().toLocaleTimeString();
+            }
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            loadSettings();
+            testAPI();
+        });
+    </script>
+</body>
+</html>

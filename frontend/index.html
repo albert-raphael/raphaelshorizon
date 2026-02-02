@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<meta name="referrer" content="no-referrer-when-downgrade">
+<meta content="Raphael's Horizon - Unveiling God's Promises through Boundless Possibilities. Explore inspirational books, teachings, and transformative content for spiritual growth." name="description">
+<meta content="Raphael's Horizon, Christian books, spiritual growth, inspirational teachings, God's promises, faith, purpose" name="keywords">
+<meta content="Raphael's Horizon" name="author">
+<!-- Open Graph Meta Tags -->
+<meta content="Raphael's Horizon - Unveiling God's Promises" property="og:title">
+<meta content="Discover transformative books and inspirational teachings for spiritual growth and purpose." property="og:description">
+<meta content="website" property="og:type">
+<meta content="https://raphaelshorizon.com" property="og:url">
+<title>Raphael's Horizon — Unveiling God's Promises</title>
+<link href="css/styles.css" rel="stylesheet">
+<link href="css/auth.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+<!-- PWA Meta Tags -->
+<meta name="theme-color" content="#2c3e50">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="RHorizon">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="msapplication-TileColor" content="#2c3e50">
+<meta name="msapplication-config" content="assets/icons/browserconfig.xml">
+<link rel="manifest" href="site-manifest.json">
+<link rel="apple-touch-icon" href="assets/icons/logo-square.png">
+<link rel="icon" type="image/png" sizes="192x192" href="assets/icons/logo-square.png">
+<link rel="icon" type="image/png" sizes="512x512" href="assets/icons/logo-square.png">
+<!-- Google Sign-In -->
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+<style>
+/* INLINE HEADER DONATE OVERRIDE - Hard-coded to bypass cache */
+.nav-donate .btn-donate {
+    background: #ff4444 !important;
+    color: #ffffff !important;
+    font-weight: 800 !important;
+    padding: 10px 22px !important;
+    border-radius: 50px !important;
+    border: 2px solid #ffffff !important;
+    box-shadow: 0 4px 15px rgba(255, 68, 68, 0.4) !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    text-transform: uppercase !important;
+    letter-spacing: 1px !important;
+    transition: all 0.3s ease !important;
+    animation: pulse-red-header 2s infinite !important;
+    margin-left: 15px !important;
+    text-decoration: none !important;
+}
+
+.nav-donate .btn-donate:hover {
+    background: #cc0000 !important;
+    transform: translateY(-2px) scale(1.05) !important;
+    box-shadow: 0 6px 20px rgba(255, 0, 0, 0.6) !important;
+    color: #ffffff !important;
+}
+
+@keyframes pulse-red-header {
+    0% { transform: scale(1); box-shadow: 0 4px 15px rgba(255, 68, 68, 0.4); }
+    50% { transform: scale(1.05); box-shadow: 0 4px 25px rgba(255, 68, 68, 0.7); }
+    100% { transform: scale(1); box-shadow: 0 4px 15px rgba(255, 68, 68, 0.4); }
+}
+
+/* Enhanced Donate Button Styles (General/Footer) */
+.btn-donate, .footer-donate-link {
+    animation: heartBeat 2s infinite !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.5px !important;
+    text-transform: uppercase !important;
+    box-shadow: 0 4px 20px rgba(231, 76, 60, 0.5) !important;
+    background: #e74c3c !important; /* Bold Red */
+    color: white !important;
+}
+
+@keyframes heartBeat {
+    0% { transform: scale(1); }
+    14% { transform: scale(1.1); }
+    28% { transform: scale(1); }
+    42% { transform: scale(1.1); }
+    70% { transform: scale(1); }
+}
+
+.btn-donate:hover, .footer-donate-link:hover {
+    transform: scale(1.15) translateY(-3px) !important;
+    box-shadow: 0 8px 25px rgba(231, 76, 60, 0.7) !important;
+    background: #c0392b !important; /* Darker Red on hover */
+}
+
+.footer-donate-link {
+    padding: 8px 20px !important;
+    border-radius: 50px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    text-decoration: none !important;
+    margin-top: 10px !important;
+}
+</style>
+</head>
+<body>
+
+<!-- COOKIE CONSENT BANNER -->
+<div class="cookie-banner" id="cookie-banner">
+<div class="cookie-content">
+<div class="cookie-icon">🍪</div>
+<p>
+      This website uses cookies to ensure you get the best experience on our site.
+      <a href="pages/contact/privacy-policy.html">Learn more</a>
+</p>
+<div class="cookie-actions">
+<button type="button" class="btn-cookie-preferences" id="cookie-preferences">Preferences</button>
+<button type="button" class="btn-accept-cookies" id="accept-cookies">Accept All</button>
+</div>
+</div>
+</div>
+<!-- COOKIE PREFERENCES MODAL -->
+<div class="cookie-modal" id="cookie-modal">
+<div class="modal-content">
+<div class="modal-header">
+<div class="modal-title">
+<div class="cookie-icon">🍪</div>
+<h3>Cookie Preferences</h3>
+</div>
+<button type="button" class="modal-close">×</button>
+</div>
+<div class="modal-body">
+<div class="cookie-category">
+<div class="category-header">
+<h4>Essential Cookies</h4>
+<span class="cookie-required">Required</span>
+</div>
+<p>Necessary for the website to function properly. Cannot be disabled.</p>
+</div>
+<div class="cookie-category">
+<div class="category-header">
+<h4>Analytics Cookies</h4>
+<label class="toggle-switch">
+<input checked id="analytics-toggle" type="checkbox">
+<span class="slider"></span>
+</label>
+</div>
+<p>Help us understand how visitors interact with our website.</p>
+</div>
+<div class="cookie-category">
+<div class="category-header">
+<h4>Functional Cookies</h4>
+<label class="toggle-switch">
+<input checked id="functional-toggle" type="checkbox">
+<span class="slider"></span>
+</label>
+</div>
+<p>Enable enhanced features and personalization.</p>
+</div>
+</div>
+<div class="modal-footer">
+<button type="button" class="btn-save-preferences" id="save-preferences">Save Preferences</button>
+</div>
+</div>
+</div>
+<!-- HEADER NAVIGATION -->
+<header class="main-header">
+<div class="container">
+<nav class="main-nav" aria-label="Primary navigation">
+<div class="nav-brand">
+<a class="logo-link" href="homepage.html">
+<img alt="Raphael's Horizon" class="nav-logo" src="assets/icons/logo-square.png">
+<span class="brand-name">Raphael's Horizon</span>
+</a>
+</div>
+<ul class="nav-menu">
+<li><a class="nav-link" href="homepage.html">Home</a></li>
+<!-- Books Dropdown -->
+<li class="nav-dropdown">
+<a aria-controls="books-menu" aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle" href="pages/books/books.html">
+                        Books <span class="dropdown-arrow">Ôû╝</span>
+</a>
+<div class="dropdown-menu" id="books-menu" role="menu">
+<a class="dropdown-link" href="pages/books/books.html" role="menuitem">Purchase Books</a>
+<a class="dropdown-link" href="pages/books/books-online.html" role="menuitem">Read Books Online</a>
+<a class="dropdown-link" href="pages/books/audio-books.html" role="menuitem">Audio Books Online</a>
+</div>
+</li>
+<!-- About Dropdown -->
+<li class="nav-dropdown">
+<button type="button" aria-controls="about-menu" aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle" role="button" tabindex="0">
+                        About <span class="dropdown-arrow">Ôû╝</span>
+</button>
+<div class="dropdown-menu" id="about-menu" role="menu">
+<a class="dropdown-link" href="pages/about/about-us.html" role="menuitem">About Us</a>
+<a class="dropdown-link" href="pages/about/assimagbe-albert-raphael.html" role="menuitem">Assimagbe Albert Raphael</a>
+</div>
+</li>
+<!-- Contact Dropdown -->
+<li class="nav-dropdown">
+<button type="button" aria-controls="contact-menu" aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle" tabindex="0">
+                        Contact <span class="dropdown-arrow">Ôû╝</span>
+</button>
+<div class="dropdown-menu" id="contact-menu" role="menu">
+<a class="dropdown-link" href="pages/contact/contact-us.html" role="menuitem">Contact Us</a>
+<a class="dropdown-link" href="pages/contact/speaking-request.html" role="menuitem">Speaking Request</a>
+<a class="dropdown-link" href="pages/contact/privacy-policy.html" role="menuitem">Privacy Policy</a>
+</div>
+</li>
+<!-- Blog Dropdown -->
+<li class="nav-dropdown">
+<button type="button" aria-controls="blog-menu" aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle active" tabindex="0">
+                        Blog <span class="dropdown-arrow">Ôû╝</span>
+</button>
+<div class="dropdown-menu" id="blog-menu" role="menu">
+<a class="dropdown-link active" href="pages/blog/index.html" role="menuitem">Blog Home</a>
+<a class="dropdown-link" href="pages/blog/categories.html" role="menuitem">Categories</a>
+<a class="dropdown-link external" href="https://raphaelshorizon.blogspot.com/" rel="noopener noreferrer" role="menuitem" target="_blank">Legacy Blog</a>
+</div>
+</li>
+<li>
+<a class="nav-link external" href="https://raphaelshorizon.wordpress.com/" rel="noopener noreferrer" target="_blank">WordPress</a>
+</li>
+<!-- DONATE BUTTON - Visible prominently -->
+<li class="nav-donate">
+<a class="btn-donate" href="donation.html">
+<i class="fas fa-heart"></i> Donate
+</a>
+</li>
+<!-- Login / Account (visible when NOT authenticated) -->
+<li class="nav-dropdown auth-menu-guest">
+<a href="javascript:void(0)" aria-controls="account-menu" aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle" role="button" tabindex="0">
+                        Account <span class="dropdown-arrow">Ôû╝</span>
+</a>
+<div class="dropdown-menu" id="account-menu" role="menu">
+<a class="dropdown-link" href="pages/profile/login.html" role="menuitem">Sign in</a>
+<a class="dropdown-link" href="pages/profile/login.html#register" role="menuitem">Create account</a>
+<button class="dropdown-link" id="show-subscription-btn" role="menuitem" type="button">Subscription plans</button>
+</div>
+</li>
+<!-- User menu (visible when authenticated) -->
+<li class="user-menu-container" style="display:none;">
+<button type="button" aria-controls="user-menu" aria-expanded="false" aria-haspopup="true" class="user-menu dropdown-toggle">
+<span class="user-avatar">U</span>
+<span class="user-name">User</span>
+<span class="dropdown-arrow">▼</span>
+</button>
+<div class="user-dropdown dropdown-menu" id="user-menu" role="menu">
+<a href="pages/profile/index.html" role="menuitem">My Profile</a>
+<a href="pages/profile/subscription.html" role="menuitem">Subscription</a>
+<a href="pages/profile/library.html" role="menuitem">My Library</a>
+<div class="dropdown-divider" role="separator"></div>
+<button id="logout-btn" role="menuitem" type="button">Logout</button>
+</div>
+</li>
+</ul>
+<!-- Mobile Menu Toggle -->
+<button class="mobile-menu-toggle" type="button" aria-label="Toggle navigation">
+<span></span>
+<span></span>
+<span></span>
+</button>
+</nav>
+</div>
+</header>
+<!-- HERO SECTION -->
+<section class="hero-section">
+<div class="container">
+<div class="hero-content">
+<h1 class="hero-title">Unveiling God's Promises Through Boundless Possibilities</h1>
+<p class="hero-subtitle">Discover transformative teachings and inspirational books that guide you toward spiritual growth, purpose, and divine fulfillment.</p>
+<div class="hero-actions">
+<a class="btn btn-primary" href="#featured-books">Explore Books</a>
+<a class="btn btn-secondary" href="pages/contact/speaking-request.html">Speaking Request</a>
+</div>
+</div>
+</div>
+<div class="hero-overlay"></div>
+</section>
+<!-- FEATURED BOOKS SECTION -->
+<section class="featured-books-section" id="featured-books">
+<div class="container">
+<div class="section-header">
+<h2>Featured Publications</h2>
+<p>Transformative books that illuminate your spiritual journey</p>
+</div>
+<!-- FEATURED BOOK HERO -->
+<div class="featured-book-hero">
+<div class="book-hero-content">
+<div class="book-cover-featured">
+<img alt="The Light After the Tunnel Book Cover" loading="lazy" src="assets/images/light-after-the-tunnel-english.jpg">
+<div class="book-badge">Bestseller</div>
+</div>
+<div class="book-details-featured">
+<h3>The Light After the Tunnel</h3>
+<p class="book-subtitle">Discovering Your True Purpose in Hard Times</p>
+<div class="book-description">
+<p>This profound exploration reveals how God uses life's challenges to shape and prepare us for our divine purpose. Through biblical wisdom and practical insights, discover how trials become transformative passages toward your God-given destiny.</p>
+<ul class="book-highlights">
+<li>Biblical principles for overcoming adversity</li>
+<li>Stories of faith champions who emerged stronger</li>
+<li>Practical guidance for spiritual growth</li>
+</ul>
+</div>
+<div class="book-actions">
+<a class="btn btn-primary" download href="assets/documents/light-after-the-tunnel-english.pdf">
+<span>Download Sample</span>
+</a>
+<a class="btn btn-secondary" href="https://www.amazon.com/stores/Albert-Raphael-Assimagbe/author/B0CDJLQZN5?" rel="noopener noreferrer" target="_blank">
+<span>Purchase on Amazon</span>
+</a>
+</div>
+</div>
+</div>
+</div>
+<!-- ADDITIONAL BOOKS GRID -->
+<div class="books-grid-section">
+<h3 class="grid-title">More Inspiring Reads</h3>
+<div class="books-grid">
+<!-- Book 1 -->
+<div class="book-card">
+<div class="book-cover">
+<img alt="Das Licht nach the Tunnel" loading="lazy" src="assets/images/light-after-the-tunnel-german.jpg">
+</div>
+<div class="book-info">
+<h4>Das Licht nach dem Tunnel</h4>
+<p class="book-language">German Edition</p>
+<p class="book-excerpt">Entdecken Sie Ihren wahren Zweck in schwierigen Zeiten.</p>
+<div class="book-actions">
+<a class="btn btn-outline" download href="assets/documents/light-after-the-tunnel-german.pdf">Download</a>
+<a class="btn btn-primary" href="https://www.amazon.com/stores/Albert-Raphael-Assimagbe/author/B0CDJLQZN5?" rel="noopener noreferrer" target="_blank">Buy Now</a>
+</div>
+</div>
+</div>
+<!-- Book 2 -->
+<div class="book-card">
+<div class="book-cover">
+<img alt="Divine Jurisprudence: The Covenant Code for a Flourishing Life" loading="lazy" src="assets/images/divine-jurisprudence-english.jpg">
+</div>
+<div class="book-info">
+<h4>Divine Jurisprudence</h4>
+<p class="book-language">English Edition</p>
+<p class="book-excerpt">Unlock divine principles for abundant living.</p>
+<div class="book-actions">
+<a class="btn btn-outline" download href="assets/documents/divine-jurisprudence-english.pdf">Download</a>
+<a class="btn btn-primary" href="https://www.amazon.com/stores/Albert-Raphael-Assimagbe/author/B0CDJLQZN5?" rel="noopener noreferrer" target="_blank">Buy Now</a>
+</div>
+</div>
+</div>
+<!-- Book 3 -->
+<div class="book-card">
+<div class="book-cover">
+<img alt="Embracing Elegance: A Gentle Guide for Women" loading="lazy" src="assets/images/embracing-elegance.jpg">
+</div>
+<div class="book-info">
+<h4>Embracing Elegance</h4>
+<p class="book-language">A Guide for Women's Spiritual Refinement</p>
+<p class="book-excerpt">Cultivate your best self through God's grace.</p>
+<div class="book-actions">
+<a class="btn btn-outline" download href="assets/documents/embracing-elegance.pdf">Download</a>
+<a class="btn btn-primary" href="https://www.amazon.com/stores/Albert-Raphael-Assimagbe/author/B0CDJLQZN5?" rel="noopener noreferrer" target="_blank">Buy Now</a>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- INSPIRATIONAL QUOTES CAROUSEL -->
+<section class="quotes-carousel-section">
+<div class="container">
+<div class="section-header">
+<h2>Words of Inspiration</h2>
+<p>Timeless wisdom for your spiritual journey</p>
+</div>
+<div class="quotes-carousel">
+<div class="carousel-track">
+<!-- Quote 1 -->
+          <div class="quote-slide">
+            <blockquote class="inspirational-quote">
+              <span class="quote-icon">"</span>
+              <p class="quote-text">Courageous leadership is the audacity to stand firm in God's truth, even when the world stands against you.</p>
+              <footer class="quote-author">— Raphael's Horizon</footer>
+            </blockquote>
+          </div>
+<!-- Quote 2 -->
+          <div class="quote-slide">
+            <blockquote class="inspirational-quote">
+              <span class="quote-icon">"</span>
+              <p class="quote-text">Through prayerfulness, leaders find strength not in their might, but in God's unfailing power.</p>
+              <footer class="quote-author">— Raphael's Horizon</footer>
+            </blockquote>
+          </div>
+<!-- Quote 3 -->
+          <div class="quote-slide">
+            <blockquote class="inspirational-quote">
+              <span class="quote-icon">"</span>
+              <p class="quote-text">Visionary leadership sees not just what is, but what, through faith, can be.</p>
+              <footer class="quote-author">— Raphael's Horizon</footer>
+            </blockquote>
+          </div>
+
+          <!-- Quote 4 -->
+          <div class="quote-slide">
+            <blockquote class="inspirational-quote">
+              <span class="quote-icon">"</span>
+              <p class="quote-text">God has already determined your destiny, and everything you require for success has already been deposited within you.</p>
+              <footer class="quote-author">— Raphael's Horizon</footer>
+            </blockquote>
+          </div>
+        </div>
+        <div class="carousel-controls">
+          <button type="button" class="carousel-btn prev-btn" aria-label="Previous quote">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
+            </svg>
+          </button>
+          <div class="carousel-indicators">
+            <span class="carousel-indicator active" data-slide="0"></span>
+            <span class="carousel-indicator" data-slide="1"></span>
+            <span class="carousel-indicator" data-slide="2"></span>
+            <span class="carousel-indicator" data-slide="3"></span>
+          </div>
+          <button type="button" class="carousel-btn next-btn" aria-label="Next quote">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+</section>
+<!-- VIDEO & TEACHINGS SECTION -->
+<section class="video-section">
+  <div class="container">
+    <div class="section-header">
+      <h2>Watch &amp; Be Inspired</h2>
+      <p>Transformative teachings for your spiritual growth</p>
+    </div>
+
+    <div class="video-content">
+      <!-- Featured Video -->
+      <div class="featured-video-card">
+        <div class="video-player">
+          <div class="video-wrapper">
+            <iframe 
+              src="https://www.youtube.com/embed/CLi1iYZb82M" 
+              title="Embracing the Journey of Self Discovery"
+               
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+              allowfullscreen
+              loading="lazy">
+            </iframe>
+          </div>
+        </div>
+
+        <div class="video-info">
+          <h3>Embracing the Journey of Self Discovery</h3>
+          <p class="video-description">
+            Discover how to unlock your God-given potential and embrace the transformative journey toward your divine purpose. Learn practical steps to recognize and develop your unique gifts.
+          </p>
+          <div class="video-actions">
+            <a href="https://www.youtube.com/@raphaelshorizon" 
+               class="btn btn-primary" 
+               target="_blank" 
+               rel="noopener noreferrer">
+              Subscribe to YouTube
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sidebar Videos -->
+      <div class="video-sidebar">
+        <h4>More Inspiring Messages</h4>
+        <div class="video-list">
+          <!-- Video 1 -->
+          <div class="video-item">
+            <a href="https://www.youtube.com/watch?v=MaE26E03MhU" 
+               target="_blank" 
+               rel="noopener noreferrer">
+              <div class="video-thumbnail">
+                <img src="https://img.youtube.com/vi/MaE26E03MhU/hqdefault.jpg" 
+                     alt="Overcoming Life's Obstacles" 
+                     loading="lazy">
+                <div class="play-overlay">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M8 5v14l11-7z"/>
+                  </svg>
+                </div>
+              </div>
+            </a>
+            <div class="video-details">
+              <h5>Embracing the Journey: Unlocking the Power Within</h5>
+              <span class="video-duration">04:47</span>
+            </div>
+          </div>
+
+          <!-- Video 2 -->
+          <div class="video-item">
+            <a href="https://www.youtube.com/watch?v=IFBRsBNM_bY" 
+               target="_blank" 
+               rel="noopener noreferrer">
+              <div class="video-thumbnail">
+                <img src="https://img.youtube.com/vi/IFBRsBNM_bY/hqdefault.jpg" 
+                     alt="The Power of Faithful Leadership" 
+                     loading="lazy">
+                <div class="play-overlay">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M8 5v14l11-7z"/>
+                  </svg>
+                </div>
+              </div>
+            </a>
+            <div class="video-details">
+              <h5>Now Available: 'Divine Jurisprudence: The Covenant Code for a Flourishing Life'</h5>
+              <span class="video-duration">02:03</span>
+            </div>
+          </div>
+
+          <!-- Video 3 -->
+          <div class="video-item">
+            <a href="https://www.youtube.com/watch?v=miDmU8BvfGs" 
+               target="_blank" 
+               rel="noopener noreferrer">
+              <div class="video-thumbnail">
+                <img src="https://img.youtube.com/vi/miDmU8BvfGs/hqdefault.jpg" 
+                     alt="Embracing God's Promises" 
+                     loading="lazy">
+                <div class="play-overlay">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M8 5v14l11-7z"/>
+                  </svg>
+                </div>
+              </div>
+            </a>
+            <div class="video-details">
+              <h5>About Raphael's Horizon</h5>
+              <span class="video-duration">00:51</span>
+            </div>
+          </div>
+
+        </div> <!-- .video-list -->
+      </div> <!-- .video-sidebar -->
+    </div> <!-- .video-content -->
+  </div> <!-- .container -->
+</section>
+
+  <!-- BIBLE VERSE & BRAND SECTION -->
+  <section class="verse-brand-section">
+    <div class="container">
+      <div class="verse-brand-content">
+        <div class="brand-display">
+          <div class="brand-card">
+            <img src="assets/icons/logo-banner.jpg" alt="Raphael's Horizon" class="brand-logo-large" loading="lazy">
+            <div class="brand-mission">
+              <h3>Unveiling God's Promises</h3>
+              <p>Through Boundless Possibilities</p>
+            </div>
+          </div>
+        </div>
+        <div class="verse-display">
+          <div class="verse-card">
+            <div class="verse-content">
+              <h3>Divine Assurance</h3>
+              <blockquote class="scripture-verse">
+                "For I know the plans I have for you," declares the Lord, "plans to prosper you and not to harm you, plans to give you hope and a future."
+              </blockquote>
+              <p class="verse-reference">Jeremiah 29:11 (NIV)</p>
+              <div class="verse-decoration">✝</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SOCIAL CONNECT SECTION -->
+  <section class="social-connect-section">
+    <div class="container">
+      <div class="section-header">
+        <h2>Join Our Community</h2>
+        <p>Stay connected for daily inspiration and updates</p>
+      </div>
+
+      <div class="social-grid">
+        <a href="https://www.facebook.com/raphaelshorizon" class="social-card facebook" target="_blank" rel="noopener noreferrer" aria-label="Follow on Facebook">
+          <div class="social-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+            </svg>
+          </div>
+          <div class="social-info">
+            <span class="social-name">Facebook</span>
+            <span class="social-handle">@raphaelshorizon</span>
+          </div>
+        </a>
+
+        <a href="https://www.instagram.com/raphaelshorizon" class="social-card instagram" target="_blank" rel="noopener noreferrer" aria-label="Follow on Instagram">
+          <div class="social-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+            </svg>
+          </div>
+          <div class="social-info">
+            <span class="social-name">Instagram</span>
+            <span class="social-handle">@raphaelshorizon</span>
+          </div>
+        </a>
+
+        <a href="https://www.youtube.com/channel/UCTy8tWlPm6oy8yCvpwwhMEw" class="social-card youtube" target="_blank" rel="noopener noreferrer" aria-label="Subscribe on YouTube">
+          <div class="social-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+            </svg>
+          </div>
+          <div class="social-info">
+            <span class="social-name">YouTube</span>
+            <span class="social-handle">Raphael's Horizon</span>
+          </div>
+        </a>
+
+        <a href="https://www.twitter.com/raphaelshorizon" class="social-card twitter" target="_blank" rel="noopener noreferrer" aria-label="Follow on Twitter">
+          <div class="social-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/>
+            </svg>
+          </div>
+          <div class="social-info">
+            <span class="social-name">Twitter</span>
+            <span class="social-handle">@raphaelshorizon</span>
+          </div>
+        </a>
+
+        <a href="https://t.me/raphaelshorizon" class="social-card telegram" target="_blank" rel="noopener noreferrer" aria-label="Join on Telegram">
+          <div class="social-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.191c-.174.761-1.074 3.902-1.074 3.902s-.287 1.087-.836 2.075c-.587 1.062-1.287 1.125-1.287 1.125s-1.05.125-2.125-.375c-1.075-.5-3.662-1.325-3.662-1.325s-1.4-.45-1.55-1.425c-.15-.975 1.125-1.125 1.125-1.125s3.65.925 4.05 1.025c.4.1.8.2.8.2s.2.1.1.3c-.1.2-.4.4-.4.4s-1.9 1.225-2.4 1.525c-.5.3-.4.5.1.8.5.3 1.8.9 2.1 1.1.3.2.5.3.5.3s.1.2.1.3c0 .1-.1.2-.1.2s-.9.8-1.4 1.1c-.5.3-.5.4-.1.7.4.3 1.4.8 1.9 1.1.5.3 1 .5 1 .5s.3.1.5 0c.2-.1.4-.4.4-.4s.6-1.4.8-1.8c.2-.4.4-.4.4-.4s2.4 1.7 2.8 2c.4.3.7.4.7.4s.2.1.2 0c0-.1 0-.2 0-.2s-.3-2.1-.5-2.8z"/>
+            </svg>
+          </div>
+          <div class="social-info">
+            <span class="social-name">Telegram</span>
+            <span class="social-handle">@raphaelshorizon</span>
+          </div>
+        </a>
+
+        <a href="https://www.amazon.com/author/assimagbe" class="social-card amazon" target="_blank" rel="noopener noreferrer" aria-label="Visit Amazon Author Page">
+          <div class="social-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M10.153 17.283c-.233-.133-.467-.233-.7-.333-.233-.1-.467-.133-.767-.133-.433 0-.833.133-1.167.433-.333.3-.5.667-.5 1.1 0 .333.1.633.3.867.2.233.467.367.8.433.333.067.667.067 1 .033.333-.033.667-.1 1-.2.333-.1.633-.233.933-.4v-1.367c-.3.167-.6.3-.9.367-.3.1-.6.133-.9.133-.1 0-.2 0-.3-.033v-1.3zm8.617-1.667c-.367-.433-.833-.767-1.4-1-.567-.233-1.233-.333-2-.333-.767 0-1.433.167-2 .5-.567.333-1 .8-1.3 1.4-.3.6-.433 1.267-.433 2 0 .767.133 1.433.4 2 .267.567.633 1.033 1.1 1.4.467.367 1 .633 1.6.8.6.167 1.233.233 1.9.233.5 0 .967-.033 1.4-.1.433-.067.833-.167 1.2-.3v-2.367c-.367.233-.767.433-1.2.567-.433.133-.9.2-1.4.2-.433 0-.833-.067-1.167-.2-.333-.133-.6-.333-.8-.6-.2-.267-.3-.6-.3-1 0-.2.033-.4.1-.567.067-.167.167-.333.3-.467.133-.133.3-.233.5-.333.2-.1.433-.167.7-.2.267-.033.533-.05.8-.05h1.133v-.933c0-.367-.1-.667-.3-.9-.2-.233-.5-.333-.9-.333-.3 0-.6.067-.9.233-.3.167-.533.4-.7.7l-1.367-.833c.3-.5.733-.9 1.3-1.2.567-.3 1.233-.433 2-.433.767 0 1.4.133 1.9.433.5.3.867.667 1.1 1.1.233.433.35.9.35 1.4v5.133h-1.667v-1.1c-.133.367-.333.7-.6 1zm-12.77-1.616h1.667v6.666H5.333v-6.666h1.667z"/>
+            </svg>
+          </div>
+          <div class="social-info">
+            <span class="social-name">Amazon</span>
+            <span class="social-handle">Author Page</span>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- CALL TO ACTION -->
+  <section class="cta-section">
+    <div class="container">
+      <div class="cta-content">
+        <h2>Begin Your Transformative Journey</h2>
+        <p>Join thousands of readers and viewers who have discovered purpose, hope, and divine direction through Raphael's Horizon.</p>
+        <div class="cta-actions">
+          <a href="pages/books/books.html" class="btn btn-primary">Explore All Books</a>
+          <a href="pages/contact/speaking-request.html" class="btn btn-secondary">Request Speaking Engagement</a>
+          <a href="pages/contact/index.html" class="btn btn-outline">Get In Touch</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+<footer class="main-footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-brand">
+          <img src="assets/icons/logo-square.png" alt="Raphael's Horizon" class="footer-logo">
+          <div class="footer-mission">
+            <h3>Raphael's Horizon</h3>
+            <p>Unveiling God's Promises through Boundless Possibilities</p>
+          </div>
+        </div>
+
+        <nav class="footer-nav" aria-label="Footer navigation">
+          <div class="footer-nav-column">
+            <h4>Navigation</h4>
+            <ul>
+              <li><a href="homepage.html">Home</a></li>
+              <li><a href="pages/books/books.html">Books</a></li>
+              <li><a href="pages/about/about-us.html">About</a></li>
+              <li><a href="pages/contact/index.html">Contact</a></li>
+            </ul>
+          </div>
+
+          <div class="footer-nav-column">
+            <h4>Resources</h4>
+            <ul>
+              <li><a href="https://raphaelshorizon.blogspot.com/" target="_blank" rel="noopener noreferrer">Blog</a></li>
+              <li><a href="https://raphaelshorizon.wordpress.com/" target="_blank" rel="noopener noreferrer">WordPress</a></li>
+              <li><a href="pages/contact/speaking-request.html">Speaking</a></li>
+              <li><a href="donation.html" class="footer-donate-link"><i class="fas fa-heart"></i> Support Us</a></li>
+            </ul>
+          </div>
+
+          <!-- LEGAL AND CONNECT COLUMNS SIDE BY SIDE -->
+          <div class="footer-columns-group">
+            <div class="footer-nav-column">
+              <h4>Legal</h4>
+              <ul>
+                <li><a href="pages/contact/privacy-policy.html">Privacy Policy</a></li>
+                <li><a href="javascript:void(0)" onclick="showCookiePreferences()">Cookie Preferences</a></li>
+              </ul>
+            </div>
+
+            <div class="footer-nav-column">
+                <h4>Newsletter</h4>
+                <p>Stay updated with our latest books and teachings.</p>
+                <form class="newsletter-form">
+                    <input type="email" placeholder="Your email address" aria-label="Email for newsletter" required>
+                    <button type="submit" class="btn btn-primary">Subscribe</button>
+                </form>
+            </div>
+          </div>
+        </nav>
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2026 Raphael's Horizon. All Rights Reserved. | Unveiling God's Promises Through Boundless Possibilities</p>
+      </div>
+    </div>
+</footer>
+
+<!-- JavaScript for current year in footer -->
+<script>
+// Basic functionality for the homepage
+document.addEventListener('DOMContentLoaded', function() {
+  // Set current year in footer
+  const yearSpan = document.querySelector('.footer-bottom p');
+  if(yearSpan) yearSpan.innerHTML = yearSpan.innerHTML.replace('2026', new Date().getFullYear());
+
+  // Cookie banner functionality
+  const cookieBanner = document.getElementById('cookie-banner');
+  const acceptCookies = document.getElementById('accept-cookies');
+  const cookiePreferences = document.getElementById('cookie-preferences');
+  const cookieModal = document.getElementById('cookie-modal');
+  const modalClose = document.querySelector('.modal-close');
+  const savePreferences = document.getElementById('save-preferences');
+
+  // Show cookie banner after 2 seconds if not accepted
+  setTimeout(() => {
+    if (!localStorage.getItem('cookiesAccepted')) {
+      cookieBanner.classList.add('show');
+    }
+  }, 2000);
+
+  // Accept all cookies
+  if (acceptCookies) {
+    acceptCookies.addEventListener('click', function() {
+      localStorage.setItem('cookiesAccepted', 'true');
+      localStorage.setItem('analyticsCookies', 'true');
+      localStorage.setItem('functionalCookies', 'true');
+      cookieBanner.classList.remove('show');
+    });
+  }
+
+  // Show cookie preferences modal
+  if (cookiePreferences) {
+    cookiePreferences.addEventListener('click', function() {
+      cookieModal.classList.add('show');
+    });
+  }
+
+  // Close modal
+  if (modalClose) {
+    modalClose.addEventListener('click', function() {
+      cookieModal.classList.remove('show');
+    });
+  }
+
+  // Save preferences
+  if (savePreferences) {
+    savePreferences.addEventListener('click', function() {
+      const analytics = document.getElementById('analytics-toggle').checked;
+      const functional = document.getElementById('functional-toggle').checked;
+      
+      localStorage.setItem('cookiesAccepted', 'true');
+      localStorage.setItem('analyticsCookies', analytics);
+      localStorage.setItem('functionalCookies', functional);
+      
+      cookieModal.classList.remove('show');
+      cookieBanner.classList.remove('show');
+    });
+  }
+
+  // Close modal when clicking outside
+  window.addEventListener('click', function(event) {
+    if (event.target === cookieModal) {
+      cookieModal.classList.remove('show');
+    }
+  });
+
+  // Quotes Carousel Functionality
+  const track = document.querySelector('.carousel-track');
+  const slides = document.querySelectorAll('.quote-slide');
+  const prevBtn = document.querySelector('.prev-btn');
+  const nextBtn = document.querySelector('.next-btn');
+  const indicators = document.querySelectorAll('.carousel-indicator');
+  
+  let currentSlide = 0;
+  const totalSlides = slides.length;
+
+  // Function to update carousel position
+  function updateCarousel() {
+    if (track) {
+      track.style.transform = `translateX(-${currentSlide * 100}%)`;
+    }
+    
+    // Update indicators
+    indicators.forEach((indicator, index) => {
+      indicator.classList.toggle('active', index === currentSlide);
+    });
+  }
+
+  // Next slide function
+  function nextSlide() {
+    currentSlide = (currentSlide + 1) % totalSlides;
+    updateCarousel();
+  }
+
+  // Previous slide function
+  function prevSlide() {
+    currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+    updateCarousel();
+  }
+
+  // Event listeners for buttons
+  if (nextBtn) nextBtn.addEventListener('click', nextSlide);
+  if (prevBtn) prevBtn.addEventListener('click', prevSlide);
+
+  // Event listeners for indicators
+  indicators.forEach((indicator, index) => {
+    indicator.addEventListener('click', () => {
+      currentSlide = index;
+      updateCarousel();
+    });
+  });
+
+  // Auto-advance carousel every 5 seconds
+  if (slides.length > 0) {
+    setInterval(nextSlide, 5000);
+  }
+
+  // Initialize carousel
+  updateCarousel();
+});
+
+
+function logout() {
+  alert('Logout functionality will be implemented soon!');
+  // This would normally handle logout
+}
+
+function showCookiePreferences() {
+  const cookieModal = document.getElementById('cookie-modal');
+  if (cookieModal) {
+    cookieModal.classList.add('show');
+  }
+}
+</script>
+
+<script src="js/scripts.js"></script>
+<script src="js/config.js"></script>
+<script type="module" src="js/auth.js"></script>
+
+<!-- FLOATING DONATE BUTTON (visible on mobile) -->
+<a href="donation.html" class="btn-donate floating-donate-btn" aria-label="Donate to Raphael's Horizon">
+  <i class="fas fa-heart"></i> Donate
+</a>
+<script src="js/cookies.js"></script>
+<script src="js/pwa-install.js"></script>
+<script src="js/api.js"></script>
+
+</body>
+</html>

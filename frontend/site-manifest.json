@@ -1,0 +1,98 @@
+{
+  "name": "Raphael's Horizon",
+  "short_name": "RHorizon",
+  "description": "Unveiling God's Promises Through Boundless Possibilities - Books, Audio, and Inspiration",
+  "start_url": "/homepage.html?utm_source=pwa",
+  "display": "standalone",
+  "background_color": "#2c3e50",
+  "theme_color": "#2c3e50",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "start_url": "/homepage.html?utm_source=pwa",
+  "icons": [
+    {
+      "src": "assets/icons/logo-square.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "assets/icons/logo-square.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "assets/icons/logo-square.png",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "assets/icons/logo-square.png",
+      "sizes": "72x72",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "assets/icons/logo-square.png",
+      "sizes": "96x96",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "assets/icons/logo-square.png",
+      "sizes": "128x128",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "assets/icons/logo-square.png",
+      "sizes": "144x144",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["books", "education", "lifestyle", "music"],
+  "shortcuts": [
+    {
+      "name": "Home",
+      "short_name": "Home",
+      "description": "Return to homepage",
+      "url": "/homepage.html",
+      "icons": [{ "src": "assets/icons/logo-square.png", "sizes": "96x96" }]
+    },
+    {
+      "name": "Books",
+      "short_name": "Books",
+      "description": "Browse books collection",
+      "url": "/pages/books/books.html",
+      "icons": [{ "src": "assets/icons/logo-square.png", "sizes": "96x96" }]
+    },
+    {
+      "name": "Read Books",
+      "short_name": "Read",
+      "description": "Read books online",
+      "url": "/pages/books/books-reader/books-online.html",
+      "icons": [{ "src": "assets/icons/logo-square.png", "sizes": "96x96" }]
+    },
+    {
+      "name": "Audio Books",
+      "short_name": "Audio",
+      "description": "Listen to audio books",
+      "url": "/pages/books/audio-books/audio-books.html",
+      "icons": [{ "src": "assets/icons/logo-square.png", "sizes": "96x96" }]
+    },
+    {
+      "name": "Blog",
+      "short_name": "Blog",
+      "description": "Read latest posts",
+      "url": "/pages/blog/index.html",
+      "icons": [{ "src": "assets/icons/logo-square.png", "sizes": "96x96" }]
+    }
+  ],
+  "prefer_related_applications": false,
+  "related_applications": [],
+  "lang": "en",
+  "dir": "ltr"
+}

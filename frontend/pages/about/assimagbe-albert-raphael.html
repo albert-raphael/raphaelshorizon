@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<meta content="Learn about Assimagbe Albert Raphael - Founder of Raphael's Horizon, Christian writer, economist, and inspirational leader." name="description">
+<meta content="Assimagbe Albert Raphael, Christian writer, economist, inspirational leader, Raphael's Horizon founder" name="keywords">
+<title>Assimagbe Albert Raphael — Raphael's Horizon</title>
+<link href="/css/styles.css" rel="stylesheet">
+<style>
+        /* Founder Page Specific Styles */
+        .founder-hero {
+            padding: calc(var(--header-height) + 4rem) 0 4rem;
+            background: var(--gradient-primary);
+            color: var(--white);
+            text-align: center;
+        }
+
+        .founder-hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .founder-hero h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            margin-bottom: var(--space-lg);
+            color: var(--white);
+        }
+
+        .founder-hero p {
+            font-size: 1.25rem;
+            opacity: 0.9;
+            line-height: 1.6;
+            margin-bottom: var(--space-xl);
+        }
+
+        .founder-content {
+            padding: var(--space-xxl) 0;
+            background: var(--light-bg);
+        }
+
+        .founder-profile {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: var(--space-xl);
+            align-items: start;
+        }
+
+        .founder-image {
+            text-align: center;
+        }
+
+        .founder-img {
+            width: 100%;
+            max-width: 280px;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+            margin-bottom: var(--space-md);
+        }
+
+        .founder-quote {
+            background: var(--white);
+            padding: var(--space-lg);
+            border-radius: var(--radius-lg);
+            border-left: 4px solid var(--primary-light);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .founder-quote p {
+            font-style: italic;
+            color: var(--text-color);
+            margin-bottom: var(--space-sm);
+            line-height: 1.6;
+        }
+
+        .founder-quote .author {
+            color: var(--primary-light);
+            font-weight: 500;
+        }
+
+        .founder-details {
+            background: var(--white);
+            padding: var(--space-xl);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+        }
+
+        .founder-details h2 {
+            color: var(--primary-color);
+            margin-bottom: var(--space-lg);
+            text-align: center;
+        }
+
+        .founder-details h3 {
+            color: var(--primary-light);
+            margin: var(--space-lg) 0 var(--space-md);
+            border-bottom: 2px solid var(--light-bg);
+            padding-bottom: var(--space-sm);
+        }
+
+        .founder-details p {
+            line-height: 1.8;
+            margin-bottom: var(--space-md);
+            color: var(--text-color);
+        }
+
+        .founder-details ul {
+            margin: var(--space-md) 0;
+            padding-left: var(--space-lg);
+        }
+
+        .founder-details li {
+            margin-bottom: var(--space-sm);
+            line-height: 1.6;
+        }
+
+        .expertise-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--space-lg);
+            margin: var(--space-xl) 0;
+        }
+
+        .expertise-card {
+            background: var(--light-bg);
+            padding: var(--space-lg);
+            border-radius: var(--radius-lg);
+            text-align: center;
+            transition: var(--transition-normal);
+        }
+
+        .expertise-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .expertise-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--primary-light);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto var(--space-md);
+            color: var(--white);
+            font-size: 1.5rem;
+        }
+
+        .expertise-card h4 {
+            color: var(--primary-color);
+            margin-bottom: var(--space-sm);
+        }
+
+        .achievements {
+            background: var(--white);
+            margin: var(--space-xl) 0;
+            padding: var(--space-xl);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+        }
+
+        .achievement-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--space-lg);
+        }
+
+        .achievement-item {
+            display: flex;
+            align-items: flex-start;
+            gap: var(--space-md);
+            padding: var(--space-md);
+            background: var(--light-bg);
+            border-radius: var(--radius-md);
+        }
+
+        .achievement-icon {
+            color: var(--primary-light);
+            font-size: 1.25rem;
+            margin-top: 2px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 968px) {
+            .founder-profile {
+                grid-template-columns: 1fr;
+                gap: var(--space-lg);
+            }
+
+            .founder-image {
+                order: 2;
+            }
+
+            .founder-details {
+                order: 1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .founder-hero {
+                padding: calc(var(--header-height) + 2rem) 0 2rem;
+            }
+
+            .founder-details {
+                padding: var(--space-lg);
+            }
+
+            .expertise-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .achievement-list {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .founder-img {
+                max-width: 250px;
+            }
+
+            .founder-quote {
+                padding: var(--space-md);
+            }
+        }
+    </style>
+<style>
+/* INLINE HEADER DONATE OVERRIDE - Hard-coded to bypass cache */
+.nav-donate .btn-donate {
+    background: #ff4444 !important;
+    color: #ffffff !important;
+    font-weight: 800 !important;
+    padding: 10px 22px !important;
+    border-radius: 50px !important;
+    border: 2px solid #ffffff !important;
+    box-shadow: 0 4px 15px rgba(255, 68, 68, 0.4) !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    text-transform: uppercase !important;
+    letter-spacing: 1px !important;
+    transition: all 0.3s ease !important;
+    animation: pulse-red-header 2s infinite !important;
+    margin-left: 15px !important;
+    text-decoration: none !important;
+}
+
+.nav-donate .btn-donate:hover {
+    background: #cc0000 !important;
+    transform: translateY(-2px) scale(1.05) !important;
+    box-shadow: 0 6px 20px rgba(255, 0, 0, 0.6) !important;
+    color: #ffffff !important;
+}
+
+@keyframes pulse-red-header {
+    0% { transform: scale(1); box-shadow: 0 4px 15px rgba(255, 68, 68, 0.4); }
+    50% { transform: scale(1.05); box-shadow: 0 4px 25px rgba(255, 68, 68, 0.7); }
+    100% { transform: scale(1); box-shadow: 0 4px 15px rgba(255, 68, 68, 0.4); }
+}
+</style>
+</head>
+<body><!-- COOKIE CONSENT BANNER -->
+<div class="cookie-banner" id="cookie-banner">
+<div class="cookie-content">
+<div class="cookie-icon">🍪</div>
+<p>
+      This website uses cookies to ensure you get the best experience on our site.
+      <a href="../contact/privacy-policy.html">Learn more</a>
+</p>
+<div class="cookie-actions">
+<button type="button" class="btn-cookie-preferences" id="cookie-preferences">Preferences</button>
+<button type="button" class="btn-accept-cookies" id="accept-cookies">Accept All</button>
+</div>
+</div>
+</div>
+<!-- COOKIE PREFERENCES MODAL -->
+<div class="cookie-modal" id="cookie-modal">
+<div class="modal-content">
+<div class="modal-header">
+<div class="modal-title">
+<div class="cookie-icon">🍪</div>
+<h3>Cookie Preferences</h3>
+</div>
+<button type="button" class="modal-close">×</button>
+</div>
+<div class="modal-body">
+<div class="cookie-category">
+<div class="category-header">
+<h4>Essential Cookies</h4>
+<span class="cookie-required">Required</span>
+</div>
+<p>Necessary for the website to function properly. Cannot be disabled.</p>
+</div>
+<div class="cookie-category">
+<div class="category-header">
+<h4>Analytics Cookies</h4>
+<label class="toggle-switch">
+<input checked id="analytics-toggle" type="checkbox">
+<span class="slider"></span>
+</label>
+</div>
+<p>Help us understand how visitors interact with our website.</p>
+</div>
+<div class="cookie-category">
+<div class="category-header">
+<h4>Functional Cookies</h4>
+<label class="toggle-switch">
+<input checked id="functional-toggle" type="checkbox">
+<span class="slider"></span>
+</label>
+</div>
+<p>Enable enhanced features and personalization.</p>
+</div>
+</div>
+<div class="modal-footer">
+<button type="button" class="btn-save-preferences" id="save-preferences">Save Preferences</button>
+</div>
+</div>
+</div>
+<!-- HEADER NAVIGATION -->
+<header class="main-header">
+<div class="container">
+<nav class="main-nav" aria-label="Primary navigation">
+<div class="nav-brand">
+<a class="logo-link" href="../../homepage.html">
+<img alt="Raphael's Horizon" class="nav-logo" src="/assets/icons/logo-square.png">
+<span class="brand-name">Raphael's Horizon</span>
+</a>
+</div>
+<ul class="nav-menu">
+<li><a class="nav-link" href="../../homepage.html">Home</a></li>
+<!-- Books Dropdown -->
+<li class="nav-dropdown">
+<a aria-controls="books-menu" aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle" href="../books/books.html">
+                        Books <span class="dropdown-arrow">Ôû╝</span>
+</a>
+<div class="dropdown-menu" id="books-menu" role="menu">
+<a class="dropdown-link" href="../books/books.html" role="menuitem">Purchase Books</a>
+<a class="dropdown-link" href="../books/books-online.html" role="menuitem">Read Books Online</a>
+<a class="dropdown-link" href="../books/audio-books.html" role="menuitem">Audio Books Online</a>
+</div>
+</li>
+<!-- About Dropdown -->
+<li class="nav-dropdown">
+<button aria-controls="about-menu" aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle" type="button">
+                        About <span class="dropdown-arrow">Ôû╝</span>
+</button>
+<div class="dropdown-menu" id="about-menu" role="menu">
+<a class="dropdown-link" href="about-us.html" role="menuitem">About Us</a>
+<a class="dropdown-link" href="assimagbe-albert-raphael.html" role="menuitem">Assimagbe Albert Raphael</a>
+</div>
+</li>
+<!-- Contact Dropdown -->
+<li class="nav-dropdown">
+<button aria-controls="contact-menu" aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle" type="button">
+                        Contact <span class="dropdown-arrow">Ôû╝</span>
+</button>
+<div class="dropdown-menu" id="contact-menu" role="menu">
+<a class="dropdown-link" href="../contact/index.html" role="menuitem">Contact Us</a>
+<a class="dropdown-link" href="../contact/speaking-request.html" role="menuitem">Speaking Request</a>
+<a class="dropdown-link" href="../contact/privacy-policy.html" role="menuitem">Privacy Policy</a>
+</div>
+</li>
+<!-- Blog Dropdown -->
+<li class="nav-dropdown">
+<a aria-controls="blog-menu" aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle active" href="../blog/index.html">
+                        Blog <span class="dropdown-arrow">Ôû╝</span>
+</a>
+<div class="dropdown-menu" id="blog-menu" role="menu">
+<a class="dropdown-link active" href="../blog/index.html" role="menuitem">Blog Home</a>
+<a class="dropdown-link" href="../blog/categories.html" role="menuitem">Categories</a>
+<a class="dropdown-link external" href="https://raphaelshorizon.blogspot.com/" rel="noopener noreferrer" role="menuitem" target="_blank">Legacy Blog</a>
+</div>
+</li>
+<li>
+<a class="nav-link external" href="https://raphaelshorizon.wordpress.com/" rel="noopener noreferrer" target="_blank">WordPress</a>
+</li>
+<!-- DONATE BUTTON - Visible prominently -->
+<li class="nav-donate">
+<a class="btn-donate" href="../../donation.html">
+<i class="fas fa-heart"></i> Donate
+</a>
+</li>
+<!-- Login / Account (visible when NOT authenticated) -->
+<li class="nav-dropdown auth-menu-guest">
+<button aria-controls="account-menu" aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle" type="button">
+                        Account <span class="dropdown-arrow">Ôû╝</span>
+</button>
+<div class="dropdown-menu" id="account-menu" role="menu">
+<a class="dropdown-link" href="/pages/profile/login.html" role="menuitem">Sign in</a>
+<a class="dropdown-link" href="/pages/profile/login.html#register" role="menuitem">Create account</a>
+<button class="dropdown-link" onclick="showSubscriptionModal()" role="menuitem" type="button">Subscription plans</button>
+</div>
+</li>
+<!-- User menu (visible when authenticated) -->
+<li class="user-menu-container" style="display:none;">
+<button type="button" aria-controls="user-menu" aria-expanded="false" aria-haspopup="true" class="user-menu dropdown-toggle">
+<span class="user-avatar">U</span>
+<span class="user-name">User</span>
+<span class="dropdown-arrow">Ôû╝</span>
+</button>
+<div class="user-dropdown dropdown-menu" id="user-menu" role="menu">
+<a href="../profile/index.html" role="menuitem">My Profile</a>
+<a href="../profile/subscription.html" role="menuitem">Subscription</a>
+<a href="../profile/library.html" role="menuitem">My Library</a>
+<div class="dropdown-divider" role="separator"></div>
+<button onclick="logout()" role="menuitem" type="button">Logout</button>
+</div>
+</li>
+</ul>
+<!-- Mobile Menu Toggle -->
+<div class="mobile-menu-toggle">
+<span></span>
+<span></span>
+<span></span>
+</div>
+</nav>
+</div>
+</header>
+<!-- FOUNDER HERO SECTION -->
+<section class="founder-hero">
+<div class="container">
+<div class="founder-hero-content">
+<h1>Assimagbe Albert Raphael</h1>
+<p>Founder of Raphael's Horizon | Christian Writer | Economist | Inspirational Leader</p>
+<div class="hero-actions">
+<a class="btn btn-primary" href="#biography">Read Biography</a>
+<a class="btn btn-secondary" href="../books/books.html">Explore Books</a>
+</div>
+</div>
+</div>
+</section>
+<!-- FOUNDER CONTENT -->
+<section class="founder-content">
+<div class="container">
+<div class="founder-profile">
+<!-- Founder Image & Quote -->
+<div class="founder-image">
+<img alt="Assimagbe Albert Raphael" class="founder-img" src="/assets/images/raphael.png">
+<div class="founder-quote">
+<p>"Through unwavering faith and divine guidance, we can unveil the extraordinary promises God has in store for each of us."</p>
+<div class="author">— Assimagbe Albert Raphael</div>
+</div>
+</div>
+<!-- Founder Details -->
+<div class="founder-details">
+<h2>About Assimagbe Albert Raphael</h2>
+<div id="biography">
+<h3>Biography</h3>
+<p>Assimagbe Albert Raphael is a distinguished Christian writer, accomplished economist with an MSc. degree, and inspirational leader who has dedicated his life to empowering individuals through faith-based teachings and transformative wisdom.</p>
+<p>With an unwavering passion for inspiring others, Raphael has emerged as a respected role model and profound source of motivation within the Christian community. His unique blend of intellectual depth from his economics background and heartfelt spiritual insight enables him to communicate profound biblical truths in practical, relatable ways.</p>
+</div>
+<!-- Areas of Expertise -->
+<div class="expertise-grid">
+<div class="expertise-card">
+<div class="expertise-icon"><i class="fas fa-book-open"></i></div>
+<h4>Christian Writing</h4>
+<p>Author of transformative books that guide readers in their spiritual journey</p>
+</div>
+<div class="expertise-card">
+<div class="expertise-icon"><i class="fas fa-chart-line"></i></div>
+<h4>Economics</h4>
+<p>MSc. in Economics bringing analytical insight to spiritual principles</p>
+</div>
+<div class="expertise-card">
+<div class="expertise-icon"><i class="fas fa-users"></i></div>
+<h4>Leadership</h4>
+<p>Inspiring and mentoring individuals to discover their divine purpose</p>
+</div>
+</div>
+<!-- Ministry Focus -->
+<div id="ministry-focus">
+<h3>Ministry Focus</h3>
+<p>Through his literary works and ministry outreach, Assimagbe Albert Raphael offers profound insights and practical wisdom that guide readers to:</p>
+<ul>
+<li>Deepen their faith and relationship with God</li>
+<li>Uncover divine blessings and promises</li>
+<li>Embrace their true identity as children of God</li>
+<li>Live purposeful lives characterized by faith, hope, and resilience</li>
+<li>Navigate life's challenges with biblical wisdom</li>
+</ul>
+</div>
+<!-- Impact & Recognition -->
+<div class="achievements">
+<h3>Impact &amp; Recognition</h3>
+<div class="achievement-list">
+<div class="achievement-item">
+<span class="achievement-icon">⭐</span>
+<div>
+<strong>Trusted Voice</strong>
+<p>Earned the trust and admiration of many within the Christian community</p>
+</div>
+</div>
+<div class="achievement-item">
+<span class="achievement-icon">📖</span>
+<div>
+<strong>Prolific Writer</strong>
+<p>Multiple published works resonating with diverse audiences worldwide</p>
+</div>
+</div>
+<div class="achievement-item">
+<span class="achievement-icon">🌍</span>
+<div>
+<strong>Global Reach</strong>
+<p>Transformative impact on countless individuals seeking spiritual guidance</p>
+</div>
+</div>
+<div class="achievement-item">
+<span class="achievement-icon">💫</span>
+<div>
+<strong>Lasting Legacy</strong>
+<p>Establishing a credible and influential voice in Christian literature</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Personal Philosophy -->
+<div id="philosophy">
+<h3>Personal Philosophy</h3>
+<p>Assimagbe Albert Raphael believes that every individual is created with a unique divine purpose and that through unwavering trust in God's promises, we can experience extraordinary transformation in every area of our lives.</p>
+<p>His approach combines:</p>
+<ul>
+<li><strong>Biblical Foundation:</strong> Rooting all teachings in Scripture</li>
+<li><strong>Practical Application:</strong> Making spiritual principles applicable to daily life</li>
+<li><strong>Intellectual Integrity:</strong> Combining faith with reason and understanding</li>
+<li><strong>Heart Transformation:</strong> Focusing on inner change rather than external behavior</li>
+<li><strong>Community Impact:</strong> Empowering individuals to influence their spheres</li>
+</ul>
+</div>
+<!-- Call to Connect -->
+<div class="section-highlight">
+<h3>Connect with Raphael</h3>
+<p>For those seeking profound insights and spiritual enlightenment, Assimagbe Albert Raphael's literary contributions offer an enriching and enlightening experience. As a passionate advocate of faith and purposeful living, he continues to make a significant difference in the lives of many.</p>
+<div class="mt-lg">
+<a class="btn btn-primary" href="../contact/speaking-request.html">Speaking Request</a>
+<a class="btn btn-secondary" href="../books/books.html">Read His Books</a>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- CALL TO ACTION -->
+<section class="about-cta">
+<div class="container">
+<h2>Explore Raphael's Literary Works</h2>
+<p>Discover the transformative power of faith through Assimagbe Albert Raphael's inspiring books and teachings.</p>
+<div class="cta-buttons">
+<a class="btn btn-primary" href="../books/books.html">Browse Books</a>
+<a class="btn btn-secondary" href="../contact/speaking-request.html">Request Speaking</a>
+<a class="btn btn-outline" href="about-us.html">About Ministry</a>
+</div>
+</div>
+</section>
+<!-- FOOTER -->
+<footer class="main-footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-brand">
+          <img src="/assets/icons/logo-square.png" alt="Raphael's Horizon" class="footer-logo">
+          <div class="footer-mission">
+            <h3>Raphael's Horizon</h3>
+            <p>Unveiling God's Promises through Boundless Possibilities</p>
+          </div>
+        </div>
+
+        <nav class="footer-nav" aria-label="Footer navigation">
+          <div class="footer-nav-column">
+            <h4>Navigation</h4>
+            <ul>
+              <li><a href="../../homepage.html">Home</a></li>
+              <li><a href="../books/books.html">Books</a></li>
+              <li><a href="about-us.html">About</a></li>
+              <li><a href="../contact/index.html">Contact</a></li>
+            </ul>
+          </div>
+
+          <div class="footer-nav-column">
+            <h4>Resources</h4>
+            <ul>
+              <li><a href="https://raphaelshorizon.blogspot.com/" target="_blank" rel="noopener noreferrer">Blog</a></li>
+              <li><a href="https://raphaelshorizon.wordpress.com/" target="_blank" rel="noopener noreferrer">WordPress</a></li>
+              <li><a href="../contact/speaking-request.html">Speaking</a></li>
+              <li><a href="../../donation.html"><i class="fas fa-heart"></i> Support Us</a></li>
+            </ul>
+          </div>
+
+          <!-- LEGAL AND CONNECT COLUMNS SIDE BY SIDE -->
+          <div class="footer-columns-group">
+            <div class="footer-nav-column">
+              <h4>Legal</h4>
+              <ul>
+                <li><a href="../contact/privacy-policy.html">Privacy Policy</a></li>
+                <li><a href="javascript:void(0)" onclick="showCookiePreferences()">Cookie Preferences</a></li>
+              </ul>
+            </div>
+
+            <div class="footer-nav-column">
+                <h4>Newsletter</h4>
+                <p>Stay updated with our latest books and teachings.</p>
+                <form class="newsletter-form">
+                    <input type="email" placeholder="Your email address" aria-label="Email for newsletter" required>
+                    <button type="submit" class="btn btn-primary">Subscribe</button>
+                </form>
+            </div>
+          </div>
+        </nav>
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2025 Raphael's Horizon. All Rights Reserved. | Unveiling God's Promises Through Boundless Possibilities</p>
+      </div>
+    </div>
+</footer>
+
+<!-- JavaScript for current year in footer -->
+<script>
+    document.getElementById('current-year').textContent = new Date().getFullYear();
+</script>
+
+<!-- Main JavaScript file for site functionality -->
+<script src="/js/scripts.js"></script>
+<!-- Configuration for API endpoints -->
+<script src="/js/config.js"></script>
+<!-- Authentication for universal login state -->
+<script src="/js/auth.js"></script>
+
+<!-- Font Awesome for icons (if not already included) -->
+<script src="https://kit.fontawesome.com/your-font-awesome-kit-id.js" crossorigin="anonymous"></script>
+
+<!-- FLOATING DONATE BUTTON (visible on mobile) -->
+<a href="../../donation.html" class="btn-donate floating-donate-btn" aria-label="Donate to Raphael's Horizon">
+  <i class="fas fa-heart"></i> Donate
+</a>
+
+</body>
+</html>
+

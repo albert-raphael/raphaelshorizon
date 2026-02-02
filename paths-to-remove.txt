@@ -1,0 +1,8 @@
+dist/
+dist-local/
+local-dist/
+local-dist2/
+win-unpacked/
+electron/binaries/
+node_modules/electron/
+node_modules/app-builder-bin/

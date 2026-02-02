@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Raphael's Horizon</title>
+    <link href="/css/styles.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    
+    <!-- Auth Guard - Requires admin role -->
+    <script src="/js/auth-guard.js" data-require-auth="true" data-require-role="admin" data-admin-login-page="/pages/admin/login_admin.html"></script>
+    
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --success-color: #27ae60;
+            --warning-color: #f39c12;
+        }
+        
+        body {
+            background: #f5f6fa;
+            min-height: 100vh;
+        }
+        
+        .admin-container {
+            padding: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .admin-header h1 {
+            margin: 0;
+            color: var(--primary-color);
+        }
+        
+        .admin-header p {
+            margin: 0.5rem 0 0;
+            color: #666;
+        }
+        
+        .header-actions {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+        
+        .btn-back {
+            background: #95a5a6;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .btn-back:hover {
+            background: #7f8c8d;
+        }
+        
+        /* Stats Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .stat-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+        }
+        
+        .stat-icon.users { background: linear-gradient(135deg, #667eea, #764ba2); }
+        .stat-icon.books { background: linear-gradient(135deg, #f093fb, #f5576c); }
+        .stat-icon.posts { background: linear-gradient(135deg, #4facfe, #00f2fe); }
+        .stat-icon.revenue { background: linear-gradient(135deg, #43e97b, #38f9d7); }
+        
+        .stat-info h3 {
+            margin: 0;
+            font-size: 1.8rem;
+            color: var(--primary-color);
+        }
+        
+        .stat-info p {
+            margin: 0.25rem 0 0;
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        /* Admin Grid */
+        .admin-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .admin-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid #eee;
+        }
+        
+        .admin-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+        
+        .card-icon {
+            font-size: 2.5rem;
+            color: var(--secondary-color);
+            margin-bottom: 1rem;
+        }
+        
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--primary-color);
+        }
+        
+        .card-desc {
+            color: #666;
+            margin-bottom: 1.5rem;
+            line-height: 1.5;
+        }
+        
+        .btn-admin {
+            background: var(--primary-color);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: background 0.3s ease;
+        }
+        
+        .btn-admin:hover {
+            background: #1a252f;
+            color: white;
+        }
+        
+        .logout-btn {
+            background: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1rem;
+        }
+        
+        .logout-btn:hover {
+            background: #c0392b;
+        }
+        
+        .admin-name {
+            font-weight: 600;
+            color: var(--secondary-color);
+        }
+        
+        /* Recent Activity Section */
+        .activity-section {
+            margin-top: 2rem;
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .activity-section h3 {
+            margin: 0 0 1rem;
+            color: var(--primary-color);
+        }
+        
+        .activity-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .activity-list li {
+            padding: 0.75rem 0;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .activity-list li:last-child {
+            border-bottom: none;
+        }
+        
+        .activity-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: #e8f4fd;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--secondary-color);
+        }
+        
+        .activity-text {
+            flex: 1;
+        }
+        
+        .activity-time {
+            color: #999;
+            font-size: 0.85rem;
+        }
+        
+        .loading-spinner {
+            display: flex;
+            justify-content: center;
+            padding: 2rem;
+        }
+        
+        .loading-spinner::after {
+            content: "";
+            width: 40px;
+            height: 40px;
+            border: 3px solid #e0e0e0;
+            border-top-color: var(--secondary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        @media (max-width: 768px) {
+            .admin-header {
+                flex-direction: column;
+                text-align: center;
+                gap: 1rem;
+            }
+            
+            .header-actions {
+                flex-direction: column;
+                width: 100%;
+            }
+            
+            .logout-btn, .btn-back {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-container">
+        <div class="admin-header">
+            <div>
+                <h1><i class="fas fa-shield-halved"></i> Admin Dashboard</h1>
+                <p>Welcome back, <span class="admin-name" id="admin-name">Administrator</span></p>
+            </div>
+            <div class="header-actions">
+                <a href="../../homepage.html" class="btn-back"><i class="fas fa-home"></i> Back to Site</a>
+                <button onclick="logout()" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</button>
+            </div>
+        </div>
+
+        <!-- Stats Cards -->
+        <div class="stats-grid" id="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon users"><i class="fas fa-users"></i></div>
+                <div class="stat-info">
+                    <h3 id="stat-users">-</h3>
+                    <p>Total Users</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon books"><i class="fas fa-book"></i></div>
+                <div class="stat-info">
+                    <h3 id="stat-books">-</h3>
+                    <p>Books</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon posts"><i class="fas fa-pen-fancy"></i></div>
+                <div class="stat-info">
+                    <h3 id="stat-posts">-</h3>
+                    <p>Blog Posts</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon revenue"><i class="fas fa-dollar-sign"></i></div>
+                <div class="stat-info">
+                    <h3 id="stat-subscriptions">-</h3>
+                    <p>Active Subscriptions</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Admin Actions Grid -->
+        <div class="admin-grid">
+            <!-- Manage Books -->
+            <div class="admin-card">
+                <div class="card-icon"><i class="fas fa-book"></i></div>
+                <h3 class="card-title">Manage Books</h3>
+                <p class="card-desc">Upload new books, edit details, or remove existing titles from the library.</p>
+                <a href="admin-books.html" class="btn-admin"><i class="fas fa-arrow-right"></i> Go to Books</a>
+            </div>
+
+            <!-- Manage Audio -->
+            <div class="admin-card">
+                <div class="card-icon"><i class="fas fa-headphones"></i></div>
+                <h3 class="card-title">Audio Content</h3>
+                <p class="card-desc">Manage audiobooks, sermons, and podcast episodes.</p>
+                <a href="admin-audio.html" class="btn-admin"><i class="fas fa-arrow-right"></i> Go to Audio</a>
+            </div>
+
+            <!-- Blog Posts -->
+            <div class="admin-card">
+                <div class="card-icon"><i class="fas fa-pen-fancy"></i></div>
+                <h3 class="card-title">Blog Posts</h3>
+                <p class="card-desc">Write new articles, manage categories, and moderate comments.</p>
+                <a href="admin-blog.html" class="btn-admin"><i class="fas fa-arrow-right"></i> Go to Blog</a>
+            </div>
+
+            <!-- User Management -->
+            <div class="admin-card">
+                <div class="card-icon"><i class="fas fa-users"></i></div>
+                <h3 class="card-title">User Management</h3>
+                <p class="card-desc">View registered users, manage subscriptions, and handle permissions.</p>
+                <a href="admin-users.html" class="btn-admin"><i class="fas fa-arrow-right"></i> Go to Users</a>
+            </div>
+
+            <!-- Analytics -->
+            <div class="admin-card">
+                <div class="card-icon"><i class="fas fa-chart-line"></i></div>
+                <h3 class="card-title">Analytics</h3>
+                <p class="card-desc">View site statistics, user engagement, and content performance.</p>
+                <a href="admin-analytics.html" class="btn-admin"><i class="fas fa-arrow-right"></i> View Analytics</a>
+            </div>
+
+            <!-- Settings -->
+            <div class="admin-card">
+                <div class="card-icon"><i class="fas fa-cog"></i></div>
+                <h3 class="card-title">Settings</h3>
+                <p class="card-desc">Configure site settings, update preferences, and manage integrations.</p>
+                <a href="admin-settings.html" class="btn-admin"><i class="fas fa-arrow-right"></i> Go to Settings</a>
+            </div>
+        </div>
+
+        <!-- Recent Activity -->
+        <div class="activity-section">
+            <h3><i class="fas fa-clock"></i> Recent Activity</h3>
+            <ul class="activity-list" id="activity-list">
+                <li class="loading-spinner"></li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        // API Base URL
+        const API_BASE = window.location.origin;
+        
+        // Get auth token
+        function getToken() {
+            return localStorage.getItem('authToken');
+        }
+
+        // Display admin name
+        (function() {
+            try {
+                const userStr = localStorage.getItem('user');
+                if (userStr) {
+                    const user = JSON.parse(userStr);
+                    const nameEl = document.getElementById('admin-name');
+                    if (nameEl && user.name) {
+                        nameEl.textContent = user.name;
+                    }
+                }
+            } catch (e) {}
+        })();
+
+        // Load dashboard stats
+        async function loadStats() {
+            try {
+                const response = await fetch(`${API_BASE}/api/admin/stats`, {
+                    headers: {
+                        'Authorization': `Bearer ${getToken()}`
+                    }
+                });
+                
+                if (response.ok) {
+                    const result = await response.json();
+                    if (result.success) {
+                        const data = result.data;
+                        document.getElementById('stat-users').textContent = data.totalUsers || 0;
+                        document.getElementById('stat-books').textContent = data.totalBooks || 0;
+                        document.getElementById('stat-posts').textContent = data.totalPosts || 0;
+                        document.getElementById('stat-subscriptions').textContent = data.activeSubscriptions || 0;
+                        
+                        // Load recent activity
+                        loadRecentActivity(data.recentActivity || []);
+                    }
+                }
+            } catch (error) {
+                console.error('Failed to load stats:', error);
+            }
+        }
+
+        // Load recent activity
+        function loadRecentActivity(activities) {
+            const activityList = document.getElementById('activity-list');
+            
+            if (activities.length === 0) {
+                activityList.innerHTML = '<li style="color: #999; text-align: center;">No recent activity</li>';
+                return;
+            }
+            
+            activityList.innerHTML = activities.map(activity => {
+                const date = new Date(activity.date);
+                const timeAgo = getTimeAgo(date);
+                const icon = activity.type === 'user_registration' ? 'fa-user-plus' : 'fa-circle';
+                
+                return `
+                    <li>
+                        <div class="activity-icon"><i class="fas ${icon}"></i></div>
+                        <div class="activity-text">
+                            <strong>${activity.user}</strong> registered
+                            <br><small style="color:#999">${activity.email}</small>
+                        </div>
+                        <span class="activity-time">${timeAgo}</span>
+                    </li>
+                `;
+            }).join('');
+        }
+
+        // Get time ago string
+        function getTimeAgo(date) {
+            const now = new Date();
+            const diff = now - date;
+            const minutes = Math.floor(diff / 60000);
+            const hours = Math.floor(diff / 3600000);
+            const days = Math.floor(diff / 86400000);
+            
+            if (minutes < 1) return 'Just now';
+            if (minutes < 60) return `${minutes}m ago`;
+            if (hours < 24) return `${hours}h ago`;
+            return `${days}d ago`;
+        }
+
+        // Logout function
+        function logout() {
+            localStorage.removeItem('authToken');
+            localStorage.removeItem('user');
+            window.location.href = 'login_admin.html';
+        }
+
+        // Load stats on page load
+        document.addEventListener('DOMContentLoaded', loadStats);
+    </script>
+</body>
+</html>

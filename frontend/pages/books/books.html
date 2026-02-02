@@ -1,0 +1,1014 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Explore inspirational books by Assimagbe Albert Raphael - Transformative Christian literature for spiritual growth and personal development.">
+    <meta name="keywords" content="Raphael's Horizon books, Christian literature, spiritual growth books, Assimagbe Albert Raphael books, inspirational reading">
+    <title>Books — Raphael's Horizon</title>
+
+    <link rel="stylesheet" href="/css/styles.css">
+    <style>
+        /* INLINE CSS OVERRIDE FOR DONATE BUTTON - Bypass cache */
+        .nav-donate .btn-donate {
+            background: #ff4444 !important;
+            color: #ffffff !important;
+            font-weight: 800 !important;
+            padding: 10px 22px !important;
+            border-radius: 50px !important;
+            border: 2px solid #ffffff !important;
+            box-shadow: 0 4px 15px rgba(255, 68, 68, 0.4) !important;
+            display: flex !important;
+            align-items: center !important;
+            gap: 8px !important;
+            text-transform: uppercase !important;
+            letter-spacing: 1px !important;
+            transition: all 0.3s ease !important;
+            animation: pulse-red 2s infinite !important;
+            margin-left: 15px !important;
+        }
+
+        .nav-donate .btn-donate:hover {
+            background: #cc0000 !important;
+            transform: translateY(-2px) scale(1.05) !important;
+            box-shadow: 0 6px 20px rgba(255, 0, 0, 0.6) !important;
+        }
+
+        @keyframes pulse-red {
+            0% { transform: scale(1); box-shadow: 0 4px 15px rgba(255, 68, 68, 0.4); }
+            50% { transform: scale(1.05); box-shadow: 0 4px 25px rgba(255, 68, 68, 0.7); }
+            100% { transform: scale(1); box-shadow: 0 4px 15px rgba(255, 68, 68, 0.4); }
+        }
+
+        /* Books Page Specific Styles */
+        .books-hero {
+            padding: calc(var(--header-height) + 4rem) 0 4rem;
+            background: var(--gradient-primary);
+            color: var(--white);
+            text-align: center;
+        }
+
+        .books-hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .books-hero h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            margin-bottom: var(--space-lg);
+            color: var(--white);
+        }
+
+        .books-hero p {
+            font-size: 1.25rem;
+            opacity: 0.9;
+            line-height: 1.6;
+            margin-bottom: var(--space-xl);
+        }
+
+        .author-intro {
+            padding: var(--space-xxl) 0;
+            background: var(--white);
+        }
+
+        .author-content {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: var(--space-xl);
+            align-items: center;
+        }
+
+        .author-image {
+            text-align: center;
+        }
+
+        .author-img {
+            width: 100%;
+            max-width: 300px;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .author-details h2 {
+            color: var(--primary-color);
+            margin-bottom: var(--space-lg);
+        }
+
+        .author-details p {
+            line-height: 1.8;
+            color: var(--text-color);
+            margin-bottom: var(--space-md);
+        }
+
+        .featured-books {
+            padding: var(--space-xxl) 0;
+            background: var(--light-bg);
+        }
+
+        .featured-book-main {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+            overflow: hidden;
+            margin-bottom: var(--space-xxl);
+        }
+
+        .book-hero {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: var(--space-xl);
+            padding: var(--space-xl);
+        }
+
+        .book-cover-large {
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .book-cover-large img {
+            width: 100%;
+            max-width: 350px;
+            height: auto;
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-md);
+            transition: var(--transition-normal);
+        }
+
+        .book-cover-large img:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .book-details h3 {
+            color: var(--primary-color);
+            font-size: 2rem;
+            margin-bottom: var(--space-sm);
+        }
+
+        .book-subtitle {
+            color: var(--primary-light);
+            font-size: 1.25rem;
+            font-weight: 500;
+            margin-bottom: var(--space-lg);
+        }
+
+        .book-description p {
+            line-height: 1.8;
+            color: var(--text-color);
+            margin-bottom: var(--space-md);
+        }
+
+        .book-actions {
+            display: flex;
+            gap: var(--space-md);
+            margin-top: var(--space-xl);
+            flex-wrap: wrap;
+        }
+
+        .btn-download {
+            background: var(--primary-light);
+            color: var(--white);
+        }
+
+        .btn-download:hover {
+            background: var(--primary-color);
+        }
+
+        .btn-buy {
+            background: var(--accent-color);
+            color: var(--white);
+        }
+
+        .btn-buy:hover {
+            background: #e67e22;
+        }
+
+        .books-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: var(--space-xl);
+        }
+
+        .book-card {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+            overflow: hidden;
+            transition: var(--transition-normal);
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .book-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .book-cover {
+            padding: var(--space-lg);
+            text-align: center;
+            background: var(--light-bg);
+            flex-shrink: 0;
+            min-height: 280px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .book-cover img {
+            width: 100%;
+            max-width: 205px;
+            height: auto;
+            max-height: 280px;
+            border-radius: var(--radius-sm);
+            box-shadow: var(--shadow-sm);
+            object-fit: cover;
+        }
+
+        .book-info {
+            padding: var(--space-lg);
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .book-info h4 {
+            color: var(--primary-color);
+            margin-bottom: var(--space-sm);
+            font-size: 1.25rem;
+            line-height: 1.3;
+        }
+
+        .book-language {
+            color: var(--primary-light);
+            font-weight: 500;
+            margin-bottom: var(--space-sm);
+            font-size: 0.9rem;
+        }
+
+        .book-info p:not(.book-language) {
+            color: var(--text-color);
+            line-height: 1.5;
+            margin-bottom: var(--space-md);
+            flex-grow: 1;
+        }
+
+        .book-actions-small {
+            display: flex;
+            gap: var(--space-sm);
+            flex-wrap: wrap;
+            margin-top: auto;
+        }
+
+        .book-actions-small .btn {
+            flex: 1;
+            min-width: 120px;
+            text-align: center;
+            padding: var(--space-sm) var(--space-md);
+            font-size: 0.875rem;
+        }
+
+        .books-carousel {
+            padding: var(--space-xxl) 0;
+            background: var(--white);
+            overflow: hidden;
+        }
+
+        .carousel-container {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .carousel-track {
+            display: flex;
+            animation: scroll 40s linear infinite;
+        }
+
+        .carousel-track:hover {
+            animation-play-state: paused;
+        }
+
+        .carousel-track img {
+            width: 200px;
+            height: 300px;
+            object-fit: cover;
+            margin: 0 var(--space-md);
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-md);
+            transition: var(--transition-normal);
+        }
+
+        .carousel-track img:hover {
+            transform: scale(1.05);
+            box-shadow: var(--shadow-lg);
+        }
+
+        @keyframes scroll {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(calc(-200px * 10));
+            }
+        }
+
+        .testimonials {
+            padding: var(--space-xxl) 0;
+            background: var(--light-bg);
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--space-xl);
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .testimonial-card {
+            background: var(--white);
+            padding: var(--space-xl);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+            position: relative;
+        }
+
+        .testimonial-card::before {
+            content: '"';
+            font-size: 4rem;
+            color: var(--primary-light);
+            position: absolute;
+            top: -10px;
+            left: var(--space-md);
+            opacity: 0.3;
+        }
+
+        .testimonial-text {
+            font-style: italic;
+            line-height: 1.6;
+            color: var(--text-color);
+            margin-bottom: var(--space-md);
+        }
+
+        .testimonial-author {
+            color: var(--primary-color);
+            font-weight: 500;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 968px) {
+            .author-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .book-hero {
+                grid-template-columns: 1fr;
+            }
+
+            .book-cover-large {
+                order: -1;
+            }
+
+            .books-grid {
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            .books-hero {
+                padding: calc(var(--header-height) + 2rem) 0 2rem;
+            }
+
+            .book-hero {
+                padding: var(--space-lg);
+            }
+
+            .book-actions {
+                flex-direction: column;
+            }
+
+            .book-actions .btn {
+                width: 100%;
+            }
+
+            .books-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .carousel-track img {
+                width: 150px;
+                height: 225px;
+            }
+
+            .book-cover {
+                min-height: 250px;
+            }
+
+            .book-cover img {
+                max-width: 200px;
+                max-height: 250px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .book-hero {
+                padding: var(--space-md);
+            }
+
+            .book-details h3 {
+                font-size: 1.5rem;
+            }
+
+            .book-subtitle {
+                font-size: 1.1rem;
+            }
+
+            .testimonial-card {
+                padding: var(--space-lg);
+            }
+
+            .book-cover {
+                min-height: 220px;
+                padding: var(--space-md);
+            }
+
+            .book-cover img {
+                max-width: 180px;
+                max-height: 220px;
+            }
+
+            .book-actions-small {
+                flex-direction: column;
+            }
+
+            .book-actions-small .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- COOKIE CONSENT BANNER -->
+<div id="cookie-banner" class="cookie-banner">
+  <div class="cookie-content">
+    <div class="cookie-icon">🍪</div>
+    <p>
+      This website uses cookies to ensure you get the best experience on our site.
+      <a href="../contact/privacy-policy.html">Learn more</a>
+    </p>
+    <div class="cookie-actions">
+      <button id="cookie-preferences" type="button" class="btn-cookie-preferences">Preferences</button>
+      <button id="accept-cookies" type="button" class="btn-accept-cookies">Accept All</button>
+    </div>
+  </div>
+</div>
+
+<!-- COOKIE PREFERENCES MODAL -->
+<div id="cookie-modal" class="cookie-modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <div class="modal-title">
+        <div class="cookie-icon">🍪</div>
+        <h3>Cookie Preferences</h3>
+      </div>
+      <button type="button" class="modal-close">&times;</button>
+    </div>
+    <div class="modal-body">
+      <div class="cookie-category">
+        <div class="category-header">
+          <h4>Essential Cookies</h4>
+          <span class="cookie-required">Required</span>
+        </div>
+        <p>Necessary for the website to function properly. Cannot be disabled.</p>
+      </div>
+      <div class="cookie-category">
+        <div class="category-header">
+          <h4>Analytics Cookies</h4>
+          <label class="toggle-switch">
+            <input type="checkbox" id="analytics-toggle" checked>
+            <span class="slider"></span>
+          </label>
+        </div>
+        <p>Help us understand how visitors interact with our website.</p>
+      </div>
+      <div class="cookie-category">
+        <div class="category-header">
+          <h4>Functional Cookies</h4>
+          <label class="toggle-switch">
+            <input type="checkbox" id="functional-toggle" checked>
+            <span class="slider"></span>
+          </label>
+        </div>
+        <p>Enable enhanced features and personalization.</p>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button id="save-preferences" type="button" class="btn-save-preferences">Save Preferences</button>
+    </div>
+  </div>
+</div>
+
+    <!-- HEADER -->
+    <header class="main-header">
+        <div class="container">
+            <nav class="main-nav" aria-label="Primary navigation">
+                <div class="nav-brand">
+                    <a class="logo-link" href="../../homepage.html">
+                        <img alt="Raphael's Horizon" class="nav-logo" src="/assets/icons/logo-square.png">
+                        <span class="brand-name">Raphael's Horizon</span>
+                    </a>
+                </div>
+
+                <ul class="nav-menu">
+                    <li><a class="nav-link" href="../../homepage.html">Home</a></li>
+
+                    <!-- Books Dropdown -->
+                    <li class="nav-dropdown">
+                        <a aria-controls="books-menu" aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle" href="books.html">
+                            Books <span class="dropdown-arrow">▼</span>
+                        </a>
+                        <div class="dropdown-menu" id="books-menu" role="menu">
+                            <a class="dropdown-link" href="books.html" role="menuitem">Purchase Books</a>
+                            <a class="dropdown-link" href="books-online.html" role="menuitem">Read Books Online</a>
+                            <a class="dropdown-link" href="audio-books.html" role="menuitem">Audio Books Online</a>
+                        </div>
+                    </li>
+
+                    <!-- About Dropdown -->
+                    <li class="nav-dropdown">
+                        <button aria-controls="about-menu" aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle" type="button">
+                            About <span class="dropdown-arrow">▼</span>
+                        </button>
+                        <div class="dropdown-menu" id="about-menu" role="menu">
+                            <a class="dropdown-link" href="../about/about-us.html" role="menuitem">About Us</a>
+                            <a class="dropdown-link" href="../about/assimagbe-albert-raphael.html" role="menuitem">Assimagbe Albert Raphael</a>
+                        </div>
+                    </li>
+
+                    <!-- Contact Dropdown -->
+                    <li class="nav-dropdown">
+                        <button aria-controls="contact-menu" aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle" type="button">
+                            Contact <span class="dropdown-arrow">▼</span>
+                        </button>
+                        <div class="dropdown-menu" id="contact-menu" role="menu">
+                            <a class="dropdown-link" href="../contact/index.html" role="menuitem">Contact Us</a>
+                            <a class="dropdown-link" href="../contact/speaking-request.html" role="menuitem">Speaking Request</a>
+                            <a class="dropdown-link" href="../contact/privacy-policy.html" role="menuitem">Privacy Policy</a>
+                        </div>
+                    </li>
+
+                    <!-- Blog Dropdown -->
+                    <li class="nav-dropdown">
+                        <a aria-controls="blog-menu" aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle active" href="../blog/index.html">
+                            Blog <span class="dropdown-arrow">▼</span>
+                        </a>
+                        <div class="dropdown-menu" id="blog-menu" role="menu">
+                            <a class="dropdown-link active" href="../blog/index.html" role="menuitem">Blog Home</a>
+                            <a class="dropdown-link" href="../blog/categories.html" role="menuitem">Categories</a>
+                            <a class="dropdown-link external" href="https://raphaelshorizon.blogspot.com/" rel="noopener noreferrer" role="menuitem" target="_blank">Legacy Blog</a>
+                        </div>
+                    </li>
+
+                    <li>
+                        <a class="nav-link external" href="https://raphaelshorizon.wordpress.com/" rel="noopener noreferrer" target="_blank">WordPress</a>
+                    </li>
+
+                    <!-- DONATE BUTTON - Visible prominently -->
+                    <li class="nav-donate">
+                        <a class="btn-donate" href="../../donation.html">
+                            <i class="fas fa-heart"></i> Donate
+                        </a>
+                    </li>
+
+                    <!-- Account Links -->
+                    <li class="nav-dropdown auth-menu-guest">
+                        <a href="javascript:void(0)" aria-controls="account-menu" aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle" role="button" tabindex="0">
+                            Account <span class="dropdown-arrow">▼</span>
+                        </a>
+                        <div class="dropdown-menu" id="account-menu" role="menu">
+                            <button class="dropdown-link" id="show-login-btn" role="menuitem" type="button">Sign in</button>
+                            <button class="dropdown-link" id="show-register-btn" role="menuitem" type="button">Create account</button>
+                            <button class="dropdown-link" id="show-subscription-btn" role="menuitem" type="button">Subscription plans</button>
+                        </div>
+                    </li>
+                    <!-- User menu (visible when authenticated) -->
+                    <li class="user-menu-container" style="display:none;">
+                        <a href="javascript:void(0)" aria-controls="user-menu" aria-expanded="false" aria-haspopup="true" class="user-menu dropdown-toggle" role="button" tabindex="0">
+                            <span class="user-avatar">U</span>
+                            <span class="user-name">User</span>
+                            <span class="dropdown-arrow">▼</span>
+                        </a>
+                        <div class="user-dropdown dropdown-menu" id="user-menu" role="menu">
+                            <a href="../profile/index.html" role="menuitem">My Profile</a>
+                            <a href="../profile/subscription.html" role="menuitem">Subscription</a>
+                            <a href="../profile/library.html" role="menuitem">My Library</a>
+                            <div class="dropdown-divider" role="separator"></div>
+                            <button id="logout-btn" role="menuitem" type="button">Logout</button>
+                        </div>
+                    </li>
+                </ul>
+
+                <!-- Mobile Menu Toggle -->
+
+                <div class="mobile-menu-toggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- BOOKS HERO SECTION -->
+    <section class="books-hero">
+        <div class="container">
+            <div class="books-hero-content">
+                <h1>Transformative Books</h1>
+                <p>Discover inspirational literature that guides you toward spiritual growth, personal transformation, and a deeper relationship with God.</p>
+                <div class="hero-actions">
+                    <a href="#featured-books" class="btn btn-primary">Explore Books</a>
+                    <a href="#books-grid" class="btn btn-secondary">View All</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- AUTHOR INTRODUCTION -->
+    <section class="author-intro">
+        <div class="container">
+            <div class="author-content">
+                <div class="author-image">
+                    <img src="/assets/images/raphael.png" alt="Assimagbe Albert Raphael" class="author-img">
+                </div>
+                <div class="author-details">
+                    <h2>Books Authored By Assimagbe Albert Raphael</h2>
+                    <p>Assimagbe Albert Raphael is a devoted Christian, an accomplished Economist, and a prolific writer in the Christian sphere. Through his literary works, he offers profound insights and practical wisdom, guiding readers to deepen their faith and uncover divine blessings.</p>
+                    <p>Possessing a unique blend of intellectual depth and heartfelt inspiration, Assimagbe Albert Raphael empowers his readers to embrace their true identity as children of God. His writings are a guiding light towards living purposeful lives, characterized by unyielding faith, hope, and resilience.</p>
+                    <p>For those seeking profound insights and spiritual enlightenment, Assimagbe Albert Raphael's literary contributions offer an enriching and enlightening experience that transforms perspectives and renews minds.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FEATURED BOOKS SECTION -->
+    <section id="featured-books" class="featured-books">
+        <div class="container">
+            <div class="section-header">
+                <h2>Featured Books</h2>
+                <p>Discover transformative literature that will inspire and guide your spiritual journey</p>
+            </div>
+
+            <!-- FEATURED BOOK (Large Layout) -->
+            <div class="featured-book-main">
+                <div class="book-hero">
+                    <div class="book-cover-large">
+                        <img src="/assets/images/light-after-the-tunnel-english.jpg" alt="The Light After the Tunnel Book Cover">
+                    </div>
+                    <div class="book-details">
+                        <h3>The Light After the Tunnel</h3>
+                        <p class="book-subtitle">Discovering Your True Purpose in Hard Times</p>
+                        <div class="book-description">
+                            <p>This profound and illuminating exploration delves into the human experience in the face of pain, tribulation, and difficult circumstances. The book offers invaluable insights that lead readers toward understanding God's unwavering love and the transformative power of trials.</p>
+                            <p>Drawing parallels to rigorous testing processes, the author illustrates how God allows trials to shape and refine individuals, preparing them for the responsibilities tied to His promises.</p>
+                            <p>By showcasing biblical champions and heroes of faith, the book establishes the "tunnel" as a rite of passage for those seeking to do extraordinary work in their calling.</p>
+                        </div>
+                        <div class="book-actions">
+                            <a href="/assets/documents/light-after-the-tunnel-english.pdf" class="btn btn-download" download>
+                                <span>DOWNLOAD SAMPLE</span>
+                            </a>
+                            <a href="https://www.amazon.com/stores/Albert-Raphael-Assimagbe/author/B0CDJLQZN5?" class="btn btn-buy" target="_blank" rel="noopener noreferrer">
+                                <span>BUY ON AMAZON</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- OTHER BOOKS GRID -->
+            <div id="books-grid" class="books-grid">
+                <!-- Book 1 -->
+                <div class="book-card">
+                    <div class="book-cover">
+                        <img src="/assets/images/light-after-the-tunnel-english.jpg" alt="The Light After the Tunnel">
+                    </div>
+                    <div class="book-info">
+                        <h4>The Light After the Tunnel</h4>
+                        <p class="book-language">English Edition</p>
+                        <p>Discovering Your True Purpose in Hard Times - A transformative guide to finding purpose through life's challenges.</p>
+                        <div class="book-actions-small">
+                            <a href="/assets/documents/light-after-the-tunnel-english.pdf" class="btn btn-download" download>DOWNLOAD</a>
+                            <a href="https://www.amazon.com/stores/Albert-Raphael-Assimagbe/author/B0CDJLQZN5?" class="btn btn-buy" target="_blank" rel="noopener noreferrer">BUY NOW</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Book 2 -->
+                <div class="book-card">
+                    <div class="book-cover">
+                        <img src="/assets/images/light-after-the-tunnel-german.jpg" alt="Das Licht nach the Tunnel">
+                    </div>
+                    <div class="book-info">
+                        <h4>Das Licht nach dem Tunnel</h4>
+                        <p class="book-language">German Edition</p>
+                        <p>Entdecken Sie Ihren wahren Zweck in schwierigen Zeiten - Ein transformativer Leitfaden zur Sinnfindung durch Lebensherausforderungen.</p>
+                        <div class="book-actions-small">
+                            <a href="/assets/documents/light-after-the-tunnel-german.pdf" class="btn btn-download" download>DOWNLOAD</a>
+                            <a href="https://www.amazon.com/stores/Albert-Raphael-Assimagbe/author/B0CDJLQZN5?" class="btn btn-buy" target="_blank" rel="noopener noreferrer">BUY NOW</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Book 3 -->
+                <div class="book-card">
+                    <div class="book-cover">
+
+                        <img src="/assets/images/divine-jurisprudence-english.jpg" alt="Divine Jurisprudence: The Covenant Code for a Flourishing Life">
+                    </div>
+                    <div class="book-info">
+                        <h4>Divine Jurisprudence</h4>
+                        <p class="book-language">English Edition</p>
+                        <p>The Covenant Code for a Flourishing Life - Unlock the divine principles for a prosperous and purposeful existence.</p>
+                        <div class="book-actions-small">
+
+                            <a href="/assets/documents/divine-jurisprudence-english.pdf" class="btn btn-download" download>DOWNLOAD</a>
+                            <a href="https://www.amazon.com/stores/Albert-Raphael-Assimagbe/author/B0CDJLQZN5?" class="btn btn-buy" target="_blank" rel="noopener noreferrer">BUY NOW</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Book 4 -->
+                <div class="book-card">
+                    <div class="book-cover">
+
+                        <img src="/assets/images/divine-jurisprudence-english.jpg" alt="Divine Jurisprudence: The Covenant Code for a Flourishing Life">
+                    </div>
+                    <div class="book-info">
+                        <h4>Divine Jurisprudence</h4>
+                        <p class="book-language">English Edition</p>
+                        <p>The Covenant Code for a Flourishing Life - Unlock the divine principles for a prosperous and purposeful existence.</p>
+                        <div class="book-actions-small">
+
+                            <a href="/assets/documents/divine-jurisprudence-english.pdf" class="btn btn-download" download>DOWNLOAD</a>
+                            <a href="https://www.amazon.com/stores/Albert-Raphael-Assimagbe/author/B0CDJLQZN5?" class="btn btn-buy" target="_blank" rel="noopener noreferrer">BUY NOW</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Book 5 -->
+                <div class="book-card">
+                    <div class="book-cover">
+                        <img src="/assets/images/embracing-elegance.jpg" alt="Embracing Elegance: A Gentle Guide for Women">
+                    </div>
+                    <div class="book-info">
+                        <h4>Embracing Elegance</h4>
+                        <p class="book-language">English Edition</p>
+                        <p>A Gentle Guide for Women on Cultivating the Best Version of Themselves - Discover grace, purpose, and divine femininity.</p>
+                        <div class="book-actions-small">
+                            <a href="/assets/documents/embracing-elegance.pdf" class="btn btn-download" download>DOWNLOAD</a>
+                            <a href="https://www.amazon.com/stores/Albert-Raphael-Assimagbe/author/B0CDJLQZN5?" class="btn btn-buy" target="_blank" rel="noopener noreferrer">BUY NOW</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Book 6 -->
+                <div class="book-card">
+                    <div class="book-cover">
+                        <img src="/assets/images/living-a-life-with-purpose.jpg" alt="Living a Life with Purpose: Coming Soon">
+                    </div>
+                    <div class="book-info">
+                        <h4>Living a Life with Purpose</h4>
+                        <p class="book-language">Coming Soon</p>
+                        <p>A Roadmap to Fulfillment - Discover your true calling and live a life of meaning and impact.</p>
+                        <div class="book-actions-small">
+                            <a href="javascript:void(0)" class="btn btn-download">COMING SOON</a>
+                            <a href="mailto:info@raphaelshorizon.com" class="btn btn-buy" target="_blank" rel="noopener noreferrer">NOTIFY ME</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- BOOKS CAROUSEL -->
+    <section class="books-carousel">
+        <div class="container">
+            <div class="section-header">
+                <h2>Explore Our Collection</h2>
+                <p>Browse through our inspiring book covers</p>
+            </div>
+            <div class="carousel-container">
+                <div class="carousel-track">
+                    <!-- Book Images -->
+                    <img src="/assets/images/embracing-elegance.jpg" alt="Embracing Elegance">
+
+                    <img src="/assets/images/divine-jurisprudence-english.jpg" alt="Divine Jurisprudence English">
+                    <img src="/assets/images/divine-jurisprudence-german.jpg" alt="Divine Jurisprudence German">
+                    <img src="/assets/images/light-after-the-tunnel-english.jpg" alt="The Light After the Tunnel English">
+                    <img src="/assets/images/light-after-the-tunnel-german.jpg" alt="The Light After the Tunnel German">
+                    <!-- Duplicate Images for Seamless Scrolling -->
+                    <img src="/assets/images/embracing-elegance.jpg" alt="Embracing Elegance">
+
+                    <img src="/assets/images/divine-jurisprudence-english.jpg" alt="Divine Jurisprudence English">
+                    <img src="/assets/images/divine-jurisprudence-german.jpg" alt="Divine Jurisprudence German">
+                    <img src="/assets/images/light-after-the-tunnel-english.jpg" alt="The Light After the Tunnel English">
+                    <img src="/assets/images/light-after-the-tunnel-german.jpg" alt="The Light After the Tunnel German">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TESTIMONIALS -->
+    <section class="testimonials">
+        <div class="container">
+            <div class="section-header">
+                <h2>What Readers Are Saying</h2>
+                <p>Discover how these transformative books are impacting lives</p>
+            </div>
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <p class="testimonial-text">"The Light After the Tunnel came to me at exactly the right time. It helped me understand that my struggles were actually preparing me for something greater. This book changed my perspective on suffering."</p>
+                    <p class="testimonial-author">— Sarah M.</p>
+                </div>
+                <div class="testimonial-card">
+                    <p class="testimonial-text">"Divine Jurisprudence opened my eyes to the covenant promises of God in a way I've never understood before. The practical wisdom in this book is life-changing."</p>
+                    <p class="testimonial-author">— Michael T.</p>
+                </div>
+                <div class="testimonial-card">
+                    <p class="testimonial-text">"Raphael's writing combines deep spiritual insight with practical application. Each book feels like a personal mentoring session that guides you toward spiritual maturity."</p>
+                    <p class="testimonial-author">— Jennifer K.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CALL TO ACTION -->
+    <section class="about-cta">
+        <div class="container">
+            <h2>Start Your Transformative Journey Today</h2>
+            <p>Choose from our collection of inspirational books and begin your path toward spiritual growth and personal transformation.</p>
+            <div class="cta-buttons">
+                <a href="#books-grid" class="btn btn-primary">Browse All Books</a>
+                <a href="../about/assimagbe-albert-raphael.html" class="btn btn-secondary">Meet the Author</a>
+                <a href="../contact/speaking-request.html" class="btn btn-outline">Request Speaking</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+<footer class="main-footer">
+  <div class="container">
+    <div class="footer-content">
+      <div class="footer-brand">
+        <img src="/assets/icons/logo-square.png" alt="Raphael's Horizon" class="footer-logo">
+        <div class="footer-mission">
+          <h3>Raphael's Horizon</h3>
+          <p>Unveiling God's Promises through Boundless Possibilities</p>
+        </div>
+      </div>
+
+      <nav class="footer-nav" aria-label="Footer navigation">
+        <div class="footer-nav-column">
+          <h4>Navigation</h4>
+          <ul>
+            <li><a href="../../homepage.html">Home</a></li>
+            <li><a href="books.html">Books</a></li>
+            <li><a href="../about/about-us.html">About</a></li>
+            <li><a href="../contact/index.html">Contact</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-nav-column">
+          <h4>Resources</h4>
+          <ul>
+            <li><a href="../blog/index.html">Blog</a></li>
+            <li><a href="https://raphaelshorizon.wordpress.com/" target="_blank" rel="noopener noreferrer">WordPress</a></li>
+            <li><a href="../contact/speaking-request.html">Speaking</a></li>
+            <li><a href="../../donation.html"><i class="fas fa-heart"></i> Support Us</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-columns-group">
+          <div class="footer-nav-column">
+            <h4>Legal</h4>
+            <ul>
+              <li><a href="../contact/privacy-policy.html">Privacy Policy</a></li>
+              <li><a href="javascript:void(0)" onclick="showCookiePreferences()">Cookie Preferences</a></li>
+            </ul>
+          </div>
+
+          <div class="footer-nav-column">
+            <h4>Newsletter</h4>
+            <p>Stay updated with our latest books and teachings.</p>
+            <form class="newsletter-form">
+              <input type="email" placeholder="Your email address" aria-label="Email for newsletter" required>
+              <button type="submit" class="btn btn-primary">Subscribe</button>
+            </form>
+          </div>
+        </div>
+
+        <nav class="footer-social" aria-label="Social links">
+          <a href="https://www.facebook.com/raphaelshorizon" target="_blank" rel="noopener noreferrer" aria-label="Facebook">FB</a>
+          <a href="https://www.instagram.com/raphaelshorizon" target="_blank" rel="noopener noreferrer" aria-label="Instagram">IG</a>
+          <a href="https://www.twitter.com/raphaelshorizon" target="_blank" rel="noopener noreferrer" aria-label="Twitter">TW</a>
+          <a href="https://t.me/raphaelshorizon" target="_blank" rel="noopener noreferrer" aria-label="Telegram">TG</a>
+          <a href="https://www.youtube.com/@raphaelshorizon" target="_blank" rel="noopener noreferrer" aria-label="YouTube">YT</a>
+        </nav>
+
+      </nav>
+    </div>
+
+    <div class="footer-bottom">
+      <p>&copy; 2025 Raphael's Horizon. All Rights Reserved. | Unveiling God's Promises Through Boundless Possibilities</p>
+    </div>
+  </div>
+</footer>
+
+  <!-- JavaScript -->
+<script src="/js/cookies.js"></script>
+<script src="/js/scripts.js"></script>
+    <script>
+        // Books Page JavaScript
+        document.addEventListener('DOMContentLoaded', function() {
+            // Animation for book cards
+            const bookCards = document.querySelectorAll('.book-card');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach((entry, index) => {
+                    if (entry.isIntersecting) {
+                        setTimeout(() => {
+                            entry.target.style.opacity = '1';
+                            entry.target.style.transform = 'translateY(0)';
+                        }, index * 200);
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            bookCards.forEach(card => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                observer.observe(card);
+            });
+
+            // Smooth scrolling for anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        const headerHeight = document.querySelector('.main-header').offsetHeight;
+                        const targetPosition = target.offsetTop - headerHeight - 20;
+                        
+                        window.scrollTo({
+                            top: targetPosition,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+
+            // Pause carousel on hover
+            const carouselTrack = document.querySelector('.carousel-track');
+            carouselTrack.addEventListener('mouseenter', () => {
+                carouselTrack.style.animationPlayState = 'paused';
+            });
+
+            carouselTrack.addEventListener('mouseleave', () => {
+                carouselTrack.style.animationPlayState = 'running';
+            });
+        });
+    </script>
+
+    <!-- PWA Service Worker Registration -->
+    <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function() {
+        navigator.serviceWorker.register('../../sw.js')
+          .then(function(registration) {
+            console.log('SW registered: ', registration);
+          })
+          .catch(function(registrationError) {
+            console.log('SW registration failed: ', registrationError);
+          });
+      });
+    }
+    </script>
+    <script src="/js/auth.js"></script>
+    <script src="/js/api.js"></script>
+    <!-- PWA Install Script -->
+    <script src="/js/pwa-install.js"></script>
+
+<!-- FLOATING DONATE BUTTON (visible on mobile) -->
+<a href="../../donation.html" class="btn-donate floating-donate-btn" aria-label="Donate to Raphael's Horizon">
+  <i class="fas fa-heart"></i> Donate
+</a>
+
+</body>
+</html>

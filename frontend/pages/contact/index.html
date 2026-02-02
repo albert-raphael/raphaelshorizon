@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<meta content="Contact Raphael's Horizon - Get in touch for inquiries, speaking requests, or learn about our privacy practices." name="description">
+<meta content="contact Raphael's Horizon, speaking request, Christian ministry contact, privacy policy" name="keywords">
+<title>Contact — Raphael's Horizon</title>
+<link href="/css/styles.css" rel="stylesheet">
+<style>
+        /* Contact Page Specific Styles */
+        .contact-hero {
+            padding: calc(var(--header-height) + 4rem) 0 4rem;
+            background: var(--gradient-primary);
+            color: var(--white);
+            text-align: center;
+        }
+
+        .contact-hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .contact-hero h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            margin-bottom: var(--space-lg);
+            color: var(--white);
+        }
+
+        .contact-hero p {
+            font-size: 1.25rem;
+            opacity: 0.9;
+            line-height: 1.6;
+            margin-bottom: var(--space-xl);
+        }
+
+        .contact-content {
+            padding: var(--space-xxl) 0;
+            background: var(--light-bg);
+        }
+
+        .contact-options-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--space-xl);
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .contact-option-card {
+            background: var(--white);
+            padding: var(--space-xl);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+            text-align: center;
+            transition: var(--transition-normal);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .contact-option-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .contact-option-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--primary-light);
+        }
+
+        .contact-icon {
+            font-size: 3rem;
+            margin-bottom: var(--space-lg);
+            display: block;
+        }
+
+        .contact-option-card h3 {
+            color: var(--primary-color);
+            margin-bottom: var(--space-md);
+        }
+
+        .contact-option-card p {
+            color: var(--text-color);
+            line-height: 1.6;
+            margin-bottom: var(--space-lg);
+        }
+
+        .quick-contact-info {
+            background: var(--white);
+            padding: var(--space-xl);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+            max-width: 800px;
+            margin: var(--space-xxl) auto 0;
+        }
+
+        .quick-contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--space-lg);
+        }
+
+        .quick-contact-item {
+            display: flex;
+            align-items: center;
+            gap: var(--space-md);
+            padding: var(--space-md);
+            background: var(--light-bg);
+            border-radius: var(--radius-md);
+        }
+
+        .quick-icon {
+            font-size: 1.5rem;
+            width: 50px;
+            height: 50px;
+            background: var(--primary-light);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+        }
+
+        .quick-contact-item h4 {
+            color: var(--primary-color);
+            margin-bottom: var(--space-xs);
+        }
+
+        .quick-contact-item p {
+            color: var(--text-color);
+            margin: 0;
+        }
+
+        .social-links-mini {
+            display: flex;
+            gap: var(--space-sm);
+            flex-wrap: wrap;
+        }
+
+        .social-links-mini a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: var(--primary-light);
+            color: var(--white);
+            border-radius: 50%;
+            text-decoration: none;
+            transition: var(--transition-normal);
+            font-weight: 500;
+            font-size: 0.875rem;
+        }
+
+        .social-links-mini a:hover {
+            background: var(--primary-color);
+            transform: translateY(-2px);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .contact-hero {
+                padding: calc(var(--header-height) + 2rem) 0 2rem;
+            }
+
+            .contact-options-grid {
+                grid-template-columns: 1fr;
+                gap: var(--space-lg);
+            }
+
+            .quick-contact-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .quick-contact-item {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .contact-option-card {
+                padding: var(--space-lg);
+            }
+
+            .quick-contact-info {
+                padding: var(--space-lg);
+            }
+        }
+    </style>
+<style>
+/* INLINE HEADER DONATE OVERRIDE - Hard-coded to bypass cache */
+.nav-donate .btn-donate {
+    background: #ff4444 !important;
+    color: #ffffff !important;
+    font-weight: 800 !important;
+    padding: 10px 22px !important;
+    border-radius: 50px !important;
+    border: 2px solid #ffffff !important;
+    box-shadow: 0 4px 15px rgba(255, 68, 68, 0.4) !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    text-transform: uppercase !important;
+    letter-spacing: 1px !important;
+    transition: all 0.3s ease !important;
+    animation: pulse-red-header 2s infinite !important;
+    margin-left: 15px !important;
+    text-decoration: none !important;
+}
+
+.nav-donate .btn-donate:hover {
+    background: #cc0000 !important;
+    transform: translateY(-2px) scale(1.05) !important;
+    box-shadow: 0 6px 20px rgba(255, 0, 0, 0.6) !important;
+    color: #ffffff !important;
+}
+
+@keyframes pulse-red-header {
+    0% { transform: scale(1); box-shadow: 0 4px 15px rgba(255, 68, 68, 0.4); }
+    50% { transform: scale(1.05); box-shadow: 0 4px 25px rgba(255, 68, 68, 0.7); }
+    100% { transform: scale(1); box-shadow: 0 4px 15px rgba(255, 68, 68, 0.4); }
+}
+</style>
+</head>
+<body><!-- COOKIE CONSENT BANNER -->
+<div class="cookie-banner" id="cookie-banner">
+<div class="cookie-content">
+<div class="cookie-icon">🍪</div>
+<p>
+      This website uses cookies to ensure you get the best experience on our site.
+      <a href="privacy-policy.html">Learn more</a>
+</p>
+<div class="cookie-actions">
+<button type="button" class="btn-cookie-preferences" id="cookie-preferences">Preferences</button>
+<button type="button" class="btn-accept-cookies" id="accept-cookies">Accept All</button>
+</div>
+</div>
+</div>
+<!-- COOKIE PREFERENCES MODAL -->
+<div class="cookie-modal" id="cookie-modal">
+<div class="modal-content">
+<div class="modal-header">
+<div class="modal-title">
+<div class="cookie-icon">🍪</div>
+<h3>Cookie Preferences</h3>
+</div>
+<button type="button" class="modal-close">×</button>
+</div>
+<div class="modal-body">
+<div class="cookie-category">
+<div class="category-header">
+<h4>Essential Cookies</h4>
+<span class="cookie-required">Required</span>
+</div>
+<p>Necessary for the website to function properly. Cannot be disabled.</p>
+</div>
+<div class="cookie-category">
+<div class="category-header">
+<h4>Analytics Cookies</h4>
+<label class="toggle-switch">
+<input checked id="analytics-toggle" type="checkbox">
+<span class="slider"></span>
+</label>
+</div>
+<p>Help us understand how visitors interact with our website.</p>
+</div>
+<div class="cookie-category">
+<div class="category-header">
+<h4>Functional Cookies</h4>
+<label class="toggle-switch">
+<input checked id="functional-toggle" type="checkbox">
+<span class="slider"></span>
+</label>
+</div>
+<p>Enable enhanced features and personalization.</p>
+</div>
+</div>
+<div class="modal-footer">
+<button type="button" class="btn-save-preferences" id="save-preferences">Save Preferences</button>
+</div>
+</div>
+</div>
+<!-- HEADER NAVIGATION -->
+<header class="main-header">
+<div class="container">
+<nav class="main-nav" aria-label="Primary navigation">
+<div class="nav-brand">
+<a class="logo-link" href="../../homepage.html">
+<img alt="Raphael's Horizon" class="nav-logo" src="/assets/icons/logo-square.png">
+<span class="brand-name">Raphael's Horizon</span>
+</a>
+</div>
+<ul class="nav-menu">
+<li><a class="nav-link" href="../../homepage.html">Home</a></li>
+<!-- Books Dropdown -->
+<li class="nav-dropdown">
+<a aria-controls="books-menu" aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle" href="../books/books.html">
+                        Books <span class="dropdown-arrow">Ôû╝</span>
+</a>
+<div class="dropdown-menu" id="books-menu" role="menu">
+<a class="dropdown-link" href="../books/books.html" role="menuitem">Purchase Books</a>
+<a class="dropdown-link" href="../books/books-online.html" role="menuitem">Read Books Online</a>
+<a class="dropdown-link" href="../books/audio-books.html" role="menuitem">Audio Books Online</a>
+</div>
+</li>
+<!-- About Dropdown -->
+<li class="nav-dropdown">
+<a href="javascript:void(0)" aria-controls="about-menu" aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle" role="button" tabindex="0">
+                        About <span class="dropdown-arrow">Ôû╝</span>
+</a>
+<div class="dropdown-menu" id="about-menu" role="menu">
+<a class="dropdown-link" href="../about/about-us.html" role="menuitem">About Us</a>
+<a class="dropdown-link" href="../about/assimagbe-albert-raphael.html" role="menuitem">Assimagbe Albert Raphael</a>
+</div>
+</li>
+<!-- Contact Dropdown -->
+<li class="nav-dropdown">
+<a href="javascript:void(0)" aria-controls="contact-menu" aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle" role="button" tabindex="0">
+                        Contact <span class="dropdown-arrow">Ôû╝</span>
+</a>
+<div class="dropdown-menu" id="contact-menu" role="menu">
+<a class="dropdown-link" href="index.html" role="menuitem">Contact Us</a>
+<a class="dropdown-link" href="speaking-request.html" role="menuitem">Speaking Request</a>
+<a class="dropdown-link" href="privacy-policy.html" role="menuitem">Privacy Policy</a>
+</div>
+</li>
+<!-- Blog Dropdown -->
+<li class="nav-dropdown">
+<a href="javascript:void(0)" aria-controls="blog-menu" aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle active" role="button" tabindex="0">
+                        Blog <span class="dropdown-arrow">Ôû╝</span>
+</a>
+<div class="dropdown-menu" id="blog-menu" role="menu">
+<a class="dropdown-link active" href="../blog/index.html" role="menuitem">Blog Home</a>
+<a class="dropdown-link" href="../blog/categories.html" role="menuitem">Categories</a>
+<a class="dropdown-link external" href="https://raphaelshorizon.blogspot.com/" rel="noopener noreferrer" role="menuitem" target="_blank">Legacy Blog</a>
+</div>
+</li>
+<li>
+<a class="nav-link external" href="https://raphaelshorizon.wordpress.com/" rel="noopener noreferrer" target="_blank">WordPress</a>
+</li>
+<!-- DONATE BUTTON - Visible prominently -->
+<li class="nav-donate">
+<a class="btn-donate" href="../../donation.html">
+<i class="fas fa-heart"></i> Donate
+</a>
+</li>
+<!-- Login / Account (visible when NOT authenticated) -->
+<li class="nav-dropdown auth-menu-guest">
+<a href="javascript:void(0)" aria-controls="account-menu" aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle" role="button" tabindex="0">
+                        Account <span class="dropdown-arrow">Ôû╝</span>
+</a>
+<div class="dropdown-menu" id="account-menu" role="menu">
+<a class="dropdown-link" href="/pages/profile/login.html" role="menuitem">Sign in</a>
+<a class="dropdown-link" href="/pages/profile/login.html#register" role="menuitem">Create account</a>
+<button class="dropdown-link" onclick="showSubscriptionModal()" role="menuitem" type="button">Subscription plans</button>
+</div>
+</li>
+<!-- User menu (visible when authenticated) -->
+<li class="user-menu-container" style="display:none;">
+
+<button type="button" aria-controls="user-menu" aria-expanded="false" aria-haspopup="true" class="user-menu dropdown-toggle">
+<span class="user-avatar">U</span>
+<span class="user-name">User</span>
+<span class="dropdown-arrow">Ôû╝</span>
+</a>
+<div class="user-dropdown dropdown-menu" id="user-menu" role="menu">
+<a href="../profile/index.html" role="menuitem">My Profile</a>
+<a href="../profile/subscription.html" role="menuitem">Subscription</a>
+<a href="../profile/library.html" role="menuitem">My Library</a>
+<div class="dropdown-divider" role="separator"></div>
+<button onclick="logout()" role="menuitem" type="button">Logout</button>
+</div>
+</li>
+</ul>
+<!-- Mobile Menu Toggle -->
+<button class="mobile-menu-toggle" type="button" aria-label="Toggle navigation">
+<span></span>
+<span></span>
+<span></span>
+</button>
+</nav>
+</div>
+</header>
+<!-- CONTACT HERO SECTION -->
+<section class="contact-hero">
+<div class="container">
+<div class="contact-hero-content">
+<h1>Get In Touch</h1>
+<p>We'd love to hear from you. Choose how you'd like to connect with Raphael's Horizon and become part of our growing community.</p>
+<div class="hero-actions">
+<a class="btn btn-primary" href="contact-us.html">Send Message</a>
+<a class="btn btn-secondary" href="speaking-request.html">Speaking Request</a>
+</div>
+</div>
+</div>
+</section>
+<!-- CONTACT OPTIONS -->
+<section class="contact-content">
+<div class="container">
+<div class="contact-options-grid">
+<div class="contact-option-card">
+<span class="contact-icon">📧</span>
+<h3>Contact Us</h3>
+<p>Send us a message with your questions, prayer requests, or feedback. We're here to support you on your spiritual journey.</p>
+<a class="btn btn-primary" href="contact-us.html">Send Message</a>
+</div>
+<div class="contact-option-card">
+<span class="contact-icon">🎤</span>
+<h3>Speaking Request</h3>
+<p>Invite Raphael for speaking engagements, events, or ministry opportunities. Share your event details with us.</p>
+<a class="btn btn-secondary" href="speaking-request.html">Request Speaker</a>
+</div>
+<div class="contact-option-card">
+<span class="contact-icon">🔒</span>
+<h3>Privacy Policy</h3>
+<p>Learn how we protect and handle your personal information with the utmost care and respect.</p>
+<a class="btn btn-outline" href="privacy-policy.html">View Policy</a>
+</div>
+</div>
+<!-- Quick Contact Information -->
+<div class="quick-contact-info">
+<div class="section-header">
+<h2>Quick Contact Information</h2>
+<p>Reach out to us through these channels</p>
+</div>
+<div class="quick-contact-grid">
+<div class="quick-contact-item">
+<span class="quick-icon">📧</span>
+<div>
+<h4>Email Us</h4>
+<p>info@raphaelshorizon.com</p>
+</div>
+</div>
+<div class="quick-contact-item">
+<span class="quick-icon">🌐</span>
+<div>
+<h4>Follow Us</h4>
+<div class="social-links-mini">
+<a href="https://www.facebook.com/raphaelshorizon" rel="noopener noreferrer" target="_blank" title="Facebook">FB</a>
+<a href="https://www.instagram.com/raphaelshorizon" rel="noopener noreferrer" target="_blank" title="Instagram">IG</a>
+<a href="https://www.twitter.com/raphaelshorizon" rel="noopener noreferrer" target="_blank" title="Twitter">TW</a>
+<a href="https://www.youtube.com/channel/UCTy8tWlPm6oy8yCvpwwhMEw" rel="noopener noreferrer" target="_blank" title="YouTube">YT</a>
+<a href="https://t.me/raphaelshorizon" rel="noopener noreferrer" target="_blank" title="Telegram">TG</a>
+<a href="https://www.amazon.com/author/assimagbe" rel="noopener noreferrer" target="_blank" title="Amazon">AM</a>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- CALL TO ACTION -->
+<section class="about-cta">
+<div class="container">
+<h2>Stay Connected With Our Ministry</h2>
+<p>Join our growing community and receive updates on new books, teachings, and upcoming events.</p>
+<div class="cta-buttons">
+<a class="btn btn-primary" href="../books/books.html">Explore Books</a>
+<a class="btn btn-secondary" href="../about/about-us.html">Learn About Us</a>
+<a class="btn btn-outline" href="https://raphaelshorizon.blogspot.com/" rel="noopener noreferrer" target="_blank">Visit Blog</a>
+</div>
+</div>
+</section>
+<!-- FOOTER -->
+<footer class="main-footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-brand">
+          <img src="/assets/icons/logo-square.png" alt="Raphael's Horizon" class="footer-logo">
+          <div class="footer-mission">
+            <h3>Raphael's Horizon</h3>
+            <p>Unveiling God's Promises through Boundless Possibilities</p>
+          </div>
+        </div>
+
+        <nav class="footer-nav" aria-label="Footer navigation">
+          <div class="footer-nav-column">
+            <h4>Navigation</h4>
+            <ul>
+              <li><a href="../../homepage.html">Home</a></li>
+              <li><a href="../books/books.html">Books</a></li>
+              <li><a href="../about/about-us.html">About</a></li>
+              <li><a href="index.html">Contact</a></li>
+            </ul>
+          </div>
+
+          <div class="footer-nav-column">
+            <h4>Resources</h4>
+            <ul>
+              <li><a href="https://raphaelshorizon.blogspot.com/" target="_blank" rel="noopener noreferrer">Blog</a></li>
+              <li><a href="https://raphaelshorizon.wordpress.com/" target="_blank" rel="noopener noreferrer">WordPress</a></li>
+              <li><a href="speaking-request.html">Speaking</a></li>
+              <li><a href="../../donation.html"><i class="fas fa-heart"></i> Support Us</a></li>
+            </ul>
+          </div>
+
+          <!-- LEGAL AND CONNECT COLUMNS SIDE BY SIDE -->
+          <div class="footer-columns-group">
+            <div class="footer-nav-column">
+              <h4>Legal</h4>
+              <ul>
+                <li><a href="privacy-policy.html">Privacy Policy</a></li>
+                <li><a href="javascript:void(0)" onclick="showCookiePreferences()">Cookie Preferences</a></li>
+              </ul>
+            </div>
+
+            <div class="footer-nav-column">
+                <h4>Newsletter</h4>
+                <p>Stay updated with our latest books and teachings.</p>
+                <form class="newsletter-form">
+                    <input type="email" placeholder="Your email address" aria-label="Email for newsletter" required>
+                    <button type="submit" class="btn btn-primary">Subscribe</button>
+                </form>
+            </div>
+          </div>
+        </nav>
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2026 Raphael's Horizon. All Rights Reserved. | Unveiling God's Promises Through Boundless Possibilities</p>
+      </div>
+    </div>
+</footer>
+
+<!-- JavaScript for current year in footer -->
+<script>
+    document.getElementById('current-year').textContent = new Date().getFullYear();
+</script>
+
+<!-- Main JavaScript file for site functionality -->
+<script src="/js/scripts.js"></script>
+<!-- Configuration for API endpoints -->
+<script src="/js/config.js"></script>
+<!-- Authentication for universal login state -->
+<script src="/js/auth.js"></script>
+
+<!-- Font Awesome for icons (if not already included) -->
+<script src="https://kit.fontawesome.com/your-font-awesome-kit-id.js" crossorigin="anonymous"></script>
+
+<!-- FLOATING DONATE BUTTON (visible on mobile) -->
+<a href="../../donation.html" class="btn-donate floating-donate-btn" aria-label="Donate to Raphael's Horizon">
+  <i class="fas fa-heart"></i> Donate
+</a>
+
+</body>
+</html>
+

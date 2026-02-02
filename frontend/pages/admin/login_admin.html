@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login - Raphael's Horizon</title>
+
+    <meta name="description" content="Secure admin login for Raphael's Horizon management system">
+    
+    <!-- Environment Configuration (must load first) -->
+    <script src="/js/config.js"></script>
+    
+    <!-- Check if admin is already logged in -->
+    <script>
+    (function() {
+        const token = localStorage.getItem('adminToken') || localStorage.getItem('authToken');
+        const userStr = localStorage.getItem('adminUser') || localStorage.getItem('user');
+        if (token && userStr) {
+            try {
+                const user = JSON.parse(userStr);
+                if (user.role === 'admin') {
+                    // Admin already logged in - go to dashboard
+                    const returnTo = sessionStorage.getItem('returnTo');
+                    if (returnTo) {
+                        sessionStorage.removeItem('returnTo');
+                        window.location.href = returnTo;
+                    } else {
+                        window.location.href = '/pages/admin/admin-dashboard.html';
+                    }
+                }
+            } catch(e) { /* ignore parse errors */ }
+        }
+    })();
+    </script>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Base styles -->
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/auth.css">
+    
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --accent-color: #e74c3c;
+        }
+        body {
+            background-color: #f4f7f6;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+        .login-page-container {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 25px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 450px;
+            border-top: 5px solid var(--accent-color);
+        }
+        .login-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        .login-logo {
+            width: 80px;
+            margin-bottom: 1rem;
+        }
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 1.5rem;
+            color: #666;
+            text-decoration: none;
+        }
+        .back-link:hover {
+            color: var(--primary-color);
+        }
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #333;
+        }
+        .form-input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 1rem;
+            box-sizing: border-box;
+            transition: border-color 0.3s;
+        }
+        .form-input:focus {
+            outline: none;
+            border-color: var(--accent-color);
+        }
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            font-size: 1rem;
+            font-weight: 600;
+            text-align: center;
+            text-decoration: none;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .btn-primary {
+            background: var(--accent-color);
+            color: white;
+        }
+        .btn-primary:hover {
+            background: #c0392b;
+        }
+        .btn-block {
+            width: 100%;
+        }
+        .admin-badge {
+            display: inline-block;
+            background: var(--accent-color);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            margin-bottom: 10px;
+        }
+        .error-message {
+            background: #fee;
+            border: 1px solid #fcc;
+            color: #c00;
+            padding: 10px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            display: none;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="login-page-container">
+        <div class="login-header">
+            <a href="/homepage.html">
+                <img src="/assets/icons/logo-square.png" alt="Raphael's Horizon" class="login-logo">
+            </a>
+            <span class="admin-badge"><i class="fas fa-shield-alt"></i> ADMIN</span>
+            <h2>Admin Portal</h2>
+            <p>Secure access for site administrators</p>
+        </div>
+
+        <div id="error-message" class="error-message"></div>
+
+        <form id="admin-login-form">
+            <div class="form-group">
+                <label for="login-email">Admin Email</label>
+                <input type="email" id="login-email" name="email" class="form-input" placeholder="admin@raphaelshorizon.com" required>
+            </div>
+            <div class="form-group">
+                <label for="login-password">Password</label>
+                <input type="password" id="login-password" name="password" class="form-input" placeholder="Enter admin password" required>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block" id="submit-btn">
+                <i class="fas fa-sign-in-alt"></i> Access Dashboard
+            </button>
+        </form>
+
+        <a href="/homepage.html" class="back-link">← Back to Site</a>
+    </div>
+
+    <script>
+        // API configuration - Use relative path, nginx proxies to backend
+        const API_BASE_URL = '/api';
+
+        // Check if already logged in as admin
+        (function checkExistingAuth() {
+            const token = localStorage.getItem('authToken');
+            const userStr = localStorage.getItem('user');
+            if (token && userStr) {
+                try {
+                    const user = JSON.parse(userStr);
+                    if (user.role === 'admin') {
+                        window.location.href = 'admin-dashboard.html';
+                    }
+                } catch (e) {}
+            }
+        })();
+
+        // Handle admin login
+        document.getElementById('admin-login-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+            const submitBtn = document.getElementById('submit-btn');
+            const errorDiv = document.getElementById('error-message');
+            
+            // Reset error
+            errorDiv.style.display = 'none';
+            
+            // Disable button
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Verifying...';
+            submitBtn.disabled = true;
+
+            try {
+                // Use dedicated admin login endpoint
+                const response = await fetch(`${API_BASE_URL}/auth/admin-login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
+                
+                const result = await response.json();
+                
+                if (!response.ok) {
+                    throw new Error(result.message || 'Login failed');
+                }
+                
+                // Store auth data
+                localStorage.setItem('authToken', result.token);
+                localStorage.setItem('user', JSON.stringify(result.user));
+                
+                // Redirect to dashboard
+                submitBtn.innerHTML = '<i class="fas fa-check"></i> Success!';
+                setTimeout(() => {
+                    window.location.href = 'admin-dashboard.html';
+                }, 500);
+                
+            } catch (error) {
+                errorDiv.textContent = error.message;
+                errorDiv.style.display = 'block';
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+            }
+        });
+
+        // Console warning
+        console.log('%c⚠️ ADMIN ACCESS ⚠️', 'color: #e74c3c; font-size: 16px; font-weight: bold;');
+        console.log('This is a restricted area. Unauthorized access is prohibited.');
+    </script>
+</body>
+</html>

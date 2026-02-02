@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Management - Admin Dashboard</title>
+    <link href="/css/styles.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    
+    <!-- Auth Guard - Requires admin role -->
+    <script src="/js/auth-guard.js" data-require-auth="true" data-require-role="admin" data-admin-login-page="/pages/admin/login_admin.html"></script>
+    
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --success-color: #27ae60;
+            --warning-color: #f39c12;
+        }
+        
+        body {
+            background: #f5f6fa;
+            min-height: 100vh;
+        }
+        
+        .admin-container {
+            padding: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .admin-header h1 {
+            margin: 0;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .btn-back {
+            background: #95a5a6;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .btn-back:hover {
+            background: #7f8c8d;
+            color: white;
+        }
+        
+        /* Filters */
+        .filters-bar {
+            background: white;
+            padding: 1rem 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .search-input {
+            flex: 1;
+            min-width: 200px;
+            padding: 0.75rem 1rem;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 1rem;
+        }
+        
+        .search-input:focus {
+            outline: none;
+            border-color: var(--secondary-color);
+        }
+        
+        .filter-select {
+            padding: 0.75rem 1rem;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 1rem;
+            background: white;
+        }
+        
+        /* Users Table */
+        .users-table-container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            overflow: hidden;
+        }
+        
+        .users-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .users-table th,
+        .users-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .users-table th {
+            background: #f8f9fa;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+        
+        .users-table tr:hover {
+            background: #f8f9fa;
+        }
+        
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--secondary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .user-name {
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+        
+        .user-email {
+            font-size: 0.85rem;
+            color: #666;
+        }
+        
+        .role-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+        
+        .role-admin {
+            background: #e8f4fd;
+            color: #2980b9;
+        }
+        
+        .role-author {
+            background: #e8f8f5;
+            color: #27ae60;
+        }
+        
+        .role-subscriber {
+            background: #fef9e7;
+            color: #f39c12;
+        }
+        
+        .role-editor {
+            background: #f5eef8;
+            color: #9b59b6;
+        }
+        
+        .subscription-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+        }
+        
+        .sub-active {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .sub-inactive {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        .action-btn {
+            padding: 0.5rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-right: 0.25rem;
+        }
+        
+        .btn-edit {
+            background: #e8f4fd;
+            color: var(--secondary-color);
+        }
+        
+        .btn-delete {
+            background: #fce4e4;
+            color: var(--accent-color);
+        }
+        
+        .btn-edit:hover {
+            background: var(--secondary-color);
+            color: white;
+        }
+        
+        .btn-delete:hover {
+            background: var(--accent-color);
+            color: white;
+        }
+        
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 1.5rem;
+        }
+        
+        .page-btn {
+            padding: 0.5rem 1rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background: white;
+            cursor: pointer;
+        }
+        
+        .page-btn:hover,
+        .page-btn.active {
+            background: var(--secondary-color);
+            color: white;
+            border-color: var(--secondary-color);
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 3rem;
+            color: #666;
+        }
+        
+        .no-users {
+            text-align: center;
+            padding: 3rem;
+            color: #666;
+        }
+        
+        /* Role Edit Modal */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-overlay.active {
+            display: flex;
+        }
+        
+        .modal {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 400px;
+        }
+        
+        .modal h3 {
+            margin: 0 0 1rem;
+            color: var(--primary-color);
+        }
+        
+        .modal-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        
+        .btn-primary {
+            flex: 1;
+            padding: 0.75rem;
+            background: var(--secondary-color);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        
+        .btn-secondary {
+            flex: 1;
+            padding: 0.75rem;
+            background: #eee;
+            color: #333;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        
+        @media (max-width: 768px) {
+            .users-table th:nth-child(4),
+            .users-table td:nth-child(4),
+            .users-table th:nth-child(5),
+            .users-table td:nth-child(5) {
+                display: none;
+            }
+            
+            .filters-bar {
+                flex-direction: column;
+            }
+            
+            .search-input {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-container">
+        <div class="admin-header">
+            <h1><i class="fas fa-users"></i> User Management</h1>
+            <a href="admin-dashboard.html" class="btn-back"><i class="fas fa-arrow-left"></i> Back to Dashboard</a>
+        </div>
+
+        <!-- Filters -->
+        <div class="filters-bar">
+            <input type="text" id="search" class="search-input" placeholder="Search users by name or email...">
+            <select id="role-filter" class="filter-select">
+                <option value="all">All Roles</option>
+                <option value="admin">Admin</option>
+                <option value="author">Author</option>
+                <option value="editor">Editor</option>
+                <option value="subscriber">Subscriber</option>
+            </select>
+        </div>
+
+        <!-- Users Table -->
+        <div class="users-table-container">
+            <table class="users-table">
+                <thead>
+                    <tr>
+                        <th>User</th>
+                        <th>Role</th>
+                        <th>Subscription</th>
+                        <th>Joined</th>
+                        <th>Last Login</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="users-tbody">
+                    <tr><td colspan="6" class="loading"><i class="fas fa-spinner fa-spin"></i> Loading users...</td></tr>
+                </tbody>
+            </table>
+            
+            <div class="pagination" id="pagination"></div>
+        </div>
+    </div>
+
+    <!-- Role Edit Modal -->
+    <div class="modal-overlay" id="role-modal">
+        <div class="modal">
+            <h3>Change User Role</h3>
+            <p>User: <strong id="modal-user-name"></strong></p>
+            <select id="new-role" class="filter-select" style="width: 100%; margin-top: 1rem;">
+                <option value="subscriber">Subscriber</option>
+                <option value="author">Author</option>
+                <option value="editor">Editor</option>
+                <option value="admin">Admin</option>
+            </select>
+            <div class="modal-actions">
+                <button type="button" class="btn-secondary" onclick="closeModal()">Cancel</button>
+                <button type="button" class="btn-primary" onclick="saveRole()">Save</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = window.location.origin;
+        let currentPage = 1;
+        let selectedUserId = null;
+        
+        function getToken() {
+            return localStorage.getItem('authToken');
+        }
+
+        // Load users
+        async function loadUsers(page = 1, search = '', role = 'all') {
+            currentPage = page;
+            const tbody = document.getElementById('users-tbody');
+            tbody.innerHTML = '<tr><td colspan="6" class="loading"><i class="fas fa-spinner fa-spin"></i> Loading users...</td></tr>';
+            
+            try {
+                const params = new URLSearchParams({ page, limit: 10 });
+                if (search) params.append('search', search);
+                if (role !== 'all') params.append('role', role);
+                
+                const response = await fetch(`${API_BASE}/api/admin/users?${params}`, {
+                    headers: {
+                        'Authorization': `Bearer ${getToken()}`
+                    }
+                });
+                
+                if (!response.ok) throw new Error('Failed to load users');
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    renderUsers(result.data);
+                    renderPagination(result.pagination);
+                }
+            } catch (error) {
+                console.error('Error loading users:', error);
+                tbody.innerHTML = '<tr><td colspan="6" class="no-users">Failed to load users. Please try again.</td></tr>';
+            }
+        }
+
+        // Render users table
+        function renderUsers(users) {
+            const tbody = document.getElementById('users-tbody');
+            
+            if (users.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" class="no-users">No users found</td></tr>';
+                return;
+            }
+            
+            tbody.innerHTML = users.map(user => {
+                const initials = (user.name || 'U').charAt(0).toUpperCase();
+                const roleClass = `role-${user.role || 'subscriber'}`;
+                const subStatus = user.subscription?.status === 'active' ? 'sub-active' : 'sub-inactive';
+                const subText = user.subscription?.status === 'active' ? 'Active' : 'None';
+                const joinDate = new Date(user.createdAt).toLocaleDateString();
+                const lastLogin = user.lastLogin ? new Date(user.lastLogin).toLocaleDateString() : 'Never';
+                
+                return `
+                    <tr>
+                        <td>
+                            <div class="user-info">
+                                <div class="user-avatar">${initials}</div>
+                                <div>
+                                    <div class="user-name">${user.name || 'Unknown'}</div>
+                                    <div class="user-email">${user.email}</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td><span class="role-badge ${roleClass}">${user.role || 'subscriber'}</span></td>
+                        <td><span class="subscription-badge ${subStatus}">${subText}</span></td>
+                        <td>${joinDate}</td>
+                        <td>${lastLogin}</td>
+                        <td>
+                            <button type="button" class="action-btn btn-edit" onclick="openRoleModal('${user._id}', '${user.name}', '${user.role}')" title="Edit Role">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button type="button" class="action-btn btn-delete" onclick="deleteUser('${user._id}', '${user.name}')" title="Delete User">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        // Render pagination
+        function renderPagination(pagination) {
+            const container = document.getElementById('pagination');
+            const { page, pages } = pagination;
+            
+            if (pages <= 1) {
+                container.innerHTML = '';
+                return;
+            }
+            
+            let html = '';
+            
+            if (page > 1) {
+                html += `<button type="button" class="page-btn" onclick="loadUsers(${page - 1})"><i class="fas fa-chevron-left"></i></button>`;
+            }
+            
+            for (let i = 1; i <= pages; i++) {
+                if (i === page) {
+                    html += `<button type="button" class="page-btn active">${i}</button>`;
+                } else if (i === 1 || i === pages || (i >= page - 2 && i <= page + 2)) {
+                    html += `<button type="button" class="page-btn" onclick="loadUsers(${i})">${i}</button>`;
+                } else if (i === page - 3 || i === page + 3) {
+                    html += `<span style="padding: 0.5rem">...</span>`;
+                }
+            }
+            
+            if (page < pages) {
+                html += `<button type="button" class="page-btn" onclick="loadUsers(${page + 1})"><i class="fas fa-chevron-right"></i></button>`;
+            }
+            
+            container.innerHTML = html;
+        }
+
+        // Open role edit modal
+        function openRoleModal(userId, userName, currentRole) {
+            selectedUserId = userId;
+            document.getElementById('modal-user-name').textContent = userName;
+            document.getElementById('new-role').value = currentRole || 'subscriber';
+            document.getElementById('role-modal').classList.add('active');
+        }
+
+        // Close modal
+        function closeModal() {
+            document.getElementById('role-modal').classList.remove('active');
+            selectedUserId = null;
+        }
+
+        // Save role
+        async function saveRole() {
+            const newRole = document.getElementById('new-role').value;
+            
+            try {
+                const response = await fetch(`${API_BASE}/api/admin/users/${selectedUserId}/role`, {
+                    method: 'PUT',
+                    headers: {
+                        'Authorization': `Bearer ${getToken()}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ role: newRole })
+                });
+                
+                if (response.ok) {
+                    closeModal();
+                    loadUsers(currentPage, document.getElementById('search').value, document.getElementById('role-filter').value);
+                } else {
+                    const result = await response.json();
+                    alert(result.message || 'Failed to update role');
+                }
+            } catch (error) {
+                console.error('Error updating role:', error);
+                alert('Failed to update role');
+            }
+        }
+
+        // Delete user
+        async function deleteUser(userId, userName) {
+            if (!confirm(`Are you sure you want to delete user "${userName}"? This action cannot be undone.`)) {
+                return;
+            }
+            
+            try {
+                const response = await fetch(`${API_BASE}/api/admin/users/${userId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Authorization': `Bearer ${getToken()}`
+                    }
+                });
+                
+                if (response.ok) {
+                    loadUsers(currentPage, document.getElementById('search').value, document.getElementById('role-filter').value);
+                } else {
+                    const result = await response.json();
+                    alert(result.message || 'Failed to delete user');
+                }
+            } catch (error) {
+                console.error('Error deleting user:', error);
+                alert('Failed to delete user');
+            }
+        }
+
+        // Event listeners
+        document.getElementById('search').addEventListener('input', debounce(function() {
+            loadUsers(1, this.value, document.getElementById('role-filter').value);
+        }, 300));
+
+        document.getElementById('role-filter').addEventListener('change', function() {
+            loadUsers(1, document.getElementById('search').value, this.value);
+        });
+
+        // Debounce helper
+        function debounce(func, wait) {
+            let timeout;
+            return function(...args) {
+                clearTimeout(timeout);
+                timeout = setTimeout(() => func.apply(this, args), wait);
+            };
+        }
+
+        // Load users on page load
+        document.addEventListener('DOMContentLoaded', () => loadUsers());
+    </script>
+</body>
+</html>

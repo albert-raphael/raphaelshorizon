@@ -1,0 +1,159 @@
+[build]
+  publish = "frontend"
+  command = "echo 'Frontend ready for deployment'"
+
+[build.environment]
+  NODE_VERSION = "18"
+
+# API redirects (if using external backend)
+[[redirects]]
+  from = "/api/*"
+  to = "https://raphaelshorizon-backend.onrender.com/api/:splat"
+  status = 200
+
+# Admin page redirects
+[[redirects]]
+  from = "/admin"
+  to = "/pages/admin/login_admin.html"
+  status = 200
+
+[[redirects]]
+  from = "/admin/*"
+  to = "/pages/admin/:splat"
+  status = 200
+
+# Main page routes
+[[redirects]]
+  from = "/books"
+  to = "/pages/books/books.html"
+  status = 200
+
+[[redirects]]
+  from = "/books/*"
+  to = "/pages/books/:splat"
+  status = 200
+
+[[redirects]]
+  from = "/about"
+  to = "/pages/about/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/about/*"
+  to = "/pages/about/:splat"
+  status = 200
+
+[[redirects]]
+  from = "/contact"
+  to = "/pages/contact/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/contact/*"
+  to = "/pages/contact/:splat"
+  status = 200
+
+[[redirects]]
+  from = "/blog"
+  to = "/pages/blog/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/blog/*"
+  to = "/pages/blog/:splat"
+  status = 200
+
+[[redirects]]
+  from = "/library"
+  to = "/library/"
+  status = 200
+
+[[redirects]]
+  from = "/library/*"
+  to = "/library/:splat"
+  status = 200
+
+# Profile routes
+[[redirects]]
+  from = "/profile"
+  to = "/pages/profile/"
+  status = 200
+
+[[redirects]]
+  from = "/profile/*"
+  to = "/pages/profile/:splat"
+  status = 200
+
+# SPA fallback for any other routes - serve index.html
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+# Security headers
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-XSS-Protection = "1; mode=block"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+
+[[headers]]
+  for = "/api/*"
+  [headers.values]
+    Access-Control-Allow-Origin = "*"
+    Access-Control-Allow-Methods = "GET, POST, PUT, DELETE, OPTIONS"
+    Access-Control-Allow-Headers = "Content-Type, Authorization"
+
+[[headers]]
+  for = "*.js"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "*.css"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "*.png"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "*.jpg"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "*.webp"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Netlify.toml updates
+
+# Audiobookshelf redirect
+[[redirects]]
+  from = "/audiobooks/*"
+  to = "https://raphaelshorizon.com/audiobookshelf/:splat"
+  status = 200
+  force = true
+
+# Calibre-Web redirect
+[[redirects]]
+  from = "/books-web/*"
+  to = "https://raphaelshorizon.com/calibre/:splat"
+  status = 200
+  force = true
+
+# Library routes - point to your main library page
+[[redirects]]
+  from = "/library/audiobooks/*"
+  to = "/pages/library/audiobooks.html"
+  status = 200
+
+[[redirects]]
+  from = "/library/books/*"
+  to = "/pages/library/books.html"
+  status = 200

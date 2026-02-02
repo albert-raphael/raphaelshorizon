@@ -1,0 +1,168 @@
+[
+  {
+    "_id": "mk0kkwh7",
+    "name": "Smoke",
+    "email": "smoke+1767581824144@example.com",
+    "password": "$2a$10$NKKlVAqAdSOtz1sB5dohXu/hn.t.9Onjbd4SzmEjf7GJY4q.U4O2m",
+    "role": "author",
+    "avatar": "default-avatar.jpg",
+    "createdAt": "2026-01-05T02:57:04.363Z",
+    "lastLogin": "2026-01-05T02:57:04.531Z"
+  },
+  {
+    "_id": "mk0kpf8w",
+    "name": "Smoke",
+    "email": "smoke+1767582035105@example.com",
+    "password": "$2a$10$WFcUtXjDuKGnLef4jjWzYen2HKycIThDigHLY44ICAvQaO8QH7faq",
+    "role": "author",
+    "avatar": "default-avatar.jpg",
+    "createdAt": "2026-01-05T03:00:35.312Z",
+    "lastLogin": "2026-01-05T03:00:35.477Z"
+  },
+  {
+    "_id": "mk0kud88",
+    "name": "Smoke",
+    "email": "smoke+1767582265841@example.com",
+    "password": "$2a$10$rw.qECqvLxhc7f7ya0fKzukNQGiq9cvuLlf.GHpKnGdzQ59JyM6va",
+    "role": "author",
+    "avatar": "default-avatar.jpg",
+    "createdAt": "2026-01-05T03:04:25.977Z",
+    "lastLogin": "2026-01-05T03:04:26.065Z",
+    "subscription": {
+      "provider": "simulated",
+      "subscriptionId": "SIM-1767582266080",
+      "planId": "monthly",
+      "status": "active",
+      "currentPeriodEnd": "2026-02-04T03:04:26.080Z"
+    }
+  },
+  {
+    "_id": "mk0lc9hz",
+    "name": "Smoke",
+    "email": "smoke+1767583100574@example.com",
+    "password": "$2a$10$1sSYQ6pJp3IUUtTqCp9CcOMDfQ.aUi59k2kl8FNiGbdsCS8xKJdxq",
+    "role": "author",
+    "avatar": "default-avatar.jpg",
+    "createdAt": "2026-01-05T03:18:20.952Z",
+    "lastLogin": "2026-01-05T03:18:21.170Z",
+    "subscription": {
+      "provider": "simulated",
+      "subscriptionId": "SIM-1767583101198",
+      "planId": "monthly",
+      "status": "active",
+      "currentPeriodEnd": "2026-02-04T03:18:21.198Z"
+    }
+  },
+  {
+    "_id": "mk0lh3c0",
+    "name": "Smoke",
+    "email": "smoke+1767583325975@example.com",
+    "password": "$2a$10$aw4UR9dM1kCleTWViXOzTO7IK0lG6Y/TtWlpsFfOxkIyQISdVgdS2",
+    "role": "author",
+    "avatar": "default-avatar.jpg",
+    "createdAt": "2026-01-05T03:22:06.240Z",
+    "lastLogin": "2026-01-05T03:22:06.466Z",
+    "subscription": {
+      "provider": "simulated",
+      "subscriptionId": "SIM-1767583326491",
+      "planId": "monthly",
+      "status": "active",
+      "currentPeriodEnd": "2026-02-04T03:22:06.491Z"
+    }
+  },
+  {
+    "_id": "mk0m536f",
+    "name": "Smoke",
+    "email": "smoke+1767584445509@example.com",
+    "password": "$2a$10$AFrP.jWiIgMvwbBgf.T2Xu.kvvkGPKa8/iMK/J/HLOn/VjALwe2Ny",
+    "role": "author",
+    "avatar": "default-avatar.jpg",
+    "createdAt": "2026-01-05T03:40:45.783Z",
+    "lastLogin": "2026-01-05T03:40:45.934Z",
+    "subscription": {
+      "provider": "simulated",
+      "subscriptionId": "SIM-1767584445954",
+      "planId": "monthly",
+      "status": "active",
+      "currentPeriodEnd": "2026-02-04T03:40:45.954Z"
+    }
+  },
+  {
+    "_id": "mk0m68nw",
+    "name": "Smoke",
+    "email": "smoke1767588099@example.com",
+    "password": "$2a$10$DpCXmbsOldNr95CRje0OEuMTSvoez/MdsIvkMr6m8u8iEjW6mI.Xi",
+    "role": "author",
+    "avatar": "default-avatar.jpg",
+    "createdAt": "2026-01-05T03:41:39.548Z",
+    "lastLogin": "2026-01-05T03:41:39.741Z",
+    "subscription": {
+      "provider": "simulated",
+      "subscriptionId": "SIM-1767584499765",
+      "planId": "monthly",
+      "status": "active",
+      "currentPeriodEnd": "2026-02-04T03:41:39.765Z"
+    }
+  },
+  {
+    "_id": "mk0m755e",
+    "name": "Smoke",
+    "email": "smoke+1767584541452@example.com",
+    "password": "$2a$10$whOLTpAJeID3Onl3D5wuj.ds3Gti49NEzwyqpNlW0RYAoT3VS8fRi",
+    "role": "author",
+    "avatar": "default-avatar.jpg",
+    "createdAt": "2026-01-05T03:42:21.650Z",
+    "lastLogin": "2026-01-05T03:42:21.771Z",
+    "subscription": {
+      "provider": "simulated",
+      "subscriptionId": "SIM-1767584541786",
+      "planId": "monthly",
+      "status": "active",
+      "currentPeriodEnd": "2026-02-04T03:42:21.786Z"
+    }
+  },
+  {
+    "_id": "mk0okesz",
+    "name": "Smoke",
+    "email": "smoke+1767588519634@example.com",
+    "password": "$2a$10$DPU8MPi02GSkSkdytQPApu2ihe7AlPT5cE.xx0gt4RaDX3ArSuAlq",
+    "role": "author",
+    "avatar": "default-avatar.jpg",
+    "createdAt": "2026-01-05T04:48:39.923Z",
+    "lastLogin": "2026-01-05T04:48:40.108Z",
+    "subscription": {
+      "provider": "simulated",
+      "subscriptionId": "SIM-1767588520127",
+      "planId": "monthly",
+      "status": "active",
+      "currentPeriodEnd": "2026-02-04T04:48:40.127Z"
+    }
+  },
+  {
+    "_id": "mk0osqub",
+    "name": "TmpSmoke",
+    "email": "tmp-1767588908523@example.com",
+    "password": "$2a$10$AdO41dcX7H9T6puySEBhU.GZR/LCKUhuZOC.okwg4tdtTXWJn8hr6",
+    "role": "author",
+    "avatar": "default-avatar.jpg",
+    "createdAt": "2026-01-05T04:55:08.771Z",
+    "lastLogin": "2026-01-05T04:55:08.925Z",
+    "subscription": {
+      "provider": "simulated",
+      "subscriptionId": "SIM-1767588908942",
+      "planId": "monthly",
+      "status": "active",
+      "currentPeriodEnd": "2026-02-04T04:55:08.942Z"
+    }
+  },
+  {
+    "_id": "admin_ml1nmqf8",
+    "name": "Administrator",
+    "email": "admin@raphaelshorizon.com",
+    "password": "$2a$10$5GP.LY6ggT63nN8ffg2d9uNwjleGldaAgCC3OQwTkCX27rFpkkU0a",
+    "role": "admin",
+    "avatar": "default-avatar.jpg",
+    "createdAt": "2026-01-31T01:49:57.190Z",
+    "lastLogin": "2026-01-31T01:49:57.191Z"
+  }
+]

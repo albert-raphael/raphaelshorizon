@@ -1,0 +1,36 @@
+{
+  "posts": [
+    {
+      "id": 1,
+      "title": "About Raphael's Horizon",
+      "slug": "about-raphaels-horizon",
+      "excerpt": "Discover the mission and vision behind Raphael's Horizon and our commitment to unveiling God's promises.",
+      "content": "<p>At Raphael's Horizon, we are dedicated to the pursuit of unveiling God's promises through boundless possibilities...</p>",
+      "category": "Our Mission",
+      "tags": ["mission", "purpose", "vision"],
+      "featuredImage": "../../assets/images/blog-post-1.png",
+      "author": "Assimagbe Albert Raphael",
+      "date": "2025-01-15",
+      "readTime": 5,
+      "views": 1243,
+      "status": "published",
+      "featured": true
+    },
+    {
+      "id": 2,
+      "title": "Embracing the Journey: Unlocking the Power Within",
+      "slug": "embracing-the-journey",
+      "excerpt": "Life is a remarkable journey filled with moments that shape us into who we are meant to be.",
+      "content": "<p>Life is a remarkable journey, filled with twists and turns, highs and lows, and moments that shape us into who we are meant to be...</p>",
+      "category": "Personal Growth",
+      "tags": ["journey", "growth", "purpose"],
+      "featuredImage": "../../assets/images/blog-post-2.jpg",
+      "author": "Assimagbe Albert Raphael",
+      "date": "2025-01-12",
+      "readTime": 4,
+      "views": 987,
+      "status": "published",
+      "featured": false
+    }
+  ]
+}

@@ -1,0 +1,233 @@
+/* Admin Login Styles */
+:root {
+    --primary-color: #667eea;
+    --primary-dark: #764ba2;
+    --secondary-color: #3498db;
+    --danger-color: #e74c3c;
+    --warning-color: #f39c12;
+    --success-color: #2ecc71;
+    --dark-color: #2c3e50;
+    --light-color: #ecf0f1;
+    --border-color: #e0e6ed;
+    --text-color: #2c3e50;
+    --text-light: #7f8c8d;
+    --shadow-sm: 0 2px 4px rgba(0,0,0,0.1);
+    --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+    --shadow-lg: 0 10px 20px rgba(0,0,0,0.1);
+    --shadow-xl: 0 20px 60px rgba(0,0,0,0.3);
+    --radius-sm: 4px;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+    --radius-xl: 16px;
+    --transition: all 0.3s ease;
+}
+
+/* Login container animations */
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.login-container {
+    animation: slideInUp 0.6s ease;
+}
+
+/* Loading animation */
+.loading-spinner {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 3px solid rgba(255,255,255,0.3);
+    border-radius: 50%;
+    border-top-color: white;
+    animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Error states */
+.form-input.error {
+    border-color: var(--danger-color);
+    background: rgba(231, 76, 60, 0.05);
+}
+
+.form-input.success {
+    border-color: var(--success-color);
+    background: rgba(46, 204, 113, 0.05);
+}
+
+/* Security monitoring */
+#security-monitor {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: rgba(44, 62, 80, 0.9);
+    color: white;
+    padding: 10px 15px;
+    border-radius: var(--radius-md);
+    font-size: 0.8rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    backdrop-filter: blur(10px);
+    z-index: 1000;
+}
+
+/* IP display */
+.ip-display {
+    font-family: monospace;
+    background: rgba(0,0,0,0.2);
+    padding: 2px 6px;
+    border-radius: var(--radius-sm);
+}
+
+/* Session timeout warning */
+.session-timeout-warning {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: var(--warning-color);
+    color: white;
+    padding: 15px 20px;
+    border-radius: var(--radius-md);
+    animation: slideInRight 0.3s ease;
+    z-index: 1001;
+}
+
+/* Login attempts warning */
+.attempts-warning {
+    color: var(--warning-color) !important;
+    font-weight: 600;
+}
+
+.attempts-danger {
+    color: var(--danger-color) !important;
+    font-weight: 600;
+}
+
+/* Captcha */
+.captcha-container {
+    background: var(--light-color);
+    padding: 15px;
+    border-radius: var(--radius-md);
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.captcha-text {
+    font-family: monospace;
+    font-size: 1.5rem;
+    letter-spacing: 3px;
+    background: white;
+    padding: 10px;
+    border-radius: var(--radius-sm);
+    margin-bottom: 10px;
+    user-select: none;
+}
+
+.captcha-input {
+    text-align: center;
+    font-family: monospace;
+    letter-spacing: 3px;
+}
+
+/* Remember device */
+.remember-device {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 1rem;
+}
+
+.remember-device input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+}
+
+.remember-device label {
+    color: var(--text-light);
+    font-size: 0.9rem;
+    cursor: pointer;
+}
+
+/* Login history */
+.login-history {
+    position: fixed;
+    bottom: 70px;
+    right: 20px;
+    background: rgba(44, 62, 80, 0.9);
+    color: white;
+    padding: 10px;
+    border-radius: var(--radius-md);
+    font-size: 0.7rem;
+    max-width: 300px;
+    backdrop-filter: blur(10px);
+    z-index: 999;
+}
+
+.login-history h4 {
+    margin-bottom: 5px;
+    font-size: 0.8rem;
+}
+
+.login-history ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.login-history li {
+    padding: 2px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.login-history li:last-child {
+    border-bottom: none;
+}
+
+/* Keyboard navigation */
+.keyboard-hint {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    background: rgba(44, 62, 80, 0.9);
+    color: white;
+    padding: 10px 15px;
+    border-radius: var(--radius-md);
+    font-size: 0.8rem;
+    backdrop-filter: blur(10px);
+}
+
+/* Security level indicator */
+.security-level {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    margin-left: 10px;
+}
+
+.security-level.high {
+    background: rgba(46, 204, 113, 0.2);
+    color: var(--success-color);
+}
+
+.security-level.medium {
+    background: rgba(243, 156, 18, 0.2);
+    color: var(--warning-color);
+}
+
+.security-level.low {
+    background: rgba(231, 76, 60, 0.2);
+    color: var(--danger-color);
+}

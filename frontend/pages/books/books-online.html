@@ -1,0 +1,3133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Professional Online Books Library | Raphael's Horizon</title>
+    <meta name="description" content="World-class professional online book reader with Calibre-Web integration. Experience premium reading with advanced features and seamless navigation.">
+    <meta name="keywords" content="online books, professional reader, Calibre-Web, digital library, ebook reader">
+    <meta property="og:title" content="Professional Online Books Library | Raphael's Horizon">
+    <meta property="og:description" content="Experience premium online reading with world-class features and Calibre-Web integration.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://raphaelshorizon.com/books/online">
+    <meta name="twitter:card" content="summary_large_image">
+    
+    <!-- Authentication Guard -->
+    <script src="/js/auth-guard.js" data-require-auth="true"></script>
+    
+    <!-- Favicon -->
+    <link rel="icon" href="/assets/icons/favicon.ico" type="image/x-icon">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* ============================================
+           CSS VARIABLES & DARK MODE
+           ============================================ */
+        :root {
+            --primary-color: #1a365d;
+            --primary-dark: #0d1b2a;
+            --primary-light: #2d4a7d;
+            --secondary-color: #2d6a4f;
+            --secondary-dark: #1b4332;
+            --secondary-light: #3a8a66;
+            --accent-color: #e63946;
+            --accent-light: #ff6b6b;
+            --warning-color: #ffb74d;
+            --info-color: #64b5f6;
+            --success-color: #81c784;
+            
+            --light-bg: #f8f9fa;
+            --light-gray: #e9ecef;
+            --medium-gray: #adb5bd;
+            --dark-gray: #495057;
+            --text-color: #2d3748;
+            --text-light: #718096;
+            --white: #ffffff;
+            --black: #000000;
+            --border-color: #e2e8f0;
+            
+            --shadow-sm: 0 2px 8px rgba(0,0,0,0.08);
+            --shadow-md: 0 4px 16px rgba(0,0,0,0.12);
+            --shadow-lg: 0 10px 30px rgba(0,0,0,0.15);
+            --shadow-xl: 0 20px 50px rgba(0,0,0,0.2);
+            
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 20px;
+            --radius-xl: 30px;
+            
+            --transition-fast: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-slow: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            
+            --gradient-primary: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-color) 100%);
+            --gradient-accent: linear-gradient(135deg, var(--secondary-color), var(--accent-color));
+            --gradient-light: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+            --gradient-hero: linear-gradient(135deg, #0d1b2a 0%, #1a365d 50%, #2d4a7d 100%);
+            --gradient-stat: linear-gradient(135deg, #1a365d 0%, #2d6a4f 100%);
+            --gradient-footer: linear-gradient(135deg, #0d1b2a 0%, #1a202c 100%);
+        }
+
+        [data-theme="dark"] {
+            --primary-color: #2d3748;
+            --primary-dark: #1a202c;
+            --primary-light: #4a5568;
+            --secondary-color: #2c7a7b;
+            --secondary-dark: #234e52;
+            --secondary-light: #38b2ac;
+            --accent-color: #e53e3e;
+            --accent-light: #fc8181;
+            
+            --light-bg: #1a202c;
+            --light-gray: #2d3748;
+            --medium-gray: #4a5568;
+            --dark-gray: #718096;
+            --text-color: #e2e8f0;
+            --text-light: #a0aec0;
+            --white: #2d3748;
+            --black: #ffffff;
+            --border-color: #4a5568;
+            
+            --shadow-sm: 0 2px 8px rgba(0,0,0,0.3);
+            --shadow-md: 0 4px 16px rgba(0,0,0,0.4);
+            --shadow-lg: 0 10px 30px rgba(0,0,0,0.5);
+            --shadow-xl: 0 20px 50px rgba(0,0,0,0.6);
+            
+            --gradient-light: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
+            --gradient-hero: linear-gradient(135deg, #0d1b2a 0%, #1a365d 50%, #2d4a7d 100%);
+            --gradient-stat: linear-gradient(135deg, #1a202c 0%, #2c7a7b 100%);
+            --gradient-footer: linear-gradient(135deg, #0d1b2a 0%, #1a202c 100%);
+        }
+
+        /* ============================================
+           BASE STYLES & RESET
+           ============================================ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            color: var(--text-color);
+            background: var(--light-bg);
+            line-height: 1.6;
+            transition: background-color 0.5s ease, color 0.5s ease;
+            overflow-x: hidden;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* ============================================
+           HEADER & NAVIGATION - WORLD CLASS
+           ============================================ */
+        .main-header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        [data-theme="dark"] .main-header {
+            background: rgba(26, 32, 44, 0.95);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .header-scrolled {
+            background: rgba(255, 255, 255, 0.98) !important;
+            backdrop-filter: blur(30px) !important;
+            -webkit-backdrop-filter: blur(30px) !important;
+            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.12) !important;
+            padding: 5px 0 !important;
+        }
+
+        [data-theme="dark"] .header-scrolled {
+            background: rgba(26, 32, 44, 0.98) !important;
+            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.4) !important;
+        }
+
+        .main-nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px 0;
+            transition: padding 0.3s ease;
+        }
+
+        .header-scrolled .main-nav {
+            padding: 10px 0;
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo-link {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            text-decoration: none;
+            color: var(--text-color);
+            position: relative;
+        }
+
+        .nav-logo {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            border: 2px solid transparent;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color)) border-box;
+        }
+
+        .logo-link:hover .nav-logo {
+            transform: rotate(10deg) scale(1.1);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .brand-name {
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.5px;
+        }
+
+        .nav-menu {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+            list-style: none;
+        }
+
+        .nav-link {
+            padding: 10px 18px;
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 600;
+            border-radius: var(--radius-md);
+            transition: all 0.3s ease;
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.95rem;
+        }
+
+        .nav-link::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--secondary-color), var(--accent-color));
+            border-radius: 1px;
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+
+        .nav-link:hover::before,
+        .nav-link.active::before {
+            width: 80%;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: var(--secondary-color);
+            background: rgba(45, 106, 79, 0.1);
+        }
+
+        .nav-donate .btn-donate {
+            background: linear-gradient(135deg, var(--accent-color), var(--accent-light));
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: var(--radius-md);
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            text-decoration: none;
+            box-shadow: 0 4px 15px rgba(230, 57, 70, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-donate .btn-donate::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .nav-donate .btn-donate:hover::before {
+            left: 100%;
+        }
+
+        .nav-donate .btn-donate:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(230, 57, 70, 0.4);
+        }
+
+        .nav-donate .btn-donate:active {
+            transform: translateY(-1px);
+        }
+
+        /* ============================================
+           HERO SECTION - WORLD CLASS
+           ============================================ */
+        .professional-hero {
+            padding: 200px 0 120px;
+            background: var(--gradient-hero);
+            color: var(--white);
+            position: relative;
+            overflow: hidden;
+            min-height: 800px;
+            display: flex;
+            align-items: center;
+        }
+
+        .hero-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 10% 20%, rgba(255, 255, 255, 0.15) 0%, transparent 40%),
+                radial-gradient(circle at 90% 30%, rgba(45, 106, 79, 0.2) 0%, transparent 40%),
+                radial-gradient(circle at 50% 80%, rgba(230, 57, 70, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 30% 50%, rgba(64, 123, 255, 0.1) 0%, transparent 40%);
+            animation: float 25s ease-in-out infinite alternate;
+            z-index: 1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .hero-title {
+            font-size: 4.5rem;
+            font-weight: 900;
+            margin-bottom: 1.5rem;
+            letter-spacing: -2px;
+            line-height: 1.1;
+            background: linear-gradient(135deg, #ffffff 0%, rgba(255, 255, 255, 0.9) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+            animation: fadeInUp 0.8s ease-out;
+            position: relative;
+            display: inline-block;
+        }
+
+        .hero-title::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--secondary-color), var(--accent-color));
+            border-radius: 2px;
+        }
+
+        .hero-subtitle {
+            font-size: 1.5rem;
+            opacity: 0.95;
+            margin-bottom: 3rem;
+            font-weight: 400;
+            line-height: 1.8;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            color: rgba(255, 255, 255, 0.95);
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            animation: fadeInUp 0.8s ease-out 0.2s both;
+        }
+
+        .hero-features {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            margin-top: 4rem;
+            animation: fadeInUp 0.8s ease-out 0.4s both;
+        }
+
+        .hero-feature {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 18px 32px;
+            border-radius: 60px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: white;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-feature::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .hero-feature:hover::before {
+            left: 100%;
+        }
+
+        .hero-feature:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-8px) scale(1.05);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+            border-color: rgba(255, 255, 255, 0.4);
+        }
+
+        .hero-feature i {
+            font-size: 1.4rem;
+            color: var(--accent-light);
+            text-shadow: 0 0 15px rgba(255, 107, 107, 0.7);
+            transition: transform 0.3s ease;
+        }
+
+        .hero-feature:hover i {
+            transform: scale(1.2) rotate(10deg);
+        }
+
+        /* ============================================
+           LIBRARY SECTION - WORLD CLASS
+           ============================================ */
+        .professional-library {
+            padding: 120px 0;
+            background: var(--light-bg);
+            transition: background-color 0.5s ease;
+            position: relative;
+        }
+
+        .professional-library::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--border-color), transparent);
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 80px;
+        }
+
+        .section-title {
+            font-size: 3.5rem;
+            font-weight: 900;
+            color: var(--text-color);
+            margin-bottom: 1.5rem;
+            letter-spacing: -1px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: var(--gradient-accent);
+            border-radius: 2px;
+            box-shadow: 0 4px 15px rgba(45, 106, 79, 0.3);
+        }
+
+        .section-subtitle {
+            font-size: 1.3rem;
+            color: var(--text-light);
+            max-width: 800px;
+            margin: 2.5rem auto 2rem;
+            line-height: 1.8;
+            padding: 0 20px;
+        }
+
+        .embedded-library-container {
+            background: var(--white);
+            border-radius: var(--radius-xl);
+            overflow: hidden;
+            box-shadow: var(--shadow-xl);
+            margin-bottom: 60px;
+            border: 1px solid var(--border-color);
+            position: relative;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            transform: translateY(0);
+        }
+
+        [data-theme="dark"] .embedded-library-container {
+            background: var(--primary-dark);
+            border-color: var(--border-color);
+        }
+
+        .embedded-library-container::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, var(--secondary-color), var(--accent-color), var(--primary-color));
+            border-radius: var(--radius-xl);
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .embedded-library-container:hover::before {
+            opacity: 0.3;
+        }
+
+        .embedded-library-container:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.15);
+        }
+
+        .embedded-library-header {
+            background: var(--gradient-light);
+            padding: 25px 40px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            position: relative;
+        }
+
+        [data-theme="dark"] .embedded-library-header {
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary-color));
+        }
+
+        .library-info {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .library-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--gradient-accent);
+            border-radius: var(--radius-lg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-size: 1.8rem;
+            box-shadow: var(--shadow-lg);
+            transition: transform 0.3s ease;
+        }
+
+        .library-info:hover .library-icon {
+            transform: rotate(15deg) scale(1.1);
+        }
+
+        .library-text h3 {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: var(--text-color);
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
+        }
+
+        .library-text p {
+            font-size: 1rem;
+            color: var(--text-light);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .library-text p::before {
+            content: '•';
+            color: var(--secondary-color);
+            font-size: 1.5rem;
+        }
+
+        .library-controls {
+            display: flex;
+            gap: 20px;
+        }
+
+        .library-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 24px;
+            background: var(--white);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--text-color);
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: var(--shadow-sm);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .library-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(0, 0, 0, 0.05);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .library-btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .library-btn:hover {
+            background: var(--light-gray);
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .library-btn.primary {
+            background: var(--gradient-accent);
+            color: var(--white);
+            border: none;
+            box-shadow: 0 6px 20px rgba(45, 106, 79, 0.4);
+        }
+
+        .library-btn.primary:hover {
+            background: linear-gradient(135deg, var(--secondary-dark), var(--secondary-color));
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(45, 106, 79, 0.5);
+        }
+
+        /* ============================================
+           IFRAME & CONTROLS - WORLD CLASS
+           ============================================ */
+        .iframe-container {
+            position: relative;
+            width: 100%;
+            min-height: 500px;
+            background: var(--white);
+        }
+
+        .embedded-library-frame {
+            width: 100%;
+            height: 800px;
+            border: none;
+            display: block;
+            transition: all 0.4s ease;
+            background: var(--white);
+            position: relative;
+            z-index: 2;
+        }
+
+        .iframe-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.98);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 3;
+            transition: opacity 0.4s ease;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+
+        [data-theme="dark"] .iframe-overlay {
+            background: rgba(13, 27, 42, 0.98);
+            color: white;
+        }
+
+        .loading-spinner {
+            text-align: center;
+            padding: 60px;
+            max-width: 400px;
+        }
+
+        .spinner {
+            width: 60px;
+            height: 60px;
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            border-top: 4px solid var(--secondary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 30px;
+            box-shadow: 0 4px 15px rgba(45, 106, 79, 0.3);
+        }
+
+        .loading-spinner p {
+            font-size: 1.1rem;
+            color: var(--text-color);
+            margin-bottom: 25px;
+            font-weight: 500;
+        }
+
+        .btn-retry {
+            background: var(--gradient-accent);
+            color: white;
+            border: none;
+            padding: 14px 28px;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(45, 106, 79, 0.3);
+        }
+
+        .btn-retry:hover {
+            background: linear-gradient(135deg, var(--secondary-dark), var(--secondary-color));
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(45, 106, 79, 0.4);
+        }
+
+        .error-hint {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            margin-top: 15px;
+            opacity: 0.8;
+        }
+
+        .embedded-library-footer {
+            padding: 25px 40px;
+            background: var(--light-gray);
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        [data-theme="dark"] .embedded-library-footer {
+            background: var(--primary-color);
+        }
+
+        .security-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 0.95rem;
+            color: var(--text-light);
+        }
+
+        .security-info i {
+            color: var(--success-color);
+            font-size: 1.2rem;
+            animation: pulse 2s infinite;
+        }
+
+        .view-toggle {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .view-label {
+            font-size: 0.95rem;
+            color: var(--text-light);
+            font-weight: 700;
+        }
+
+        .view-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            background: var(--white);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: var(--text-color);
+            font-weight: 600;
+        }
+
+        .view-btn.active {
+            background: var(--primary-color);
+            color: var(--white);
+            border-color: var(--primary-color);
+            box-shadow: 0 4px 15px rgba(26, 53, 93, 0.3);
+        }
+
+        .view-btn:hover:not(.active) {
+            background: var(--light-gray);
+            transform: translateY(-2px);
+        }
+
+        /* ============================================
+           QUICK ACCESS & FEATURES - WORLD CLASS
+           ============================================ */
+        .quick-access {
+            background: var(--gradient-light);
+            border-radius: var(--radius-xl);
+            padding: 60px;
+            margin: 80px 0;
+            box-shadow: var(--shadow-xl);
+            border: 1px solid var(--border-color);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        [data-theme="dark"] .quick-access {
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary-color));
+        }
+
+        .quick-access h3 {
+            font-size: 2.2rem;
+            color: var(--text-color);
+            margin-bottom: 50px;
+            font-weight: 800;
+            position: relative;
+            display: inline-block;
+        }
+
+        .quick-access h3::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background: var(--gradient-accent);
+            border-radius: 2px;
+        }
+
+        .access-buttons {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .access-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            padding: 40px 30px;
+            background: var(--white);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-xl);
+            text-decoration: none;
+            color: var(--text-color);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            text-align: center;
+            box-shadow: var(--shadow-lg);
+            position: relative;
+            overflow: hidden;
+        }
+
+        [data-theme="dark"] .access-btn {
+            background: var(--primary-dark);
+            border-color: var(--border-color);
+        }
+
+        .access-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--gradient-accent);
+            transform: translateY(-100%);
+            transition: transform 0.4s ease;
+        }
+
+        .access-btn:hover::before {
+            transform: translateY(0);
+        }
+
+        .access-btn:hover {
+            transform: translateY(-12px) scale(1.03);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+            border-color: var(--secondary-color);
+        }
+
+        .access-btn i {
+            font-size: 3rem;
+            color: var(--secondary-color);
+            background: linear-gradient(135deg, var(--secondary-color), var(--accent-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            transition: transform 0.3s ease;
+        }
+
+        .access-btn:hover i {
+            transform: scale(1.2) rotate(10deg);
+        }
+
+        .access-btn span {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--text-color);
+            transition: color 0.3s ease;
+        }
+
+        .access-btn small {
+            font-size: 0.95rem;
+            color: var(--text-light);
+            margin-top: 8px;
+            line-height: 1.5;
+        }
+
+        .library-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 40px;
+            margin-top: 80px;
+        }
+
+        .feature-card {
+            background: var(--white);
+            border-radius: var(--radius-xl);
+            padding: 50px 40px;
+            text-align: center;
+            box-shadow: var(--shadow-xl);
+            border: 1px solid var(--border-color);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        [data-theme="dark"] .feature-card {
+            background: var(--primary-dark);
+            border-color: var(--border-color);
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--gradient-accent);
+            border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+            transition: height 0.4s ease;
+        }
+
+        .feature-card:hover::before {
+            height: 8px;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-15px) scale(1.02);
+            box-shadow: 0 35px 60px rgba(0, 0, 0, 0.15);
+            border-color: var(--secondary-color);
+        }
+
+        .feature-icon {
+            width: 100px;
+            height: 100px;
+            background: var(--gradient-primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 35px;
+            color: var(--white);
+            font-size: 2.5rem;
+            box-shadow: var(--shadow-xl);
+            transition: all 0.4s ease;
+            position: relative;
+            z-index: 1;
+        }
+
+        .feature-card:hover .feature-icon {
+            transform: scale(1.1) rotate(15deg);
+            box-shadow: 0 15px 35px rgba(26, 53, 93, 0.4);
+        }
+
+        .feature-card h4 {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: var(--text-color);
+            margin-bottom: 20px;
+            letter-spacing: -0.5px;
+        }
+
+        .feature-card p {
+            color: var(--text-light);
+            font-size: 1.05rem;
+            line-height: 1.7;
+        }
+
+        /* ============================================
+           STATISTICS - WORLD CLASS
+           ============================================ */
+        .library-stats {
+            margin-top: 100px;
+            padding: 60px;
+            background: var(--gradient-stat);
+            border-radius: var(--radius-xl);
+            color: white;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--shadow-xl);
+        }
+
+        .library-stats::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 20% 80%, rgba(255, 255, 255, 0.15) 0%, transparent 50%);
+        }
+
+        .library-stats h3 {
+            font-size: 2.5rem;
+            margin-bottom: 60px;
+            color: white;
+            position: relative;
+            z-index: 1;
+            font-weight: 800;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 40px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+            justify-content: center;
+            padding: 25px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: var(--radius-lg);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .stat-item:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-5px);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .stat-item i {
+            font-size: 3rem;
+            color: rgba(255, 255, 255, 0.9);
+            transition: transform 0.3s ease;
+        }
+
+        .stat-item:hover i {
+            transform: scale(1.1);
+        }
+
+        .stat-content h4 {
+            font-size: 2.5rem;
+            font-weight: 900;
+            margin: 0;
+            color: white;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            line-height: 1;
+        }
+
+        .stat-content p {
+            margin: 10px 0 0;
+            opacity: 0.9;
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        /* ============================================
+           THEME TOGGLE - WORLD CLASS
+           ============================================ */
+        .theme-toggle-container {
+            position: fixed;
+            top: 140px;
+            right: 30px;
+            z-index: 1000;
+            background: var(--white);
+            border-radius: var(--radius-xl);
+            padding: 12px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+            border: 2px solid var(--secondary-color);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        [data-theme="dark"] .theme-toggle-container {
+            background: var(--primary-dark);
+            border-color: var(--secondary-light);
+        }
+
+        .theme-toggle-container:hover {
+            transform: scale(1.1) rotate(5deg);
+            box-shadow: 0 15px 50px rgba(45, 106, 79, 0.4);
+        }
+
+        .theme-toggle {
+            width: 80px;
+            height: 40px;
+            background: var(--gradient-accent);
+            border-radius: 50px;
+            position: relative;
+            cursor: pointer;
+            border: 3px solid var(--white);
+            box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.2);
+            transition: var(--transition);
+        }
+
+        [data-theme="dark"] .theme-toggle {
+            border-color: var(--primary-dark);
+        }
+
+        .toggle-slider {
+            position: absolute;
+            top: 4px;
+            left: 4px;
+            width: 32px;
+            height: 32px;
+            background: white;
+            border-radius: 50%;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            font-size: 16px;
+            color: var(--secondary-color);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        [data-theme="dark"] .toggle-slider {
+            content: '\f186';
+            transform: translateX(40px);
+            background: #f1c40f;
+            color: #2c3e50;
+        }
+
+        [data-theme="light"] .toggle-slider {
+            content: '\f185';
+            transform: translateX(0);
+            background: #ffffff;
+            color: #f39c12;
+        }
+
+        .theme-toggle:hover .toggle-slider {
+            transform: translateX(40px) scale(1.1);
+        }
+
+        [data-theme="dark"] .theme-toggle:hover .toggle-slider {
+            transform: translateX(0) scale(1.1);
+        }
+
+        .theme-toggle-label {
+            position: absolute;
+            top: -35px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.8rem;
+            font-weight: 800;
+            color: var(--text-color);
+            background: var(--white);
+            padding: 6px 15px;
+            border-radius: var(--radius-md);
+            white-space: nowrap;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--border-color);
+            display: none;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .theme-toggle-container:hover .theme-toggle-label {
+            display: block;
+            animation: fadeInDown 0.3s ease;
+        }
+
+        /* ============================================
+           MODAL & NOTIFICATIONS - WORLD CLASS
+           ============================================ */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            animation: fadeIn 0.4s ease;
+        }
+
+        .modal-content {
+            background: var(--white);
+            border-radius: var(--radius-xl);
+            width: 90%;
+            max-width: 700px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.3);
+            animation: modalSlideUp 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid var(--border-color);
+        }
+
+        [data-theme="dark"] .modal-content {
+            background: var(--primary-dark);
+            border-color: var(--border-color);
+        }
+
+        .modal-header {
+            padding: 30px 40px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--gradient-light);
+            border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+        }
+
+        [data-theme="dark"] .modal-header {
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary-color));
+        }
+
+        .modal-header h3 {
+            font-size: 1.8rem;
+            color: var(--text-color);
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 2rem;
+            cursor: pointer;
+            color: var(--text-light);
+            transition: var(--transition);
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: var(--radius-md);
+            font-weight: 300;
+        }
+
+        .modal-close:hover {
+            background: var(--light-gray);
+            color: var(--text-color);
+            transform: rotate(90deg);
+        }
+
+        .modal-body {
+            padding: 40px;
+        }
+
+        .help-steps {
+            display: flex;
+            flex-direction: column;
+            gap: 35px;
+        }
+
+        .help-step {
+            display: flex;
+            gap: 25px;
+            align-items: flex-start;
+        }
+
+        .step-number {
+            width: 50px;
+            height: 50px;
+            background: var(--gradient-accent);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 1.5rem;
+            flex-shrink: 0;
+            box-shadow: 0 4px 15px rgba(45, 106, 79, 0.3);
+        }
+
+        .step-content h4 {
+            font-size: 1.4rem;
+            color: var(--text-color);
+            margin-bottom: 12px;
+            font-weight: 800;
+        }
+
+        .step-content p {
+            color: var(--text-light);
+            line-height: 1.7;
+            font-size: 1.05rem;
+            margin-bottom: 15px;
+        }
+
+        .step-content ul {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .step-content li {
+            margin-bottom: 10px;
+            color: var(--text-light);
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            font-size: 1rem;
+        }
+
+        .step-content li::before {
+            content: '✓';
+            color: var(--secondary-color);
+            font-weight: 900;
+            font-size: 1rem;
+            margin-top: 2px;
+        }
+
+        .help-tips {
+            background: linear-gradient(135deg, rgba(45, 106, 79, 0.1), rgba(230, 57, 70, 0.1));
+            padding: 30px;
+            border-radius: var(--radius-lg);
+            border: 1px solid rgba(45, 106, 79, 0.2);
+            margin-top: 30px;
+        }
+
+        .help-tips h4 {
+            font-size: 1.4rem;
+            color: var(--text-color);
+            margin-bottom: 20px;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .help-tips h4 i {
+            color: var(--secondary-color);
+        }
+
+        .help-tips ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .help-tips li {
+            padding: 12px 0;
+            color: var(--text-light);
+            font-size: 1rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .help-tips li:last-child {
+            border-bottom: none;
+        }
+
+        .help-tips li::before {
+            content: '▶';
+            color: var(--secondary-color);
+            font-size: 0.9rem;
+            margin-top: 3px;
+        }
+
+        .modal-footer {
+            padding: 25px 40px;
+            border-top: 1px solid var(--border-color);
+            text-align: right;
+            background: var(--light-gray);
+            border-radius: 0 0 var(--radius-xl) var(--radius-xl);
+        }
+
+        [data-theme="dark"] .modal-footer {
+            background: var(--primary-color);
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px 32px;
+            background: var(--gradient-accent);
+            color: white;
+            border: none;
+            border-radius: var(--radius-md);
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            box-shadow: 0 4px 15px rgba(45, 106, 79, 0.3);
+        }
+
+        .btn:hover {
+            background: linear-gradient(135deg, var(--secondary-dark), var(--secondary-color));
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(45, 106, 79, 0.4);
+        }
+
+        .btn-primary {
+            background: var(--gradient-accent);
+        }
+
+        .custom-notification {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            background: var(--white);
+            padding: 20px 25px;
+            border-radius: var(--radius-lg);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            z-index: 10000;
+            transform: translateX(120%);
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            max-width: 450px;
+            border-left: 5px solid var(--success-color);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid var(--border-color);
+        }
+
+        [data-theme="dark"] .custom-notification {
+            background: var(--primary-dark);
+            border-color: var(--border-color);
+        }
+
+        .custom-notification.show {
+            transform: translateX(0);
+        }
+
+        .custom-notification.success {
+            border-left-color: var(--success-color);
+        }
+
+        .custom-notification.info {
+            border-left-color: var(--info-color);
+        }
+
+        .custom-notification.warning {
+            border-left-color: var(--warning-color);
+        }
+
+        .custom-notification.error {
+            border-left-color: var(--accent-color);
+        }
+
+        .custom-notification i {
+            font-size: 1.5rem;
+        }
+
+        .custom-notification.success i {
+            color: var(--success-color);
+        }
+
+        .custom-notification.info i {
+            color: var(--info-color);
+        }
+
+        .custom-notification.warning i {
+            color: var(--warning-color);
+        }
+
+        .custom-notification.error i {
+            color: var(--accent-color);
+        }
+
+        .notification-close {
+            background: none;
+            border: none;
+            color: var(--text-light);
+            cursor: pointer;
+            padding: 5px;
+            border-radius: 4px;
+            transition: var(--transition);
+            margin-left: auto;
+        }
+
+        .notification-close:hover {
+            background: var(--light-gray);
+            color: var(--text-color);
+        }
+
+        /* ============================================
+           FOOTER - WORLD CLASS
+           ============================================ */
+        .professional-footer {
+            background: var(--gradient-footer);
+            color: var(--white);
+            padding: 100px 0 40px;
+            margin-top: 120px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .professional-footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+        }
+
+        .professional-footer a {
+            color: rgba(255, 255, 255, 0.85);
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .professional-footer a:hover {
+            color: var(--white);
+            transform: translateX(5px);
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 60px;
+            margin-bottom: 60px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .footer-brand {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .footer-logo {
+            width: 100px;
+            height: 100px;
+            border-radius: var(--radius-lg);
+            border: 3px solid rgba(255, 255, 255, 0.1);
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            transition: all 0.4s ease;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .footer-logo:hover {
+            transform: rotate(10deg) scale(1.1);
+            border-color: rgba(255, 255, 255, 0.3);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .footer-mission h3 {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            color: white;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        .footer-mission p {
+            color: rgba(255, 255, 255, 0.75);
+            font-size: 1.1rem;
+            line-height: 1.7;
+            max-width: 300px;
+        }
+
+        .footer-nav {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 40px;
+        }
+
+        .footer-nav-column h4 {
+            font-size: 1.2rem;
+            color: white;
+            margin-bottom: 25px;
+            font-weight: 800;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-nav-column h4::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--secondary-color), var(--accent-color));
+            border-radius: 2px;
+        }
+
+        .footer-nav-column ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .footer-nav-column li {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .footer-nav-column li::before {
+            content: '→';
+            color: var(--secondary-color);
+            font-size: 0.9rem;
+            opacity: 0;
+            transition: all 0.3s ease;
+            transform: translateX(-10px);
+        }
+
+        .footer-nav-column li:hover::before {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            color: white;
+            font-size: 1.3rem;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid transparent;
+        }
+
+        .social-links a:hover {
+            background: var(--secondary-color);
+            transform: translateY(-5px) rotate(10deg);
+            border-color: rgba(255, 255, 255, 0.3);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .newsletter-text {
+            color: rgba(255, 255, 255, 0.75);
+            margin-bottom: 15px;
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        .newsletter-form {
+            display: flex;
+            gap: 10px;
+        }
+
+        .newsletter-form input {
+            flex: 1;
+            padding: 14px 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: var(--radius-md);
+            color: white;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .newsletter-form input:focus {
+            outline: none;
+            border-color: var(--secondary-color);
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 0 0 3px rgba(45, 106, 79, 0.3);
+        }
+
+        .newsletter-form input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .btn-subscribe {
+            background: var(--secondary-color);
+            color: white;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            font-size: 1.2rem;
+        }
+
+        .btn-subscribe:hover {
+            background: var(--secondary-dark);
+            transform: rotate(15deg) scale(1.1);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 40px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            z-index: 2;
+        }
+
+        .footer-bottom p {
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 10px;
+            font-size: 0.95rem;
+        }
+
+        .footer-tagline {
+            color: rgba(255, 255, 255, 0.5) !important;
+            font-size: 0.9rem !important;
+            font-style: italic;
+            letter-spacing: 1px;
+        }
+
+        /* ============================================
+           MOBILE MENU STYLES - WORLD CLASS
+           ============================================ */
+        .mobile-menu-toggle {
+            display: none;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 35px;
+            height: 28px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            z-index: 1001;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .mobile-menu-toggle span {
+            display: block;
+            width: 100%;
+            height: 4px;
+            background: var(--text-color);
+            border-radius: 2px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            transform-origin: center;
+        }
+
+        .mobile-menu-toggle.active span:nth-child(1) {
+            transform: rotate(45deg) translate(8px, 8px);
+            background: var(--accent-color);
+        }
+
+        .mobile-menu-toggle.active span:nth-child(2) {
+            opacity: 0;
+            transform: translateX(-20px);
+        }
+
+        .mobile-menu-toggle.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(8px, -8px);
+            background: var(--accent-color);
+        }
+
+        /* ============================================
+           ANIMATIONS - WORLD CLASS
+           ============================================ */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) rotate(0deg);
+            }
+            33% {
+                transform: translateY(-20px) rotate(1deg);
+            }
+            66% {
+                transform: translateY(10px) rotate(-1deg);
+            }
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes modalSlideUp {
+            from {
+                opacity: 0;
+                transform: translateY(60px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+
+        /* ============================================
+           RESPONSIVE DESIGN - WORLD CLASS
+           ============================================ */
+        @media (max-width: 1200px) {
+            .hero-title { font-size: 3.8rem; }
+            .section-title { font-size: 3rem; }
+            .embedded-library-frame { height: 700px; }
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        @media (max-width: 992px) {
+            .hero-title { font-size: 3.2rem; }
+            .section-title { font-size: 2.6rem; }
+            .embedded-library-header { flex-direction: column; text-align: center; gap: 25px; }
+            .library-controls { width: 100%; justify-content: center; }
+            .embedded-library-frame { height: 600px; }
+            .access-buttons { grid-template-columns: repeat(2, 1fr); }
+            .mobile-menu-toggle { display: flex; }
+            .nav-menu {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 85%;
+                max-width: 450px;
+                height: 100vh;
+                background: var(--white);
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 120px 40px 40px;
+                gap: 0;
+                transition: right 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+                overflow-y: auto;
+                box-shadow: -10px 0 50px rgba(0, 0, 0, 0.2);
+            }
+            [data-theme="dark"] .nav-menu {
+                background: var(--primary-dark);
+            }
+            .nav-menu.active {
+                right: 0;
+            }
+            .nav-menu > li {
+                width: 100%;
+                margin-bottom: 20px;
+                opacity: 0;
+                transform: translateX(30px);
+            }
+            .nav-menu > li:last-child {
+                margin-bottom: 0;
+            }
+            .nav-link {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                width: 100%;
+                padding: 18px 25px;
+                border-radius: var(--radius-lg);
+                background: var(--light-bg);
+                color: var(--text-color);
+                font-weight: 700;
+                font-size: 1.1rem;
+                transition: all 0.4s ease;
+            }
+            [data-theme="dark"] .nav-link {
+                background: var(--primary-color);
+            }
+            .nav-link:hover,
+            .nav-link.active {
+                background: var(--secondary-color);
+                color: white;
+                transform: translateX(10px);
+            }
+            .theme-toggle-container {
+                top: 120px;
+                right: 20px;
+                padding: 10px;
+            }
+            .theme-toggle {
+                width: 70px;
+                height: 36px;
+            }
+            .toggle-slider {
+                width: 28px;
+                height: 28px;
+                font-size: 14px;
+            }
+            [data-theme="dark"] .toggle-slider {
+                transform: translateX(36px);
+            }
+            .footer-content {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 50px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .professional-hero {
+                padding: 160px 0 80px;
+                min-height: 700px;
+            }
+            .hero-title {
+                font-size: 2.8rem;
+            }
+            .hero-subtitle {
+                font-size: 1.2rem;
+                padding: 0 15px;
+            }
+            .hero-features {
+                flex-direction: column;
+                align-items: center;
+                gap: 20px;
+            }
+            .hero-feature {
+                width: 100%;
+                max-width: 320px;
+                justify-content: center;
+                padding: 16px 28px;
+            }
+            .section-title {
+                font-size: 2.2rem;
+            }
+            .library-features,
+            .access-buttons {
+                grid-template-columns: 1fr;
+            }
+            .embedded-library-frame {
+                height: 500px;
+            }
+            .quick-access {
+                padding: 40px 25px;
+                margin: 60px 0;
+            }
+            .access-btn {
+                padding: 35px 25px;
+            }
+            .stats-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+            .stat-item {
+                justify-content: flex-start;
+                padding: 20px;
+            }
+            .theme-toggle-container {
+                top: 110px;
+                right: 15px;
+            }
+            .theme-toggle-label {
+                display: none !important;
+            }
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+            .footer-nav {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 30px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .hero-title {
+                font-size: 2.4rem;
+            }
+            .hero-subtitle {
+                font-size: 1.1rem;
+            }
+            .section-title {
+                font-size: 2rem;
+            }
+            .embedded-library-header,
+            .embedded-library-footer {
+                padding: 20px 25px;
+            }
+            .embedded-library-frame {
+                height: 450px;
+            }
+            .feature-card {
+                padding: 40px 25px;
+            }
+            .library-controls {
+                flex-direction: column;
+                width: 100%;
+            }
+            .library-btn {
+                width: 100%;
+                justify-content: center;
+            }
+            .view-toggle {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            .library-stats {
+                padding: 40px 25px;
+            }
+            .modal-content {
+                width: 95%;
+            }
+            .modal-header,
+            .modal-body {
+                padding: 25px;
+            }
+            .footer-nav {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+<style>
+/* INLINE HEADER DONATE OVERRIDE - Hard-coded to bypass cache */
+.nav-donate .btn-donate {
+    background: #ff4444 !important;
+    color: #ffffff !important;
+    font-weight: 800 !important;
+    padding: 10px 22px !important;
+    border-radius: 50px !important;
+    border: 2px solid #ffffff !important;
+    box-shadow: 0 4px 15px rgba(255, 68, 68, 0.4) !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    text-transform: uppercase !important;
+    letter-spacing: 1px !important;
+    transition: all 0.3s ease !important;
+    animation: pulse-red-header 2s infinite !important;
+    margin-left: 15px !important;
+    text-decoration: none !important;
+}
+
+.nav-donate .btn-donate:hover {
+    background: #cc0000 !important;
+    transform: translateY(-2px) scale(1.05) !important;
+    box-shadow: 0 6px 20px rgba(255, 0, 0, 0.6) !important;
+    color: #ffffff !important;
+}
+
+@keyframes pulse-red-header {
+    0% { transform: scale(1); box-shadow: 0 4px 15px rgba(255, 68, 68, 0.4); }
+    50% { transform: scale(1.05); box-shadow: 0 4px 25px rgba(255, 68, 68, 0.7); }
+    100% { transform: scale(1); box-shadow: 0 4px 15px rgba(255, 68, 68, 0.4); }
+}
+</style>
+</head>
+<body>
+    <!-- Professional Header -->
+    <header class="main-header professional-header">
+        <div class="container">
+            <nav class="main-nav" aria-label="Primary navigation">
+                <div class="nav-brand">
+                    <a class="logo-link" href="../../../homepage.html">
+                        <img alt="Raphael's Horizon" class="nav-logo" src="/assets/icons/logo-square.png">
+                        <span class="brand-name">Raphael's Horizon</span>
+                    </a>
+                </div>
+                
+                <ul class="nav-menu">
+                    <li><a class="nav-link" href="../../../homepage.html">
+                        <i class="fas fa-home"></i> Home
+                    </a></li>
+                    <li><a class="nav-link active" href="books-online.html">
+                        <i class="fas fa-book-reader"></i> Read Online
+                    </a></li>
+                    <li><a class="nav-link" href="audio-books.html">
+                        <i class="fas fa-headphones"></i> Audio Books
+                    </a></li>
+                    <li><a class="nav-link" href="../../../pages/about/about-us.html">
+                        <i class="fas fa-info-circle"></i> About
+                    </a></li>
+                    <li class="nav-donate">
+                        <a class="btn-donate" href="../../../donation.html">
+                            <i class="fas fa-heart"></i> Donate
+                        </a>
+                    </li>
+                </ul>
+                
+                <!-- Theme Toggle -->
+                <div class="theme-toggle-container">
+                    <div class="theme-toggle" id="themeToggle">
+                        <div class="toggle-slider"></div>
+                    </div>
+                    <span class="theme-toggle-label">Toggle Theme</span>
+                </div>
+                
+                <div class="mobile-menu-toggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Professional Hero Section -->
+    <section class="professional-hero">
+        <div class="hero-background"></div>
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="hero-title">Professional Online Book Reader</h1>
+                <p class="hero-subtitle">
+                    Experience world-class digital reading with Calibre-Web integration. 
+                    Access thousands of books with professional reading tools, 
+                    seamless navigation, and premium features.
+                </p>
+                
+                <div class="hero-features">
+                    <div class="hero-feature">
+                        <i class="fas fa-shield-alt"></i>
+                        <span>Secure Streaming</span>
+                    </div>
+                    <div class="hero-feature">
+                        <i class="fas fa-bookmark"></i>
+                        <span>Cloud Bookmarks</span>
+                    </div>
+                    <div class="hero-feature">
+                        <i class="fas fa-moon"></i>
+                        <span>Dark Mode</span>
+                    </div>
+                    <div class="hero-feature">
+                        <i class="fas fa-sync-alt"></i>
+                        <span>Sync Across Devices</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Professional Library Section -->
+    <section class="professional-library">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Premium Digital Library</h2>
+                <p class="section-subtitle">
+                    Access our comprehensive collection through Calibre-Web, featuring professional-grade 
+                    reading experience with advanced search, categorization, and reading tools.
+                </p>
+            </div>
+
+            <!-- Enhanced Embedded Library -->
+            <div class="embedded-library-container">
+                <div class="embedded-library-header">
+                    <div class="library-info">
+                        <div class="library-icon">
+                            <i class="fas fa-book"></i>
+                        </div>
+                        <div class="library-text">
+                            <h3>Calibre-Web Professional Edition</h3>
+                            <p>Advanced book management system • Secure streaming • Premium features</p>
+                        </div>
+                    </div>
+                    
+                    <div class="library-controls">
+                        <button class="library-btn" onclick="toggleFullscreen()" title="Toggle fullscreen">
+                            <i class="fas fa-expand"></i> Fullscreen
+                        </button>
+                        <button class="library-btn" onclick="refreshLibrary()" title="Refresh library">
+                            <i class="fas fa-sync-alt"></i> Refresh
+                        </button>
+                        <button class="library-btn primary" onclick="showHelpModal()" title="Show help">
+                            <i class="fas fa-question-circle"></i> Help Guide
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Calibre-Web Iframe -->
+                <div class="iframe-container">
+                    <iframe 
+                        id="calibreFrame"
+                        title="Calibre-Web Professional Digital Library" 
+                        class="embedded-library-frame"
+                        allow="fullscreen"
+                        allowfullscreen
+                        referrerpolicy="strict-origin-when-cross-origin"
+                        sandbox="allow-same-origin allow-scripts allow-forms allow-popups allow-modals"
+                        loading="eager"
+                        src="/calibre/"
+                    ></iframe>
+                    <div class="iframe-overlay" id="iframeLoading">
+                        <div class="loading-spinner">
+                            <div class="spinner"></div>
+                            <p>Loading Calibre-Web Library...</p>
+                            <button type="button" onclick="refreshLibrary()" class="btn-retry">
+                                <i class="fas fa-redo"></i> Retry Connection
+                            </button>
+                            <p class="error-hint">Please ensure Calibre-Web service is running</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="embedded-library-footer">
+                    <div class="security-info">
+                        <i class="fas fa-lock"></i>
+                        <span>Secure HTTPS connection • Read-only access • Protected content</span>
+                    </div>
+                    
+                    <div class="view-toggle">
+                        <span class="view-label">View Mode:</span>
+                        <button class="view-btn active" onclick="setIframeView('standard')" data-view="standard">
+                            <i class="fas fa-desktop"></i> Standard
+                        </button>
+                        <button class="view-btn" onclick="setIframeView('compact')" data-view="compact">
+                            <i class="fas fa-compress"></i> Compact
+                        </button>
+                        <button class="view-btn" onclick="setIframeView('expanded')" data-view="expanded">
+                            <i class="fas fa-expand-alt"></i> Expanded
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Access Panel -->
+            <div class="quick-access">
+                <h3>Quick Access Features</h3>
+                <div class="access-buttons">
+                    <a href="javascript:void(0)" class="access-btn" onclick="navigateToLibrary('recent')">
+                        <i class="fas fa-clock"></i>
+                        <span>Recently Added</span>
+                        <small>Browse the newest additions to our digital collection</small>
+                    </a>
+                    <a href="javascript:void(0)" class="access-btn" onclick="navigateToLibrary('popular')">
+                        <i class="fas fa-fire"></i>
+                        <span>Most Popular</span>
+                        <small>Discover books trending with our readers</small>
+                    </a>
+                    <a href="javascript:void(0)" class="access-btn" onclick="navigateToLibrary('collections')">
+                        <i class="fas fa-layer-group"></i>
+                        <span>Collections</span>
+                        <small>Explore curated book collections by genre</small>
+                    </a>
+                    <a href="javascript:void(0)" class="access-btn" onclick="showHelpModal()">
+                        <i class="fas fa-question-circle"></i>
+                        <span>How to Use</span>
+                        <small>Complete guide to using the library</small>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Library Features -->
+            <div class="library-features">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <h4>Advanced Search</h4>
+                    <p>Search by title, author, genre, or keywords with filters and sorting options for precise results.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-book-open"></i>
+                    </div>
+                    <h4>Multiple Formats</h4>
+                    <p>Read books in EPUB, PDF, MOBI, and other popular formats with automatic format detection.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-cloud"></i>
+                    </div>
+                    <h4>Cloud Sync</h4>
+                    <p>Sync your reading progress, bookmarks, and notes across all your devices automatically.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-user-cog"></i>
+                    </div>
+                    <h4>Personalization</h4>
+                    <p>Customize fonts, themes, spacing, and reading modes for optimal reading comfort.</p>
+                </div>
+            </div>
+            
+            <!-- Statistics Section -->
+            <div class="library-stats">
+                <h3>Library Statistics</h3>
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <i class="fas fa-book"></i>
+                        <div class="stat-content">
+                            <h4 id="totalBooks">2,500+</h4>
+                            <p>Total Books</p>
+                        </div>
+                    </div>
+                    <div class="stat-item">
+                        <i class="fas fa-users"></i>
+                        <div class="stat-content">
+                            <h4 id="activeReaders">15,000+</h4>
+                            <p>Active Readers</p>
+                        </div>
+                    </div>
+                    <div class="stat-item">
+                        <i class="fas fa-clock"></i>
+                        <div class="stat-content">
+                            <h4 id="readingHours">50,000+</h4>
+                            <p>Reading Hours</p>
+                        </div>
+                    </div>
+                    <div class="stat-item">
+                        <i class="fas fa-star"></i>
+                        <div class="stat-content">
+                            <h4 id="avgRating">4.8</h4>
+                            <p>Average Rating</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer - World Class -->
+    <footer class="professional-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <img src="/assets/icons/logo-square.png" alt="Raphael's Horizon" class="footer-logo">
+                    <div class="footer-mission">
+                        <h3>Raphael's Horizon</h3>
+                        <p>Unveiling God's Promises through Boundless Possibilities. Experience world-class digital reading and spiritual growth.</p>
+                    </div>
+                </div>
+
+                <nav class="footer-nav" aria-label="Footer navigation">
+                    <div class="footer-nav-column">
+                        <h4>Navigation</h4>
+                        <ul>
+                            <li><a href="../../../homepage.html">Home</a></li>
+                            <li><a href="../books.html">Books</a></li>
+                            <li><a href="../../../pages/about/about-us.html">About</a></li>
+                            <li><a href="../../../pages/contact/contact-us.html">Contact</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="footer-nav-column">
+                        <h4>Reading Tools</h4>
+                        <ul>
+                            <li><a href="books-online.html">Online Reader</a></li>
+                            <li><a href="audio-books.html">Audio Books</a></li>
+                            <li><a href="../books.html">Purchase Books</a></li>
+                            <li><a href="javascript:void(0)" onclick="showHelpModal()">User Guide</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="footer-nav-column">
+                        <h4>Legal</h4>
+                        <ul>
+                            <li><a href="../../../pages/contact/privacy-policy.html">Privacy Policy</a></li>
+                            <li><a href="javascript:void(0)" onclick="showCookiePreferences()">Cookie Preferences</a></li>
+                            <li><a href="../../../pages/contact/contact-us.html">Terms of Service</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="footer-nav-column">
+                        <h4>Connect With Us</h4>
+                        <div class="social-links">
+                            <a href="https://facebook.com/raphaelshorizon" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+                                <i class="fab fa-facebook"></i>
+                            </a>
+                            <a href="https://twitter.com/raphaelshorizon" target="_blank" rel="noopener noreferrer" aria-label="Twitter">
+                                <i class="fab fa-twitter"></i>
+                            </a>
+                            <a href="https://youtube.com/@raphaelshorizon" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
+                                <i class="fab fa-youtube"></i>
+                            </a>
+                            <a href="https://instagram.com/raphaelshorizon" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+                                <i class="fab fa-instagram"></i>
+                            </a>
+                        </div>
+                        <p class="newsletter-text">Subscribe for updates on new books and features</p>
+                        <form class="newsletter-form">
+                            <input type="email" placeholder="Your email address" aria-label="Email for newsletter" required>
+                            <button type="submit" class="btn-subscribe" aria-label="Subscribe">
+                                <i class="fas fa-paper-plane"></i>
+                            </button>
+                        </form>
+                    </div>
+                </nav>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; <span id="currentYear">2024</span> Raphael's Horizon. All Rights Reserved.</p>
+                <p class="footer-tagline">Unveiling God's Promises Through Boundless Possibilities</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Help Modal -->
+    <div class="modal-overlay" id="helpModal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Calibre-Web Library Guide</h3>
+                <button class="modal-close" onclick="closeHelpModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="help-steps">
+                    <div class="help-step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h4>Browse the Library</h4>
+                            <p>Use the search bar or browse categories to find books. Click on any book cover to open it.</p>
+                            <ul>
+                                <li>Search by title, author, or keyword</li>
+                                <li>Filter by genre, rating, or language</li>
+                                <li>Sort by popularity, date added, or title</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="help-step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h4>Reading Features</h4>
+                            <p>Once a book is open, use the reading toolbar for enhanced experience:</p>
+                            <ul>
+                                <li>Adjust font size and typeface</li>
+                                <li>Toggle day/night reading mode</li>
+                                <li>Change line spacing and margins</li>
+                                <li>Bookmark important pages</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="help-step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h4>Save Progress</h4>
+                            <p>Your reading position is automatically saved. Additional features:</p>
+                            <ul>
+                                <li>Automatic progress syncing</li>
+                                <li>Manual bookmarks for key pages</li>
+                                <li>Reading history tracking</li>
+                                <li>Personal reading statistics</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="help-tips">
+                    <h4><i class="fas fa-lightbulb"></i> Pro Tips</h4>
+                    <ul>
+                        <li>Use keyboard shortcuts: Space for next page, Shift+Space for previous</li>
+                        <li>Create reading lists for different topics or moods</li>
+                        <li>Enable reading timer to track your reading habits</li>
+                        <li>Use fullscreen mode for distraction-free reading</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" onclick="closeHelpModal()">
+                    <i class="fas fa-check"></i> Got it, thanks!
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- FLOATING DONATE BUTTON -->
+    <a href="../../../donation.html" class="btn-donate floating-donate-btn" aria-label="Donate to Raphael's Horizon">
+      <i class="fas fa-heart"></i> Donate
+    </a>
+
+    <script>
+        // ============================================
+        // CONFIGURATION & INITIALIZATION
+        // ============================================
+        const CALIBRE_WEB_URL = '/calibre/'; // Change this to your actual Calibre-Web URL
+        
+        // ============================================
+        // THEME MANAGEMENT
+        // ============================================
+        class ThemeManager {
+            constructor() {
+                this.theme = localStorage.getItem('theme') || 'light';
+                this.init();
+            }
+
+            init() {
+                this.applyTheme();
+                this.setupThemeToggle();
+                this.setupSystemThemeListener();
+                this.addScrollEffect();
+            }
+
+            applyTheme() {
+                document.documentElement.setAttribute('data-theme', this.theme);
+                localStorage.setItem('theme', this.theme);
+                this.updateMetaThemeColor();
+                this.showNotification(`Switched to ${this.theme} mode`, 'info');
+            }
+
+            setupThemeToggle() {
+                const toggle = document.getElementById('themeToggle');
+                if (toggle) {
+                    toggle.addEventListener('click', () => this.toggleTheme());
+                }
+            }
+
+            toggleTheme() {
+                this.theme = this.theme === 'light' ? 'dark' : 'light';
+                this.applyTheme();
+                
+                // Add animation class
+                document.documentElement.classList.add('theme-changing');
+                setTimeout(() => {
+                    document.documentElement.classList.remove('theme-changing');
+                }, 500);
+            }
+
+            setupSystemThemeListener() {
+                if (window.matchMedia) {
+                    const systemTheme = window.matchMedia('(prefers-color-scheme: dark)');
+                    systemTheme.addEventListener('change', (e) => {
+                        if (!localStorage.getItem('theme')) {
+                            this.theme = e.matches ? 'dark' : 'light';
+                            this.applyTheme();
+                        }
+                    });
+                }
+            }
+
+            updateMetaThemeColor() {
+                let themeColor = this.theme === 'dark' ? '#1a202c' : '#1a365d';
+                let metaThemeColor = document.querySelector('meta[name="theme-color"]');
+                if (!metaThemeColor) {
+                    metaThemeColor = document.createElement('meta');
+                    metaThemeColor.name = 'theme-color';
+                    document.head.appendChild(metaThemeColor);
+                }
+                metaThemeColor.content = themeColor;
+            }
+
+            addScrollEffect() {
+                window.addEventListener('scroll', () => {
+                    const header = document.querySelector('.main-header');
+                    if (window.scrollY > 50) {
+                        header.classList.add('header-scrolled');
+                    } else {
+                        header.classList.remove('header-scrolled');
+                    }
+                });
+            }
+
+            showNotification(message, type = 'info') {
+                const notification = document.createElement('div');
+                notification.className = `custom-notification ${type}`;
+                notification.innerHTML = `
+                    <i class="fas fa-${type === 'success' ? 'check-circle' : 
+                                      type === 'warning' ? 'exclamation-triangle' : 
+                                      type === 'error' ? 'times-circle' : 'info-circle'}"></i>
+                    <span>${message}</span>
+                    <button class="notification-close" onclick="this.parentElement.remove()">
+                        <i class="fas fa-times"></i>
+                    </button>
+                `;
+                
+                document.body.appendChild(notification);
+                
+                setTimeout(() => notification.classList.add('show'), 10);
+                setTimeout(() => {
+                    if (notification.parentElement) {
+                        notification.classList.remove('show');
+                        setTimeout(() => notification.remove(), 300);
+                    }
+                }, 4000);
+            }
+        }
+
+        // ============================================
+        // MOBILE MENU MANAGEMENT
+        // ============================================
+        class MobileMenuManager {
+            constructor() {
+                this.menuOpen = false;
+                this.init();
+            }
+
+            init() {
+                this.setupMenuToggle();
+                this.setupMenuLinks();
+                this.setupSwipeToClose();
+                this.handleResize();
+                this.setupBackdrop();
+            }
+
+            setupMenuToggle() {
+                const mobileToggle = document.querySelector('.mobile-menu-toggle');
+                const navMenu = document.querySelector('.nav-menu');
+                if (!mobileToggle || !navMenu) return;
+
+                mobileToggle.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    this.toggleMenu();
+                });
+
+                document.addEventListener('click', (e) => {
+                    if (this.menuOpen && !navMenu.contains(e.target) && !mobileToggle.contains(e.target)) {
+                        this.closeMenu();
+                    }
+                });
+
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'Escape' && this.menuOpen) {
+                        this.closeMenu();
+                    }
+                });
+            }
+
+            toggleMenu() {
+                const mobileToggle = document.querySelector('.mobile-menu-toggle');
+                const navMenu = document.querySelector('.nav-menu');
+                this.menuOpen = !this.menuOpen;
+
+                if (this.menuOpen) {
+                    mobileToggle.classList.add('active');
+                    navMenu.classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                    this.showBackdrop();
+                    this.animateMenuItems();
+                } else {
+                    this.closeMenu();
+                }
+            }
+
+            closeMenu() {
+                const mobileToggle = document.querySelector('.mobile-menu-toggle');
+                const navMenu = document.querySelector('.nav-menu');
+                this.menuOpen = false;
+                mobileToggle.classList.remove('active');
+                navMenu.classList.remove('active');
+                document.body.style.overflow = '';
+                this.hideBackdrop();
+            }
+
+            setupBackdrop() {
+                if (!document.querySelector('.menu-backdrop')) {
+                    const backdrop = document.createElement('div');
+                    backdrop.className = 'menu-backdrop';
+                    backdrop.addEventListener('click', () => this.closeMenu());
+                    document.body.appendChild(backdrop);
+                }
+            }
+
+            showBackdrop() {
+                const backdrop = document.querySelector('.menu-backdrop');
+                if (backdrop) {
+                    backdrop.style.display = 'block';
+                    setTimeout(() => {
+                        backdrop.style.opacity = '1';
+                    }, 10);
+                }
+            }
+
+            hideBackdrop() {
+                const backdrop = document.querySelector('.menu-backdrop');
+                if (backdrop) {
+                    backdrop.style.opacity = '0';
+                    setTimeout(() => {
+                        backdrop.style.display = 'none';
+                    }, 300);
+                }
+            }
+
+            animateMenuItems() {
+                const menuItems = document.querySelectorAll('.nav-menu > li');
+                menuItems.forEach((item, index) => {
+                    item.style.opacity = '0';
+                    item.style.transform = 'translateX(40px)';
+                    item.style.transition = 'all 0.4s ease';
+                    
+                    setTimeout(() => {
+                        item.style.opacity = '1';
+                        item.style.transform = 'translateX(0)';
+                    }, 100 + (index * 100));
+                });
+            }
+
+            setupMenuLinks() {
+                document.querySelectorAll('.nav-link').forEach(link => {
+                    link.addEventListener('click', () => this.closeMenu());
+                });
+            }
+
+            setupSwipeToClose() {
+                let startX;
+                document.addEventListener('touchstart', (e) => {
+                    if (!this.menuOpen) return;
+                    startX = e.touches[0].clientX;
+                });
+                
+                document.addEventListener('touchend', (e) => {
+                    if (!this.menuOpen || !startX) return;
+                    const endX = e.changedTouches[0].clientX;
+                    if (startX > window.innerWidth - 100 && (endX - startX) > 50) {
+                        this.closeMenu();
+                    }
+                    startX = null;
+                });
+            }
+
+            handleResize() {
+                window.addEventListener('resize', () => {
+                    if (window.innerWidth > 992) {
+                        this.closeMenu();
+                    }
+                });
+            }
+        }
+
+        // ============================================
+        // LIBRARY CONTROL FUNCTIONS
+        // ============================================
+        let currentIframeView = 'standard';
+        let iframeLoaded = false;
+
+        function toggleFullscreen() {
+            const iframe = document.getElementById('calibreFrame');
+            const container = iframe.closest('.iframe-container');
+            
+            if (!document.fullscreenElement) {
+                if (container.requestFullscreen) {
+                    container.requestFullscreen();
+                } else if (container.webkitRequestFullscreen) {
+                    container.webkitRequestFullscreen();
+                }
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                } else if (document.webkitExitFullscreen) {
+                    document.webkitExitFullscreen();
+                }
+            }
+        }
+
+        function refreshLibrary() {
+            const iframe = document.getElementById('calibreFrame');
+            const loadingOverlay = document.getElementById('iframeLoading');
+            
+            loadingOverlay.style.display = 'flex';
+            iframe.style.opacity = '0.5';
+            
+            // Reload iframe
+            iframe.src = iframe.src;
+            
+            setTimeout(() => {
+                loadingOverlay.style.display = 'none';
+                iframe.style.opacity = '1';
+            }, 3000);
+            
+            showNotification('Refreshing library...', 'info');
+        }
+
+        function setIframeView(mode) {
+            const iframe = document.getElementById('calibreFrame');
+            const buttons = document.querySelectorAll('.view-btn');
+            
+            buttons.forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.dataset.view === mode) btn.classList.add('active');
+            });
+            
+            currentIframeView = mode;
+            switch(mode) {
+                case 'compact': iframe.style.height = '500px'; break;
+                case 'expanded': iframe.style.height = '900px'; break;
+                default: iframe.style.height = '800px';
+            }
+            
+            localStorage.setItem('calibreViewMode', mode);
+            showNotification(`View mode: ${mode}`, 'success');
+        }
+
+        function navigateToLibrary(section) {
+            showNotification(`Navigating to ${section}...`, 'info');
+            // Navigation logic would go here
+        }
+
+        // ============================================
+        // MODAL FUNCTIONS
+        // ============================================
+        function showHelpModal() {
+            document.getElementById('helpModal').style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeHelpModal() {
+            document.getElementById('helpModal').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        // ============================================
+        // UTILITY FUNCTIONS
+        // ============================================
+        function showNotification(message, type = 'info') {
+            const existing = document.querySelectorAll('.custom-notification');
+            existing.forEach(el => el.remove());
+            
+            const notification = document.createElement('div');
+            notification.className = `custom-notification ${type}`;
+            notification.innerHTML = `
+                <i class="fas fa-${type === 'success' ? 'check-circle' : 
+                                  type === 'warning' ? 'exclamation-triangle' : 
+                                  type === 'error' ? 'times-circle' : 'info-circle'}"></i>
+                <span>${message}</span>
+                <button class="notification-close" onclick="this.parentElement.remove()">
+                    <i class="fas fa-times"></i>
+                </button>
+            `;
+            
+            document.body.appendChild(notification);
+            setTimeout(() => notification.classList.add('show'), 10);
+            setTimeout(() => {
+                if (notification.parentElement) {
+                    notification.classList.remove('show');
+                    setTimeout(() => notification.remove(), 300);
+                }
+            }, 5000);
+        }
+
+        function animateCounter(element, target) {
+            let current = 0;
+            const increment = target / 100;
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= target) {
+                    current = target;
+                    clearInterval(timer);
+                }
+                if (element.id === 'avgRating') {
+                    element.textContent = current.toFixed(1);
+                } else {
+                    element.textContent = Math.floor(current).toLocaleString() + '+';
+                }
+            }, 20);
+        }
+
+        // ============================================
+        // COOKIE PREFERENCES (placeholder)
+        // ============================================
+        function showCookiePreferences() {
+            showNotification('Cookie preferences feature coming soon!', 'info');
+        }
+
+        // ============================================
+        // INITIALIZATION
+        // ============================================
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize theme manager
+            window.themeManager = new ThemeManager();
+            
+            // Initialize mobile menu
+            window.mobileMenuManager = new MobileMenuManager();
+            
+            // Set current year
+            document.getElementById('currentYear').textContent = new Date().getFullYear();
+            
+            // Load saved view mode
+            const savedViewMode = localStorage.getItem('calibreViewMode') || 'standard';
+            setIframeView(savedViewMode);
+            
+            // Setup iframe event listeners
+            const iframe = document.getElementById('calibreFrame');
+            const loadingOverlay = document.getElementById('iframeLoading');
+            
+            // Set initial iframe source
+            if (iframe && !iframe.src.includes('http')) {
+                iframe.src = CALIBRE_WEB_URL;
+            }
+            
+            iframe.addEventListener('load', function() {
+                iframeLoaded = true;
+                setTimeout(() => {
+                    loadingOverlay.style.display = 'none';
+                    iframe.style.opacity = '1';
+                    showNotification('Library loaded successfully!', 'success');
+                }, 1000);
+            });
+            
+            iframe.addEventListener('error', function() {
+                loadingOverlay.innerHTML = `
+                    <div class="loading-spinner">
+                        <i class="fas fa-exclamation-triangle" style="font-size: 3rem; color: var(--accent-color); margin-bottom: 20px;"></i>
+                        <p>Failed to connect to Calibre-Web</p>
+                        <button type="button" onclick="refreshLibrary()" class="btn-retry">
+                            <i class="fas fa-redo"></i> Retry Connection
+                        </button>
+                        <p class="error-hint">Please ensure Calibre-Web is running at: ${CALIBRE_WEB_URL}</p>
+                    </div>
+                `;
+                showNotification('Connection failed. Please check Calibre-Web server.', 'error');
+            });
+            
+            // Fullscreen change handler
+            const fullscreenHandlers = ['fullscreenchange', 'webkitfullscreenchange', 'mozfullscreenchange', 'MSFullscreenChange'];
+            fullscreenHandlers.forEach(event => {
+                document.addEventListener(event, handleFullscreenChange);
+            });
+            
+            // Animate statistics with delay
+            setTimeout(() => {
+                const counters = {
+                    totalBooks: 2850,
+                    activeReaders: 15800,
+                    readingHours: 52300,
+                    avgRating: 4.8
+                };
+                
+                Object.keys(counters).forEach(id => {
+                    const element = document.getElementById(id);
+                    if (element) animateCounter(element, counters[id]);
+                });
+            }, 1500);
+            
+            // Add menu backdrop styles
+            const backdropStyle = document.createElement('style');
+            backdropStyle.textContent = `
+                .menu-backdrop {
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    background: rgba(0,0,0,0.7);
+                    backdrop-filter: blur(10px);
+                    -webkit-backdrop-filter: blur(10px);
+                    z-index: 999;
+                    opacity: 0;
+                    transition: opacity 0.4s ease;
+                    display: none;
+                }
+            `;
+            document.head.appendChild(backdropStyle);
+        });
+
+        function handleFullscreenChange() {
+            const footer = document.querySelector('.professional-footer');
+            const iframe = document.getElementById('calibreFrame');
+            
+            if (document.fullscreenElement || 
+                document.webkitFullscreenElement || 
+                document.mozFullScreenElement || 
+                document.msFullscreenElement) {
+                // In fullscreen
+                if (footer) footer.style.display = 'none';
+                if (iframe) {
+                    iframe.style.height = 'calc(100vh - 80px)';
+                    iframe.style.marginTop = '10px';
+                }
+            } else {
+                // Exited fullscreen
+                if (footer) footer.style.display = 'block';
+                if (iframe) {
+                    iframe.style.height = '800px';
+                    iframe.style.marginTop = '0';
+                }
+            }
+        }
+
+        // ============================================
+        // FLOATING DONATE BUTTON STYLES
+        // ============================================
+        const floatingBtnStyle = document.createElement('style');
+        floatingBtnStyle.textContent = `
+            .floating-donate-btn {
+                position: fixed;
+                bottom: 30px;
+                right: 30px;
+                background: linear-gradient(135deg, var(--accent-color), var(--accent-light));
+                color: white;
+                padding: 16px 28px;
+                border-radius: 60px;
+                text-decoration: none;
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                box-shadow: 0 15px 40px rgba(230, 57, 70, 0.4);
+                z-index: 999;
+                transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+                font-weight: 700;
+                font-size: 1.1rem;
+                border: 2px solid transparent;
+                overflow: hidden;
+            }
+            
+            .floating-donate-btn::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: -100%;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+                transition: left 0.6s ease;
+            }
+            
+            .floating-donate-btn:hover::before {
+                left: 100%;
+            }
+            
+            .floating-donate-btn:hover {
+                transform: translateY(-8px) scale(1.05);
+                box-shadow: 0 25px 60px rgba(230, 57, 70, 0.5);
+                border-color: rgba(255,255,255,0.3);
+            }
+            
+            .floating-donate-btn:active {
+                transform: translateY(-4px) scale(1.02);
+            }
+            
+            .floating-donate-btn i {
+                font-size: 1.3rem;
+                transition: transform 0.3s ease;
+            }
+            
+            .floating-donate-btn:hover i {
+                transform: scale(1.2) rotate(15deg);
+            }
+            
+            @media (max-width: 768px) {
+                .floating-donate-btn {
+                    bottom: 20px;
+                    right: 20px;
+                    padding: 14px 24px;
+                    font-size: 1rem;
+                }
+            }
+            
+            @media (max-width: 480px) {
+                .floating-donate-btn {
+                    bottom: 15px;
+                    right: 15px;
+                    padding: 12px 20px;
+                    font-size: 0.9rem;
+                }
+            }
+        `;
+        document.head.appendChild(floatingBtnStyle);
+
+        // Initialize Library Authentication
+        document.addEventListener('DOMContentLoaded', function() {
+            if (window.LibraryAuth) {
+                LibraryAuth.initCalibreIframe('calibreFrame');
+            }
+        });
+    </script>
+    <script src="/js/api.js"></script>
+    <script src="/js/auth.js"></script>
+    <script src="/js/library-auth.js"></script>
+</body>
+</html>
+

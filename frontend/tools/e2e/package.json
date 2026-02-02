@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "playwright": "^1.57.0",
+    "raphaels-horizon-frontend": "file:../.."
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.57.0"
+  }
+}

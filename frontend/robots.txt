@@ -1,0 +1,33 @@
+# Robots.txt for Raphael's Horizon
+# https://raphaelshorizon.com/robots.txt
+
+User-agent: *
+Allow: /
+
+# Allow all major search engines
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Slurp
+Allow: /
+
+User-agent: DuckDuckBot
+Allow: /
+
+# Disallow admin areas
+Disallow: /admin/
+Disallow: /api/admin/
+Disallow: /pages/admin/
+
+# Disallow private areas
+Disallow: /library/audio/private/
+Disallow: /uploads/private/
+
+# Sitemap location
+Sitemap: https://raphaelshorizon.com/sitemap.xml
+
+# Crawl delay (optional)
+Crawl-delay: 1

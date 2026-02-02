@@ -1,0 +1,123 @@
+[
+  {
+    "_id": "mk0jmecc",
+    "name": "Smoke",
+    "email": "smoke+1767580214375@example.com",
+    "password": "$2a$10$pRj/PvRyiI/6PHIfiSv7A.p27.cD4sz7tT.ubrmRMaZdPFVXTbJcS",
+    "role": "author",
+    "avatar": "default-avatar.jpg",
+    "createdAt": "2026-01-05T02:30:14.557Z",
+    "lastLogin": "2026-01-05T02:30:14.680Z"
+  },
+  {
+    "_id": "mk0k6w80",
+    "name": "Smoke",
+    "email": "smoke+1767581170673@example.com",
+    "password": "$2a$10$yZjjIgrGVR4bzDQEQabulOpDaxmU70lG.oN5X02ILBg/904XwX0p6",
+    "role": "author",
+    "avatar": "default-avatar.jpg",
+    "createdAt": "2026-01-05T02:46:10.848Z",
+    "lastLogin": "2026-01-05T02:46:10.958Z"
+  },
+  {
+    "_id": "mk0k7i1t",
+    "name": "TestUser",
+    "email": "powertest+1767584798.88655@example.com",
+    "password": "$2a$10$EkI0bBheML5Jrq7JSLrv5el8t0Pc6ZjfopjygJn9qqyDUnO3aiqMm",
+    "role": "author",
+    "avatar": "default-avatar.jpg",
+    "createdAt": "2026-01-05T02:46:39.137Z"
+  },
+  {
+    "_id": "mk0keizp",
+    "name": "Smoke",
+    "email": "smoke+1767581526600@example.com",
+    "password": "$2a$10$2mFYHkBD.eHp8f4qc0hQ6emvDUvETg7IXPO0n/EKfl8wAC86zUhm6",
+    "role": "author",
+    "avatar": "default-avatar.jpg",
+    "createdAt": "2026-01-05T02:52:06.949Z",
+    "lastLogin": "2026-01-05T02:52:07.159Z"
+  },
+  {
+    "_id": "mk0kfl3r",
+    "name": "Smoke",
+    "email": "smoke+1767581576156@example.com",
+    "password": "$2a$10$QXui8Pp0Wgp37MZvsdBU9eM225hHMhcKCkUP/BhR1iy1jSRZlxchK",
+    "role": "author",
+    "avatar": "default-avatar.jpg",
+    "createdAt": "2026-01-05T02:52:56.343Z",
+    "lastLogin": "2026-01-05T02:52:56.505Z"
+  },
+  {
+    "id": "admin001",
+    "name": "Administrator",
+    "email": "admin@raphaelshorizon.com",
+    "password": "$2a$10$/5ZQucrBlu6Fjx.PLBAC4OriZ5YJ9FCfTYx2kLC.D9qEt3QhKPmL2",
+    "role": "admin",
+    "avatar": "default-avatar.jpg",
+    "createdAt": "2026-01-31T00:00:00.000Z",
+    "passwordUpdatedAt": "2026-01-31T17:10:41.175Z"
+  },
+  {
+    "id": "1769877892431",
+    "createdAt": "2026-01-31T16:44:52.431Z",
+    "role": "user",
+    "name": "John Lucky",
+    "email": "Johnlucky96@gmail.com",
+    "password": "$2a$10$L5SwNcFM6cVzXTf1uXZJEusEb1eEDUtDxEAMJL602Hfp4Mp2tgo4a"
+  },
+  {
+    "id": "1769907624912",
+    "createdAt": "2026-02-01T01:00:24.912Z",
+    "role": "user",
+    "name": "Test User",
+    "email": "test_1769907624772@example.com",
+    "password": "$2a$10$eFeeLfw6jhMK7VnngNCxV.MHZwq6SC.MyJCb9iS6entlQk9uL80/2",
+    "avatar": "default-avatar.jpg"
+  },
+  {
+    "id": "1769907856754",
+    "createdAt": "2026-02-01T01:04:16.754Z",
+    "role": "user",
+    "name": "Test User",
+    "email": "test_1769907856605@example.com",
+    "password": "$2a$10$EGYCp7lHqDJAj/i7v8DxkOnAHJ.SvJz.xsTeRJy8YgPmX8H0sg2A6",
+    "avatar": "default-avatar.jpg"
+  },
+  {
+    "id": "1769907877714",
+    "createdAt": "2026-02-01T01:04:37.714Z",
+    "role": "user",
+    "name": "Test User",
+    "email": "test_1769907877631@example.com",
+    "password": "$2a$10$27Pw1994oGWhn/ON2BcEcumLpYO24hhOAsTKZQ6JNb/k32RLmUAGu",
+    "avatar": "default-avatar.jpg"
+  },
+  {
+    "id": "1769908865752",
+    "createdAt": "2026-02-01T01:21:05.752Z",
+    "role": "user",
+    "name": "Test User",
+    "email": "test@test.com",
+    "password": "$2a$10$UM4sjCKhrOUTPpPcoexWOu65.JKpVvz9p0WiyvQXdcTHN08uHcLy6",
+    "avatar": "default-avatar.jpg"
+  },
+  {
+    "id": "1769909175342",
+    "createdAt": "2026-02-01T01:26:15.342Z",
+    "role": "user",
+    "name": "Horizon Raphael",
+    "email": "horizonsraphael@gmail.com",
+    "avatar": "https://lh3.googleusercontent.com/a/ACg8ocJi6zQMJ40EKPhyu6JD6QIB8XfTLegwtY-yVLs3pxFYPGK0t8Q=s96-c",
+    "googleId": "108416056327278122446"
+  },
+  {
+    "id": "1769918031152",
+    "createdAt": "2026-02-01T03:53:51.153Z",
+    "role": "user",
+    "name": "JOhn Lucky",
+    "email": "johnlucky96@gmail.com",
+    "avatar": "https://lh3.googleusercontent.com/a/ACg8ocIqvtitQBGWLg63YsEEpZPTYrvf9ZoxzGBRb8-T7Zuq2rdbph4=s96-c",
+    "googleId": "106166527918532755446"
+  }
+]

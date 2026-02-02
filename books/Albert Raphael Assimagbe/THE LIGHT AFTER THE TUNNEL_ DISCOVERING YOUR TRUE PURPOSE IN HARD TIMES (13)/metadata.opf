@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='utf-8'?>
+<package xmlns="http://www.idpf.org/2007/opf" unique-identifier="uuid_id" version="2.0">
+    <metadata xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:opf="http://www.idpf.org/2007/opf">
+        <dc:identifier opf:scheme="calibre" id="calibre_id">13</dc:identifier>
+        <dc:identifier opf:scheme="uuid" id="uuid_id">5c72dc8e-c90f-4cf0-badb-eec699f74e91</dc:identifier>
+        <dc:title>THE LIGHT AFTER THE TUNNEL: DISCOVERING YOUR TRUE PURPOSE IN HARD TIMES</dc:title>
+        <dc:creator opf:file-as="Assimagbe, Albert Raphael" opf:role="aut">Albert Raphael Assimagbe</dc:creator>
+        <dc:contributor opf:file-as="calibre" opf:role="bkp">calibre (8.16.2) [https://calibre-ebook.com]</dc:contributor>
+        <dc:date>0101-01-01T00:00:00+00:00</dc:date>
+        <dc:description>&lt;p&gt;&lt;span&gt;Transformative guidance for finding purpose in adversity through biblical wisdom. Learn how to navigate challenges&lt;/span&gt;&lt;/p&gt;</dc:description>
+        <dc:publisher>Albert Raphael Assimagbe</dc:publisher>
+        <dc:language>eng</dc:language>
+        <dc:subject>DISCOVERING YOUR TRUE PURPOSE IN HARD TIMES</dc:subject>
+        <meta name="calibre:timestamp" content="2026-01-29T23:43:48+00:00"/>
+        <meta name="calibre:title_sort" content="LIGHT AFTER THE TUNNEL: DISCOVERING YOUR TRUE PURPOSE IN HARD TIMES, THE"/>
+    </metadata>
+    <guide>
+        <reference type="cover" title="Cover" href="cover.jpg"/>
+    </guide>
+</package>

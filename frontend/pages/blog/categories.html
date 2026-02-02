@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<meta content="Browse blog categories - Raphael's Horizon" name="description">
+<title>Blog Categories — Raphael's Horizon</title>
+<link href="/css/styles.css" rel="stylesheet">
+<style>
+        .categories-hero {
+            padding: calc(var(--header-height) + 4rem) 0 4rem;
+            background: var(--gradient-primary);
+            color: var(--white);
+            text-align: center;
+        }
+
+        .categories-content {
+            padding: var(--space-xxl) 0;
+            background: var(--light-bg);
+        }
+
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--space-xl);
+            max-width: var(--container-max-width);
+            margin: 0 auto;
+        }
+
+        .category-card {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            padding: var(--space-xl);
+            text-align: center;
+            box-shadow: var(--shadow-md);
+            transition: var(--transition-normal);
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
+        .category-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+            color: inherit;
+        }
+
+        .category-icon {
+            font-size: 3rem;
+            margin-bottom: var(--space-lg);
+            display: block;
+        }
+
+        .category-count {
+            background: var(--primary-light);
+            color: var(--white);
+            padding: 0.5rem 1rem;
+            border-radius: var(--radius-lg);
+            font-size: 0.875rem;
+            font-weight: 600;
+            display: inline-block;
+            margin-top: var(--space-md);
+        }
+
+        .error-message {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            padding: var(--space-xxl);
+            text-align: center;
+            box-shadow: var(--shadow-md);
+            max-width: 600px;
+            margin: var(--space-xxl) auto;
+        }
+
+        .error-icon {
+            font-size: 4rem;
+            color: var(--accent-color);
+            margin-bottom: var(--space-lg);
+        }
+
+        .back-to-blog {
+            margin-top: var(--space-xl);
+            text-align: center;
+        }
+    </style>
+</head>
+<body><!-- COOKIE CONSENT BANNER -->
+<div class="cookie-banner" id="cookie-banner">
+<div class="cookie-content">
+<div class="cookie-icon">🍪</div>
+<p>
+            This website uses cookies to ensure you get the best experience on our site.
+            <a href="../contact/privacy-policy.html">Learn more</a>
+</p>
+<div class="cookie-actions">
+<button type="button" class="btn-cookie-preferences" id="cookie-preferences">Preferences</button>
+<button type="button" class="btn-accept-cookies" id="accept-cookies">Accept All</button>
+</div>
+</div>
+</div>
+<!-- COOKIE PREFERENCES MODAL -->
+<div class="cookie-modal" id="cookie-modal">
+<div class="modal-content">
+<div class="modal-header">
+<div class="modal-title">
+<div class="cookie-icon">🍪</div>
+<h3>Cookie Preferences</h3>
+</div>
+<button type="button" class="modal-close">×</button>
+</div>
+<div class="modal-body">
+<div class="cookie-category">
+<div class="category-header">
+<h4>Essential Cookies</h4>
+<span class="cookie-required">Required</span>
+</div>
+<p>Necessary for the website to function properly. Cannot be disabled.</p>
+</div>
+<div class="cookie-category">
+<div class="category-header">
+<h4>Analytics Cookies</h4>
+<label class="toggle-switch">
+<input checked id="analytics-toggle" type="checkbox">
+<span class="slider"></span>
+</label>
+</div>
+<p>Help us understand how visitors interact with our website.</p>
+</div>
+<div class="cookie-category">
+<div class="category-header">
+<h4>Functional Cookies</h4>
+<label class="toggle-switch">
+<input checked id="functional-toggle" type="checkbox">
+<span class="slider"></span>
+</label>
+</div>
+<p>Enable enhanced features and personalization.</p>
+</div>
+</div>
+<div class="modal-footer">
+<button type="button" class="btn-save-preferences" id="save-preferences">Save Preferences</button>
+</div>
+</div>
+</div>
+<!-- HEADER NAVIGATION -->
+<header class="main-header">
+<div class="container">
+<nav class="main-nav" aria-label="Primary navigation">
+<div class="nav-brand">
+<a class="logo-link" href="../../homepage.html">
+<img alt="Raphael's Horizon" class="nav-logo" src="/assets/icons/logo-square.png">
+<span class="brand-name">Raphael's Horizon</span>
+</a>
+</div>
+<ul class="nav-menu">
+<li><a class="nav-link" href="../../homepage.html">Home</a></li>
+<!-- Books Dropdown -->
+<li class="nav-dropdown">
+<a aria-controls="books-menu" aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle" href="../books/books.html">
+                        Books <span class="dropdown-arrow">Ôû╝</span>
+</a>
+<div class="dropdown-menu" id="books-menu" role="menu">
+<a class="dropdown-link" href="../books/books.html" role="menuitem">Purchase Books</a>
+<a class="dropdown-link" href="../books/books-online.html" role="menuitem">Read Books Online</a>
+<a class="dropdown-link" href="../books/audio-books.html" role="menuitem">Audio Books Online</a>
+</div>
+</li>
+<!-- About Dropdown -->
+<li class="nav-dropdown">
+<button aria-controls="about-menu" aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle" type="button">
+                        About <span class="dropdown-arrow">Ôû╝</span>
+</button>
+<div class="dropdown-menu" id="about-menu" role="menu">
+<a class="dropdown-link" href="../about/about-us.html" role="menuitem">About Us</a>
+<a class="dropdown-link" href="../about/assimagbe-albert-raphael.html" role="menuitem">Assimagbe Albert Raphael</a>
+</div>
+</li>
+<!-- Contact Dropdown -->
+<li class="nav-dropdown">
+<button aria-controls="contact-menu" aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle" type="button">
+                        Contact <span class="dropdown-arrow">Ôû╝</span>
+</button>
+<div class="dropdown-menu" id="contact-menu" role="menu">
+<a class="dropdown-link" href="../contact/index.html" role="menuitem">Contact Us</a>
+<a class="dropdown-link" href="../contact/speaking-request.html" role="menuitem">Speaking Request</a>
+<a class="dropdown-link" href="../contact/privacy-policy.html" role="menuitem">Privacy Policy</a>
+</div>
+</li>
+<!-- Blog Dropdown -->
+<li class="nav-dropdown">
+<a aria-controls="blog-menu" aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle active" href="index.html">
+                        Blog <span class="dropdown-arrow">Ôû╝</span>
+</a>
+<div class="dropdown-menu" id="blog-menu" role="menu">
+<a class="dropdown-link active" href="index.html" role="menuitem">Blog Home</a>
+<a class="dropdown-link" href="categories.html" role="menuitem">Categories</a>
+<a class="dropdown-link external" href="https://raphaelshorizon.blogspot.com/" rel="noopener noreferrer" role="menuitem" target="_blank">Legacy Blog</a>
+</div>
+</li>
+<li>
+<a class="nav-link external" href="https://raphaelshorizon.wordpress.com/" rel="noopener noreferrer" target="_blank">WordPress</a>
+</li>
+<!-- DONATE BUTTON - Visible prominently -->
+<li class="nav-donate">
+<a class="btn-donate" href="../../donation.html">
+<i class="fas fa-heart"></i> Donate
+</a>
+</li>
+<!-- Login / Account (visible when NOT authenticated) -->
+<li class="nav-dropdown auth-menu-guest">
+<button aria-controls="account-menu" aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle" type="button">
+                        Account <span class="dropdown-arrow">Ôû╝</span>
+</button>
+<div class="dropdown-menu" id="account-menu" role="menu">
+<a class="dropdown-link" href="/pages/profile/login.html" role="menuitem">Sign in</a>
+<a class="dropdown-link" href="/pages/profile/login.html#register" role="menuitem">Create account</a>
+<button class="dropdown-link" onclick="showSubscriptionModal()" role="menuitem" type="button">Subscription plans</button>
+</div>
+</li>
+<!-- User menu (visible when authenticated) -->
+<li class="user-menu-container" style="display:none;">
+<button type="button" aria-controls="user-menu" aria-expanded="false" aria-haspopup="true" class="user-menu dropdown-toggle">
+<span class="user-avatar">U</span>
+<span class="user-name">User</span>
+<span class="dropdown-arrow">Ôû╝</span>
+</button>
+<div class="user-dropdown dropdown-menu" id="user-menu" role="menu">
+<a href="../profile/index.html" role="menuitem">My Profile</a>
+<a href="../profile/subscription.html" role="menuitem">Subscription</a>
+<a href="../profile/library.html" role="menuitem">My Library</a>
+<div class="dropdown-divider" role="separator"></div>
+<button onclick="logout()" role="menuitem" type="button">Logout</button>
+</div>
+</li>
+</ul>
+<!-- Mobile Menu Toggle -->
+<button class="mobile-menu-toggle" type="button" aria-label="Toggle navigation">
+<span></span>
+<span></span>
+<span></span>
+</button>
+</nav>
+</div>
+</header>
+<!-- CATEGORIES HERO -->
+<section class="categories-hero">
+<div class="container">
+<div class="section-header">
+<h1>Blog Categories</h1>
+<p>Explore our articles by category and find inspiration for your spiritual journey</p>
+</div>
+</div>
+</section>
+<!-- CATEGORIES CONTENT -->
+<section class="categories-content">
+<div class="container">
+<!-- Error Message Display -->
+<div class="error-message" id="error-message">
+<div class="error-icon">⚠️</div>
+<h2>Category Feature Coming Soon</h2>
+<p>We're currently working on organizing our blog posts by categories. This feature will be available soon!</p>
+<p>In the meantime, you can browse all our articles on the <a href="index.html">Blog Home</a> page.</p>
+<div>
+<a class="btn btn-primary" href="index.html">Back to Blog</a>
+</div>
+</div>
+<!-- Categories Grid (Hidden by default, shown when categories are implemented) -->
+<div class="categories-grid" id="categories-grid">
+
+<a class="category-card" href="index.html">
+<span class="category-icon">🙏</span>
+<h3>Faith &amp; Belief</h3>
+<p>Articles about strengthening your faith and trust in God's plan</p>
+<span class="category-count">8 Articles</span>
+</a>
+<a class="category-card" href="index.html" id="guidance">
+<span class="category-icon">🧭</span>
+<h3>Divine Guidance</h3>
+<p>Learning to recognize and follow God's direction in your life</p>
+<span class="category-count">6 Articles</span>
+</a>
+<a class="category-card" href="index.html" id="growth">
+<span class="category-icon">🌱</span>
+<h3>Spiritual Growth</h3>
+<p>Resources for developing your spiritual life and relationship with God</p>
+<span class="category-count">5 Articles</span>
+</a>
+<a class="category-card" href="index.html" id="promises">
+<span class="category-icon">📜</span>
+<h3>God's Promises</h3>
+<p>Understanding and claiming the promises God has for His children</p>
+<span class="category-count">4 Articles</span>
+</a>
+<a class="category-card" href="index.html" id="purpose">
+<span class="category-icon">🎯</span>
+<h3>Life Purpose</h3>
+<p>Discovering and fulfilling your God-given purpose and calling</p>
+<span class="category-count">3 Articles</span>
+</a>
+<a class="category-card" href="index.html">
+<span class="category-icon">🌟</span>
+<h3>Our Mission</h3>
+<p>Learn about Raphael's Horizon and our vision for spiritual transformation</p>
+<span class="category-count">2 Articles</span>
+</a>
+</div>
+<div class="back-to-blog">
+<a class="btn btn-outline" href="index.html">← Back to Blog Home</a>
+</div>
+</div>
+</section>
+<!-- FOOTER -->
+<footer class="main-footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-brand">
+          <img src="/assets/icons/logo-square.png" alt="Raphael's Horizon" class="footer-logo">
+          <div class="footer-mission">
+            <h3>Raphael's Horizon</h3>
+            <p>Unveiling God's Promises through Boundless Possibilities</p>
+          </div>
+        </div>
+
+        <nav class="footer-nav" aria-label="Footer navigation">
+          <div class="footer-nav-column">
+            <h4>Navigation</h4>
+            <ul>
+              <li><a href="../../homepage.html">Home</a></li>
+              <li><a href="../books/books.html">Books</a></li>
+              <li><a href="../about/about-us.html">About</a></li>
+              <li><a href="../contact/index.html">Contact</a></li>
+            </ul>
+          </div>
+
+          <div class="footer-nav-column">
+            <h4>Resources</h4>
+            <ul>
+              <li><a href="https://raphaelshorizon.blogspot.com/" target="_blank" rel="noopener noreferrer">Blog</a></li>
+              <li><a href="https://raphaelshorizon.wordpress.com/" target="_blank" rel="noopener noreferrer">WordPress</a></li>
+              <li><a href="../contact/speaking-request.html">Speaking</a></li>
+              <li><a href="../../donation.html"><i class="fas fa-heart"></i> Support Us</a></li>
+            </ul>
+          </div>
+
+          <!-- LEGAL AND CONNECT COLUMNS SIDE BY SIDE -->
+          <div class="footer-columns-group">
+            <div class="footer-nav-column">
+              <h4>Legal</h4>
+              <ul>
+                <li><a href="../contact/privacy-policy.html">Privacy Policy</a></li>
+                <li><a href="javascript:void(0)" onclick="showCookiePreferences()">Cookie Preferences</a></li>
+              </ul>
+            </div>
+
+            <div class="footer-nav-column">
+                <h4>Newsletter</h4>
+                <p>Stay updated with our latest books and teachings.</p>
+                <form class="newsletter-form">
+                    <input type="email" placeholder="Your email address" aria-label="Email for newsletter" required>
+                    <button type="submit" class="btn btn-primary">Subscribe</button>
+                </form>
+            </div>
+          </div>
+        </nav>
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2025 Raphael's Horizon. All Rights Reserved. | Unveiling God's Promises Through Boundless Possibilities</p>
+      </div>
+    </div>
+</footer>
+
+<!-- JavaScript for current year in footer -->
+<script>
+    document.getElementById('current-year').textContent = new Date().getFullYear();
+</script>
+
+<!-- Main JavaScript file for site functionality -->
+<script src="/js/scripts.js"></script>
+<!-- Configuration for API endpoints -->
+<script src="/js/config.js"></script>
+<!-- Authentication for universal login state -->
+<script src="/js/auth.js"></script>
+
+<!-- Font Awesome for icons (if not already included) -->
+<script src="https://kit.fontawesome.com/your-font-awesome-kit-id.js" crossorigin="anonymous"></script>
+
+<!-- FLOATING DONATE BUTTON (visible on mobile) -->
+<a href="../../donation.html" class="btn-donate floating-donate-btn" aria-label="Donate to Raphael's Horizon">
+  <i class="fas fa-heart"></i> Donate
+</a>
+
+</body>
+</html>

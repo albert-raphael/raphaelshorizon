@@ -1,0 +1,14 @@
+[
+  {
+    "id": "book-1",
+    "title": "Embracing Elegance",
+    "author": "Assimagbe Albert Raphael",
+    "description": "A short inspirational book"
+  },
+  {
+    "id": "book-2",
+    "title": "Light After the Tunnel",
+    "author": "Assimagbe Albert Raphael",
+    "description": "Hope and restoration"
+  }
+]

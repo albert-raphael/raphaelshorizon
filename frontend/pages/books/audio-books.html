@@ -1,0 +1,3539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Professional Audio Books Library | Raphael's Horizon</title>
+    <meta name="description" content="World-class professional audio book streaming with Audiobookshelf integration. Premium listening experience with advanced features.">
+    <meta name="keywords" content="audio books, professional streaming, Audiobookshelf, digital audio library, podcast listening">
+    <meta property="og:title" content="Professional Audio Books Library | Raphael's Horizon">
+    <meta property="og:description" content="Experience premium audio streaming with world-class features and Audiobookshelf integration.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://raphaelshorizon.com/audio-books">
+    <meta name="twitter:card" content="summary_large_image">
+    
+    <!-- Authentication Guard -->
+    <script src="/js/auth-guard.js" data-require-auth="true"></script>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Howler.js for advanced audio controls -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.4/howler.min.js" defer></script>
+    
+    <!-- Audio Visualization Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/wavesurfer.js/6.6.4/wavesurfer.min.js" defer></script>
+
+    <style>
+        /* Professional Audio Books CSS - Enhanced with Dark Mode & Premium Features */
+        :root {
+            --primary-color: #2c3e50;
+            --primary-dark: #1a252f;
+            --primary-light: #34495e;
+            --secondary-color: #3498db;
+            --secondary-dark: #2980b9;
+            --secondary-light: #5dade2;
+            --accent-color: #e74c3c;
+            --accent-light: #ff6b6b;
+            --purple-color: #9b59b6;
+            --purple-light: #b37fd1;
+            --success-color: #27ae60;
+            --success-light: #2ecc71;
+            --warning-color: #f39c12;
+            --warning-light: #f1c40f;
+            --info-color: #3498db;
+            
+            --light-bg: #f8f9fa;
+            --light-gray: #ecf0f1;
+            --medium-gray: #bdc3c7;
+            --dark-gray: #7f8c8d;
+            --text-color: #2c3e50;
+            --text-light: #546e7a;
+            --white: #ffffff;
+            --black: #000000;
+            --border-color: #dfe6e9;
+            
+            --shadow-sm: 0 2px 12px rgba(0,0,0,0.08);
+            --shadow-md: 0 5px 20px rgba(0,0,0,0.12);
+            --shadow-lg: 0 10px 30px rgba(0,0,0,0.15);
+            --shadow-xl: 0 20px 50px rgba(0,0,0,0.2);
+            --shadow-inner: inset 0 2px 8px rgba(0,0,0,0.1);
+            
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 20px;
+            --radius-xl: 30px;
+            --radius-full: 9999px;
+            
+            --transition-fast: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-slow: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            
+            --gradient-primary: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-color) 100%);
+            --gradient-secondary: linear-gradient(135deg, var(--secondary-color), var(--purple-color));
+            --gradient-accent: linear-gradient(135deg, var(--accent-color), var(--warning-color));
+            --gradient-light: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+            --gradient-dark: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            --gradient-audio-hero: linear-gradient(135deg, #2c3e50 0%, #3498db 50%, #9b59b6 100%);
+            --gradient-stats: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+        }
+
+        /* Dark Mode Variables for Audio */
+        [data-theme="dark"] {
+            --primary-color: #2d3748;
+            --primary-dark: #1a202c;
+            --primary-light: #4a5568;
+            --secondary-color: #3182ce;
+            --secondary-dark: #2c5282;
+            --secondary-light: #63b3ed;
+            --accent-color: #e53e3e;
+            --accent-light: #fc8181;
+            --purple-color: #805ad5;
+            --purple-light: #9f7aea;
+            --success-color: #38a169;
+            --success-light: #48bb78;
+            --warning-color: #d69e2e;
+            --warning-light: #ecc94b;
+            
+            --light-bg: #1a202c;
+            --light-gray: #2d3748;
+            --medium-gray: #4a5568;
+            --dark-gray: #718096;
+            --text-color: #e2e8f0;
+            --text-light: #a0aec0;
+            --white: #2d3748;
+            --black: #ffffff;
+            --border-color: #4a5568;
+            
+            --shadow-sm: 0 2px 12px rgba(0,0,0,0.3);
+            --shadow-md: 0 5px 20px rgba(0,0,0,0.4);
+            --shadow-lg: 0 10px 30px rgba(0,0,0,0.5);
+            --shadow-xl: 0 20px 50px rgba(0,0,0,0.6);
+            
+            --gradient-light: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
+            --gradient-dark: linear-gradient(135deg, #1a202c 0%, #2d3748 100%);
+            --gradient-audio-hero: linear-gradient(135deg, #1a202c 0%, #2c5282 50%, #553c9a 100%);
+            --gradient-stats: linear-gradient(135deg, #1a202c 0%, #3182ce 100%);
+        }
+
+        /* Reset & Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: var(--light-bg);
+            color: var(--text-color);
+            line-height: 1.6;
+            transition: var(--transition);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Styles */
+        .main-header {
+            background: var(--white);
+            box-shadow: var(--shadow-sm);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            transition: var(--transition);
+        }
+
+        .main-nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px 0;
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .nav-logo {
+            width: 40px;
+            height: 40px;
+            border-radius: var(--radius-sm);
+            object-fit: cover;
+        }
+
+        .brand-name {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--text-color);
+        }
+
+        /* Professional Audio Hero */
+        .professional-audio-hero {
+            padding: 180px 0 100px;
+            background: var(--gradient-audio-hero);
+            color: var(--white);
+            position: relative;
+            overflow: hidden;
+            min-height: 600px;
+            display: flex;
+            align-items: center;
+        }
+
+        .audio-hero-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 10% 20%, rgba(52, 152, 219, 0.25) 0%, transparent 50%),
+                radial-gradient(circle at 90% 80%, rgba(155, 89, 182, 0.2) 0%, transparent 50%),
+                radial-gradient(circle at 50% 50%, rgba(231, 76, 60, 0.15) 0%, transparent 60%);
+            animation: audioFloat 20s ease-in-out infinite alternate;
+            z-index: 1;
+        }
+
+        .audio-hero-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .audio-hero-title {
+            font-size: 3.8rem;
+            font-weight: 900;
+            margin-bottom: 1.5rem;
+            letter-spacing: -1.5px;
+            line-height: 1.1;
+            background: linear-gradient(135deg, #ffffff 0%, rgba(255,255,255,0.95) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 2px 15px rgba(0,0,0,0.3);
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .audio-hero-subtitle {
+            font-size: 1.4rem;
+            opacity: 0.95;
+            margin-bottom: 2.5rem;
+            font-weight: 400;
+            line-height: 1.7;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            color: rgba(255,255,255,0.95);
+            text-shadow: 0 1px 5px rgba(0,0,0,0.3);
+            animation: fadeInUp 0.8s ease-out 0.2s both;
+        }
+
+        /* Audio Hero Stats */
+        .audio-hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 4rem;
+            flex-wrap: wrap;
+            animation: fadeInUp 0.8s ease-out 0.4s both;
+        }
+
+        .audio-stat {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            padding: 20px;
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: var(--radius-lg);
+            min-width: 150px;
+            transition: var(--transition);
+        }
+
+        .audio-stat:hover {
+            background: rgba(255,255,255,0.2);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            border-color: rgba(255,255,255,0.3);
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--accent-light);
+            line-height: 1;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+
+        .stat-label {
+            font-size: 1rem;
+            opacity: 0.9;
+            font-weight: 500;
+            color: rgba(255,255,255,0.9);
+        }
+
+        /* Professional Audio Library */
+        .professional-audio-library {
+            padding: 100px 0;
+            background: var(--light-bg);
+            transition: background-color 0.5s ease;
+        }
+
+        .audio-section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .audio-section-title {
+            font-size: 3.2rem;
+            font-weight: 800;
+            color: var(--text-color);
+            margin-bottom: 1rem;
+            letter-spacing: -1px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .audio-section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: var(--gradient-secondary);
+            border-radius: 2px;
+        }
+
+        .audio-section-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-light);
+            max-width: 700px;
+            margin: 2rem auto 2rem;
+            line-height: 1.7;
+            padding: 0 20px;
+        }
+
+        /* Embedded Audio Container */
+        .embedded-audio-container {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-xl);
+            margin-bottom: 40px;
+            border: 1px solid var(--border-color);
+            position: relative;
+            transition: var(--transition);
+        }
+
+        .embedded-audio-container:hover {
+            box-shadow: var(--shadow-xl), 0 0 30px rgba(52, 152, 219, 0.1);
+        }
+
+        .audio-library-header {
+            background: var(--gradient-secondary);
+            padding: 25px 30px;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            color: var(--white);
+        }
+
+        .audio-library-info {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .audio-library-icon {
+            width: 60px;
+            height: 60px;
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            border: 2px solid rgba(255,255,255,0.3);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .audio-library-text h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+            color: white;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+        }
+
+        .audio-library-text p {
+            font-size: 1rem;
+            opacity: 0.9;
+            color: rgba(255,255,255,0.9);
+        }
+
+        .audio-library-controls {
+            display: flex;
+            gap: 15px;
+        }
+
+        .audio-library-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 24px;
+            background: rgba(255,255,255,0.15);
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: var(--radius-md);
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--white);
+            cursor: pointer;
+            transition: var(--transition);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .audio-library-btn:hover {
+            background: rgba(255,255,255,0.25);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+            border-color: rgba(255,255,255,0.5);
+        }
+
+        /* Iframe Container */
+        .iframe-audio-container {
+            position: relative;
+            width: 100%;
+            min-height: 400px;
+        }
+
+        .embedded-audio-frame {
+            width: 100%;
+            height: 700px;
+            border: none;
+            display: block;
+            transition: height 0.3s ease;
+            background: var(--white);
+            position: relative;
+            z-index: 2;
+        }
+
+        .iframe-audio-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 3;
+            transition: opacity 0.3s ease;
+        }
+
+        .audio-loading-spinner {
+            text-align: center;
+            color: white;
+            padding: 40px;
+        }
+
+        .audio-spinner {
+            width: 60px;
+            height: 60px;
+            border: 4px solid rgba(255,255,255,0.1);
+            border-top: 4px solid var(--secondary-color);
+            border-radius: 50%;
+            animation: audioSpin 1.5s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes audioSpin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .waveform-animation {
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            gap: 4px;
+            height: 40px;
+            margin: 20px 0;
+        }
+
+        .wave-bar {
+            width: 6px;
+            background: linear-gradient(to top, var(--secondary-color), var(--purple-color));
+            border-radius: 3px;
+            animation: wave 1.2s ease-in-out infinite;
+        }
+
+        .wave-bar:nth-child(1) { height: 10px; animation-delay: 0s; }
+        .wave-bar:nth-child(2) { height: 20px; animation-delay: 0.1s; }
+        .wave-bar:nth-child(3) { height: 30px; animation-delay: 0.2s; }
+        .wave-bar:nth-child(4) { height: 20px; animation-delay: 0.3s; }
+        .wave-bar:nth-child(5) { height: 10px; animation-delay: 0.4s; }
+
+        @keyframes wave {
+            0%, 100% { height: 10px; }
+            50% { height: 30px; }
+        }
+
+        .btn-audio-retry {
+            background: var(--secondary-color);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 20px;
+            transition: background 0.3s;
+        }
+
+        .btn-audio-retry:hover {
+            background: var(--secondary-dark);
+        }
+
+        .audio-library-footer {
+            padding: 20px 30px;
+            background: var(--light-gray);
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .audio-security-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 0.95rem;
+            color: var(--text-light);
+        }
+
+        .audio-security-info i {
+            color: var(--success-color);
+            font-size: 1.1rem;
+        }
+
+        .audio-quality-selector {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .quality-label {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            font-weight: 600;
+        }
+
+        .quality-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .quality-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 16px;
+            background: var(--white);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 600;
+            color: var(--text-color);
+        }
+
+        .quality-btn.active {
+            background: var(--secondary-color);
+            color: var(--white);
+            border-color: var(--secondary-color);
+            box-shadow: 0 2px 8px rgba(52, 152, 219, 0.3);
+        }
+
+        .quality-btn:hover:not(.active) {
+            background: var(--light-gray);
+        }
+
+        /* Now Playing Bar */
+        .now-playing-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--gradient-dark);
+            color: var(--white);
+            padding: 15px 30px;
+            display: none;
+            align-items: center;
+            gap: 20px;
+            z-index: 1000;
+            box-shadow: 0 -5px 25px rgba(0,0,0,0.3);
+            backdrop-filter: blur(20px);
+            border-top: 1px solid rgba(255,255,255,0.15);
+            transition: transform 0.3s ease;
+        }
+
+        .now-playing-bar.visible {
+            display: flex;
+            animation: slideUp 0.3s ease;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(100%); }
+            to { transform: translateY(0); }
+        }
+
+        .now-playing-cover {
+            width: 50px;
+            height: 50px;
+            border-radius: var(--radius-sm);
+            object-fit: cover;
+            box-shadow: var(--shadow-md);
+            border: 2px solid rgba(255,255,255,0.2);
+        }
+
+        .now-playing-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .now-playing-title {
+            font-weight: 600;
+            margin-bottom: 4px;
+            font-size: 0.95rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            color: white;
+        }
+
+        .now-playing-author {
+            font-size: 0.85rem;
+            opacity: 0.8;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            color: rgba(255,255,255,0.9);
+        }
+
+        .now-playing-controls {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .mini-control-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.1);
+            border: none;
+            color: var(--white);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .mini-control-btn:hover {
+            background: rgba(255,255,255,0.2);
+            transform: scale(1.1);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+
+        .play-pause-btn {
+            width: 44px;
+            height: 44px;
+            background: var(--secondary-color);
+        }
+
+        .play-pause-btn:hover {
+            background: var(--secondary-dark);
+        }
+
+        .progress-container {
+            flex: 2;
+            max-width: 300px;
+        }
+
+        .mini-progress-bar {
+            width: 100%;
+            height: 4px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 2px;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .mini-progress-fill {
+            height: 100%;
+            background: var(--gradient-secondary);
+            border-radius: 2px;
+            width: 0%;
+            transition: width 0.1s linear;
+            position: relative;
+            z-index: 2;
+        }
+
+        .mini-progress-hover {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            background: rgba(255,255,255,0.2);
+            width: 0;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .time-display {
+            display: flex;
+            gap: 5px;
+            font-size: 0.8rem;
+            opacity: 0.8;
+            margin-top: 5px;
+            color: rgba(255,255,255,0.9);
+        }
+
+        .volume-container {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .mini-volume-slider {
+            width: 80px;
+            height: 6px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 3px;
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        .mini-volume-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 16px;
+            height: 16px;
+            background: var(--secondary-color);
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .close-mini-player {
+            background: rgba(231, 76, 60, 0.2);
+            border: 1px solid rgba(231, 76, 60, 0.3);
+        }
+
+        .close-mini-player:hover {
+            background: rgba(231, 76, 60, 0.4);
+            border-color: rgba(231, 76, 60, 0.5);
+        }
+
+        /* Quick Actions */
+        .audio-quick-actions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin: 50px 0;
+        }
+
+        .quick-action {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            padding: 30px 25px;
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--border-color);
+            transition: var(--transition);
+            text-decoration: none;
+            color: var(--text-color);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .quick-action:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-xl);
+            border-color: var(--secondary-color);
+            background: linear-gradient(135deg, var(--white), var(--light-bg));
+        }
+
+        .quick-action::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--gradient-secondary);
+            transform: translateY(-100%);
+            transition: transform 0.3s ease;
+        }
+
+        .quick-action:hover::before {
+            transform: translateY(0);
+        }
+
+        .action-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--gradient-secondary);
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-size: 1.5rem;
+            flex-shrink: 0;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .action-content {
+            flex: 1;
+        }
+
+        .action-content h4 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--text-color);
+            margin-bottom: 8px;
+        }
+
+        .action-content p {
+            color: var(--text-light);
+            font-size: 0.95rem;
+            line-height: 1.5;
+            margin-bottom: 5px;
+        }
+
+        .action-badge {
+            background: var(--secondary-color);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+
+        /* Audio Features Grid */
+        .audio-features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+
+        .audio-feature-card {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            padding: 40px 30px;
+            text-align: center;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--border-color);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .audio-feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-xl);
+            border-color: var(--secondary-color);
+        }
+
+        .audio-feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--gradient-secondary);
+            border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+        }
+
+        .audio-feature-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--gradient-secondary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 25px;
+            color: var(--white);
+            font-size: 2rem;
+            box-shadow: var(--shadow-md);
+        }
+
+        .audio-feature-card h4 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--text-color);
+            margin-bottom: 15px;
+        }
+
+        .audio-feature-card p {
+            color: var(--text-light);
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        .feature-badge {
+            background: linear-gradient(135deg, var(--secondary-color), var(--purple-color));
+            color: white;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-weight: 600;
+        }
+
+        /* Listening Statistics */
+        .listening-stats {
+            background: var(--gradient-stats);
+            border-radius: var(--radius-lg);
+            padding: 40px;
+            margin: 60px 0;
+            box-shadow: var(--shadow-md);
+            border: 1px solid rgba(255,255,255,0.1);
+            text-align: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stats-subtitle {
+            color: rgba(255,255,255,0.8);
+            font-size: 1rem;
+            margin-bottom: 30px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .stat-item {
+            text-align: left;
+            padding: 30px 20px;
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+            border: 1px solid rgba(255,255,255,0.2);
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .stat-item:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-lg);
+            border-color: rgba(255,255,255,0.3);
+        }
+
+        .stat-icon {
+            font-size: 2.5rem;
+            color: white;
+            background: linear-gradient(135deg, var(--secondary-color), var(--purple-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            min-width: 60px;
+            text-align: center;
+        }
+
+        .stat-content h4 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: white;
+            margin-bottom: 5px;
+            line-height: 1;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .stat-content p {
+            color: rgba(255,255,255,0.9);
+            font-size: 1rem;
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+
+        .stat-progress {
+            height: 4px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 2px;
+            margin-top: 8px;
+            overflow: hidden;
+        }
+
+        .stat-progress-bar {
+            height: 100%;
+            background: white;
+            border-radius: 2px;
+        }
+
+        /* Controls Panel */
+        .audio-controls-panel {
+            background: var(--gradient-light);
+            border-radius: var(--radius-lg);
+            padding: 40px;
+            margin: 50px 0;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--border-color);
+            text-align: center;
+        }
+
+        .audio-controls-panel h3 {
+            font-size: 1.8rem;
+            color: var(--text-color);
+            margin-bottom: 30px;
+            font-weight: 700;
+        }
+
+        .controls-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 20px;
+        }
+
+        .control-btn {
+            width: 100%;
+            padding: 15px;
+            background: var(--white);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: var(--transition);
+            color: var(--text-color);
+        }
+
+        .control-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-md);
+            border-color: var(--secondary-color);
+        }
+
+        .control-btn.active {
+            background: var(--secondary-color);
+            color: white;
+            border-color: var(--secondary-color);
+        }
+
+        .control-btn i {
+            font-size: 1.5rem;
+        }
+
+        .control-btn span {
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        /* Footer */
+        .professional-audio-footer {
+            background: var(--primary-dark);
+            color: var(--white);
+            padding: 60px 0 30px;
+            margin-top: 80px;
+        }
+
+        .professional-audio-footer a {
+            color: rgba(255,255,255,0.8);
+            transition: var(--transition);
+            text-decoration: none;
+        }
+
+        .professional-audio-footer a:hover {
+            color: var(--white);
+            text-decoration: underline;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-brand {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .footer-logo {
+            width: 80px;
+            height: 80px;
+            border-radius: var(--radius-md);
+        }
+
+        .footer-mission h3 {
+            font-size: 1.4rem;
+            margin-bottom: 8px;
+            color: white;
+        }
+
+        .footer-mission p {
+            color: rgba(255,255,255,0.7);
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .footer-nav {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 30px;
+        }
+
+        .footer-nav-column h4 {
+            font-size: 1.1rem;
+            color: white;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .footer-nav-column ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .footer-nav-column li {
+            margin-bottom: 12px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            color: white;
+            font-size: 1.2rem;
+            transition: var(--transition);
+        }
+
+        .social-links a:hover {
+            background: var(--secondary-color);
+            transform: translateY(-3px);
+            text-decoration: none;
+        }
+
+        .newsletter-form {
+            display: flex;
+            gap: 10px;
+        }
+
+        .newsletter-form input {
+            flex: 1;
+            padding: 10px 15px;
+            border: 1px solid rgba(255,255,255,0.2);
+            background: rgba(255,255,255,0.1);
+            border-radius: var(--radius-sm);
+            color: white;
+            font-size: 0.9rem;
+        }
+
+        .newsletter-form input::placeholder {
+            color: rgba(255,255,255,0.5);
+        }
+
+        .btn-subscribe {
+            background: var(--secondary-color);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+
+        .btn-subscribe:hover {
+            background: var(--secondary-dark);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .footer-bottom p {
+            color: rgba(255,255,255,0.7);
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+        }
+
+        .footer-tagline {
+            color: rgba(255,255,255,0.5) !important;
+            font-size: 0.85rem !important;
+            font-style: italic;
+        }
+
+        /* Theme Toggle */
+        .theme-toggle-container {
+            position: fixed;
+            top: 120px;
+            right: 20px;
+            z-index: 1000;
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            padding: 8px;
+            box-shadow: var(--shadow-xl);
+            border: 2px solid var(--secondary-color);
+            backdrop-filter: blur(10px);
+            transition: var(--transition);
+        }
+
+        .theme-toggle {
+            width: 70px;
+            height: 36px;
+            background: var(--gradient-secondary);
+            border-radius: 50px;
+            position: relative;
+            cursor: pointer;
+            border: 2px solid var(--white);
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
+            transition: var(--transition);
+        }
+
+        .toggle-slider {
+            position: absolute;
+            top: 4px;
+            left: 4px;
+            width: 28px;
+            height: 28px;
+            background: white;
+            border-radius: 50%;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            font-size: 14px;
+            color: var(--secondary-color);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+        }
+
+        [data-theme="dark"] .toggle-slider {
+            transform: translateX(34px);
+            background: linear-gradient(135deg, #f1c40f, #e74c3c);
+            color: white;
+        }
+
+        [data-theme="light"] .toggle-slider {
+            background: linear-gradient(135deg, #ffffff, #ecf0f1);
+            color: #3498db;
+        }
+
+        /* Mobile Menu Styles */
+        .mobile-menu-toggle {
+            display: none;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 30px;
+            height: 24px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            z-index: 1001;
+        }
+
+        .mobile-menu-toggle span {
+            display: block;
+            width: 100%;
+            height: 3px;
+            background: var(--text-color);
+            border-radius: 2px;
+            transition: all 0.3s ease;
+        }
+
+        .mobile-menu-toggle.active span:nth-child(1) {
+            transform: rotate(45deg) translate(6px, 6px);
+        }
+
+        .mobile-menu-toggle.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .mobile-menu-toggle.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(6px, -6px);
+        }
+
+        /* Navigation Menu */
+        .nav-menu {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            list-style: none;
+        }
+
+        .nav-link {
+            padding: 8px 16px;
+            color: var(--text-color);
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+            border-radius: var(--radius-sm);
+        }
+
+        .nav-link:hover {
+            background: var(--light-gray);
+            color: var(--text-color);
+        }
+
+        .nav-dropdown {
+            position: relative;
+        }
+
+        .dropdown-toggle {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .dropdown-arrow {
+            font-size: 0.8em;
+            transition: transform 0.3s ease;
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: var(--white);
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-lg);
+            min-width: 200px;
+            padding: 10px 0;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+            z-index: 1000;
+            border: 1px solid var(--border-color);
+        }
+
+        .dropdown-menu.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-link {
+            display: block;
+            padding: 12px 20px;
+            color: var(--text-color);
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+
+        .dropdown-link:hover {
+            background: var(--light-bg);
+            color: var(--primary-color);
+            padding-left: 25px;
+        }
+
+        /* Audio Player Status */
+        .audio-player-status {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 8px 16px;
+            background: linear-gradient(135deg, rgba(52, 152, 219, 0.1), rgba(155, 89, 182, 0.1));
+            border-radius: var(--radius-md);
+            border: 1px solid rgba(52, 152, 219, 0.2);
+            backdrop-filter: blur(10px);
+        }
+
+        .status-indicator {
+            width: 10px;
+            height: 10px;
+            background: var(--success-color);
+            border-radius: 50%;
+            position: relative;
+        }
+
+        .status-indicator.pulse::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--success-color);
+            border-radius: 50%;
+            animation: pulseGlow 2s infinite;
+        }
+
+        @keyframes pulseGlow {
+            0%, 100% {
+                opacity: 0.5;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 0.2;
+                transform: scale(1.5);
+            }
+        }
+
+        /* Animations */
+        @keyframes audioFloat {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-20px) scale(1.02); }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .audio-hero-title { font-size: 3.2rem; }
+            .audio-section-title { font-size: 2.8rem; }
+            .embedded-audio-frame { height: 600px; }
+            .audio-hero-stats { gap: 30px; }
+            .audio-stat { min-width: 130px; padding: 15px; }
+        }
+
+        @media (max-width: 992px) {
+            .audio-hero-title { font-size: 2.8rem; }
+            .audio-section-title { font-size: 2.4rem; }
+            .audio-library-header { flex-direction: column; text-align: center; gap: 20px; }
+            .audio-library-controls { width: 100%; justify-content: center; }
+            .audio-library-footer { flex-direction: column; gap: 20px; text-align: center; }
+            .embedded-audio-frame { height: 500px; }
+            .now-playing-bar { flex-wrap: wrap; padding: 15px; gap: 15px; }
+            .progress-container { order: 1; width: 100%; max-width: 100%; margin-top: 10px; }
+            .theme-toggle-container { top: 100px; right: 15px; padding: 6px; }
+            .theme-toggle { width: 60px; height: 32px; }
+            .toggle-slider { width: 24px; height: 24px; font-size: 12px; }
+            [data-theme="dark"] .toggle-slider { transform: translateX(28px); }
+            
+            /* Mobile Menu */
+            .mobile-menu-toggle { display: flex; }
+            
+            .nav-menu {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 85%;
+                max-width: 400px;
+                height: 100vh;
+                background: var(--white);
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 100px 30px 30px;
+                gap: 0;
+                transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+                overflow-y: auto;
+                box-shadow: -5px 0 30px rgba(0,0,0,0.1);
+            }
+            
+            .nav-menu.active {
+                right: 0;
+            }
+            
+            .nav-menu > li {
+                width: 100%;
+                margin-bottom: 15px;
+                opacity: 0;
+                transform: translateX(20px);
+            }
+            
+            .nav-link {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                width: 100%;
+                padding: 15px 20px;
+                border-radius: var(--radius-md);
+                background: var(--light-bg);
+                color: var(--text-color);
+                font-weight: 600;
+            }
+            
+            .dropdown-menu {
+                position: static;
+                box-shadow: none;
+                background: transparent;
+                border: none;
+                padding: 10px 0 10px 20px;
+                margin-top: 10px;
+                display: none;
+                opacity: 1;
+                visibility: visible;
+                transform: none;
+            }
+            
+            .dropdown-menu.show {
+                display: block;
+                animation: slideDown 0.3s ease;
+            }
+            
+            @keyframes slideDown {
+                from { opacity: 0; transform: translateY(-10px); }
+                to { opacity: 1; transform: translateY(0); }
+            }
+            
+            .audio-player-status { display: none !important; }
+        }
+
+        @media (max-width: 768px) {
+            .professional-audio-hero { padding: 140px 0 80px; min-height: 500px; }
+            .audio-hero-title { font-size: 2.4rem; }
+            .audio-hero-subtitle { font-size: 1.1rem; }
+            .audio-hero-stats { gap: 20px; }
+            .audio-stat { min-width: 110px; padding: 12px; }
+            .stat-number { font-size: 2.2rem; }
+            .audio-section-title { font-size: 2rem; }
+            .embedded-audio-frame { height: 400px; }
+            .audio-library-controls { flex-direction: column; width: 100%; }
+            .audio-library-btn { width: 100%; justify-content: center; }
+            .now-playing-bar { flex-direction: column; gap: 10px; padding: 10px; }
+            .now-playing-info { text-align: center; }
+            .volume-container { display: none; }
+            .theme-toggle-container { top: 85px; right: 10px; }
+        }
+
+        @media (max-width: 576px) {
+            .audio-hero-title { font-size: 2rem; }
+            .audio-section-title { font-size: 1.8rem; }
+            .audio-library-header, .audio-library-footer { padding: 20px; }
+            .embedded-audio-frame { height: 350px; }
+            .audio-feature-card { padding: 30px 20px; }
+            .listening-stats { padding: 30px 20px; }
+            .stat-item { padding: 25px 15px; }
+            .stat-content h4 { font-size: 2rem; }
+            .now-playing-controls { gap: 10px; }
+            .mini-control-btn { width: 32px; height: 32px; }
+            .play-pause-btn { width: 40px; height: 40px; }
+            .now-playing-bar { padding: 12px 15px; }
+            .audio-hero-stats { flex-direction: column; align-items: center; }
+            .audio-stat { width: 100%; max-width: 200px; }
+            .controls-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Apply saved theme immediately to prevent flash -->
+    <script>
+        (function() {
+            var theme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', theme);
+        })();
+    </script>
+
+    <!-- Professional Audio Header -->
+    <header class="main-header professional-audio-header">
+        <div class="container">
+            <nav class="main-nav" aria-label="Primary navigation">
+                <div class="nav-brand">
+                    <a class="logo-link" href="../../../homepage.html">
+                        <img alt="Raphael's Horizon" class="nav-logo" src="/assets/icons/logo-square.png">
+                        <span class="brand-name">Raphael's Horizon</span>
+                    </a>
+                </div>
+                
+                <ul class="nav-menu">
+                    <li><a class="nav-link" href="../../../homepage.html">Home</a></li>
+                    
+                    <!-- Books Dropdown -->
+                    <li class="nav-dropdown">
+                        <a aria-controls="books-menu" aria-expanded="false" aria-haspopup="true" 
+                           class="nav-link dropdown-toggle" href="../books.html">
+                            Books <span class="dropdown-arrow">▼</span>
+                        </a>
+                        <div class="dropdown-menu" id="books-menu" role="menu">
+                            <a class="dropdown-link" href="../books.html" role="menuitem">
+                                <i class="fas fa-shopping-cart"></i> Purchase Books
+                            </a>
+                            <a class="dropdown-link" href="books-online.html" role="menuitem">
+                                <i class="fas fa-book-reader"></i> Read Online
+                            </a>
+                            <a class="dropdown-link active" href="audio-books.html" role="menuitem">
+                                <i class="fas fa-headphones"></i> Audio Books
+                            </a>
+                        </div>
+                    </li>
+                    
+                    <!-- About Dropdown -->
+                    <li class="nav-dropdown">
+                        <button type="button" aria-controls="about-menu" aria-expanded="false" aria-haspopup="true" 
+                                class="nav-link dropdown-toggle" role="button" tabindex="0">
+                            About <span class="dropdown-arrow">▼</span>
+                        </button>
+                        <div class="dropdown-menu" id="about-menu" role="menu">
+                            <a class="dropdown-link" href="../../../pages/about/about-us.html" role="menuitem">About Us</a>
+                            <a class="dropdown-link" href="../../../pages/about/assimagbe-albert-raphael.html" role="menuitem">Assimagbe Albert Raphael</a>
+                        </div>
+                    </li>
+                    
+                    <!-- Contact Dropdown -->
+                    <li class="nav-dropdown">
+                        <button type="button" aria-controls="contact-menu" aria-expanded="false" aria-haspopup="true" 
+                                class="nav-link dropdown-toggle" tabindex="0">
+                            Contact <span class="dropdown-arrow">▼</span>
+                        </button>
+                        <div class="dropdown-menu" id="contact-menu" role="menu">
+                            <a class="dropdown-link" href="../../../pages/contact/contact-us.html" role="menuitem">Contact Us</a>
+                            <a class="dropdown-link" href="../../../pages/contact/speaking-request.html" role="menuitem">Speaking Request</a>
+                            <a class="dropdown-link" href="../../../pages/contact/privacy-policy.html" role="menuitem">Privacy Policy</a>
+                        </div>
+                    </li>
+                    
+                    <!-- Blog Dropdown -->
+                    <li class="nav-dropdown">
+                        <button type="button" aria-controls="blog-menu" aria-expanded="false" aria-haspopup="true" 
+                                class="nav-link dropdown-toggle" tabindex="0">
+                            Blog <span class="dropdown-arrow">▼</span>
+                        </button>
+                        <div class="dropdown-menu" id="blog-menu" role="menu">
+                            <a class="dropdown-link" href="../../../pages/blog/index.html" role="menuitem">Blog Home</a>
+                            <a class="dropdown-link" href="../../../pages/blog/categories.html" role="menuitem">Categories</a>
+                            <a class="dropdown-link external" href="https://raphaelshorizon.blogspot.com/" 
+                               rel="noopener noreferrer" role="menuitem" target="_blank">Legacy Blog</a>
+                        </div>
+                    </li>
+                    
+                    <!-- Account Dropdown -->
+                    <li class="nav-dropdown auth-menu-guest">
+                        <a href="javascript:void(0)" aria-controls="account-menu" aria-expanded="false" 
+                           aria-haspopup="true" class="nav-link dropdown-toggle" role="button" tabindex="0">
+                            Account <span class="dropdown-arrow">▼</span>
+                        </a>
+                        <div class="dropdown-menu" id="account-menu" role="menu">
+                            <a class="dropdown-link" href="../../../pages/profile/login.html" role="menuitem">Sign in</a>
+                            <a class="dropdown-link" href="../../../pages/profile/login.html#register" role="menuitem">Create account</a>
+                        </div>
+                    </li>
+
+                    <!-- DONATE BUTTON - Visible prominently -->
+                    <li class="nav-donate">
+                        <a class="btn-donate" href="../../donation.html">
+                            <i class="fas fa-heart"></i> Donate
+                        </a>
+                    </li>
+                </ul>
+                
+                <!-- Audio Player Status -->
+                <div class="audio-player-status" id="audioPlayerStatus">
+                    <div class="status-indicator" id="statusIndicator"></div>
+                    <span id="playerStatusText">Audio Ready</span>
+                    <div class="volume-control">
+                        <i class="fas fa-volume-up"></i>
+                        <input type="range" min="0" max="100" value="80" class="volume-slider" id="volumeSlider">
+                    </div>
+                </div>
+                
+                <!-- Theme Toggle -->
+                <div class="theme-toggle-container">
+                    <div class="theme-toggle" id="themeToggle">
+                        <div class="toggle-slider"></div>
+                    </div>
+                </div>
+                
+                <div class="mobile-menu-toggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Professional Audio Hero -->
+    <section class="professional-audio-hero">
+        <div class="audio-hero-background"></div>
+        <div class="container">
+            <div class="audio-hero-content">
+                <h1 class="audio-hero-title">Premium Audio Experience</h1>
+                <p class="audio-hero-subtitle">
+                    Immerse yourself in professional audio book streaming with Audiobookshelf integration. 
+                    Experience crystal-clear audio, smart playlists, and premium listening features.
+                </p>
+                
+                <div class="audio-hero-stats">
+                    <div class="audio-stat">
+                        <span class="stat-number" id="totalBooks">1,000+</span>
+                        <span class="stat-label">Audio Books</span>
+                    </div>
+                    <div class="audio-stat">
+                        <span class="stat-number" id="totalHours">5,000+</span>
+                        <span class="stat-label">Hours of Content</span>
+                    </div>
+                    <div class="audio-stat">
+                        <span class="stat-number" id="activeListeners">10,000+</span>
+                        <span class="stat-label">Active Listeners</span>
+                    </div>
+                    <div class="audio-stat">
+                        <span class="stat-number" id="audioFormats">15+</span>
+                        <span class="stat-label">Audio Formats</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Now Playing Bar -->
+    <div class="now-playing-bar" id="nowPlayingBar">
+        <img src="/assets/images/default-audio-cover.jpg" alt="Album Cover" class="now-playing-cover" id="nowPlayingCover">
+        <div class="now-playing-info">
+            <div class="now-playing-title" id="nowPlayingTitle">Select an audio to play</div>
+            <div class="now-playing-author" id="nowPlayingAuthor">-</div>
+        </div>
+        <div class="now-playing-controls">
+            <button class="mini-control-btn" onclick="skipBackward()" title="Skip backward 15 seconds">
+                <i class="fas fa-step-backward"></i>
+            </button>
+            <button class="mini-control-btn play-pause-btn" onclick="togglePlayPause()" id="miniPlayBtn" title="Play/Pause">
+                <i class="fas fa-play" id="miniPlayIcon"></i>
+            </button>
+            <button class="mini-control-btn" onclick="skipForward()" title="Skip forward 30 seconds">
+                <i class="fas fa-step-forward"></i>
+            </button>
+        </div>
+        <div class="progress-container">
+            <div class="mini-progress-bar" onclick="seekAudio(event)">
+                <div class="mini-progress-fill" id="miniProgressFill"></div>
+                <div class="mini-progress-hover" id="miniProgressHover"></div>
+            </div>
+            <div class="time-display">
+                <span id="currentTime">0:00</span> / <span id="totalTime">0:00</span>
+            </div>
+        </div>
+        <div class="volume-container">
+            <i class="fas fa-volume-up"></i>
+            <input type="range" min="0" max="100" value="80" class="mini-volume-slider" id="miniVolumeSlider">
+        </div>
+        <button class="mini-control-btn close-mini-player" onclick="closeMiniPlayer()" title="Close player">
+            <i class="fas fa-times"></i>
+        </button>
+    </div>
+
+    <!-- Professional Audio Library -->
+    <section class="professional-audio-library">
+        <div class="container">
+            <div class="audio-section-header">
+                <h2 class="audio-section-title">Professional Audio Library</h2>
+                <p class="audio-section-subtitle">
+                    Access our extensive audio collection through Audiobookshelf, featuring professional-grade 
+                    streaming, smart recommendations, and advanced listening features.
+                </p>
+            </div>
+
+            <!-- Enhanced Embedded Audio Library -->
+            <div class="embedded-audio-container">
+                <div class="audio-library-header">
+                    <div class="audio-library-info">
+                        <div class="audio-library-icon">
+                            <i class="fas fa-headphones"></i>
+                        </div>
+                        <div class="audio-library-text">
+                            <h3>Audiobookshelf Premium</h3>
+                            <p>Professional audio streaming • Smart playlists • Advanced playback controls</p>
+                        </div>
+                    </div>
+                    
+                    <div class="audio-library-controls">
+                        <button class="audio-library-btn" onclick="toggleAudioFullscreen()" title="Toggle fullscreen">
+                            <i class="fas fa-expand"></i> Fullscreen
+                        </button>
+                        <button class="audio-library-btn" onclick="refreshAudioLibrary()" title="Refresh library">
+                            <i class="fas fa-sync-alt"></i> Refresh
+                        </button>
+                        <button class="audio-library-btn logout-guest-btn" onclick="logoutFromAudiobookshelf()" title="Switch to Guest/Fix Session" style="background: rgba(255, 68, 68, 0.15); border-color: rgba(255, 68, 68, 0.3);">
+                            <i class="fas fa-user-slash"></i> Fix Session
+                        </button>
+                        <button class="audio-library-btn" onclick="showAudioGuide()" title="Show audio guide">
+                            <i class="fas fa-question-circle"></i> Guide
+                        </button>
+                        <button class="audio-library-btn" onclick="toggleAudioQuality()" title="Toggle audio quality" id="qualityToggle">
+                            <i class="fas fa-sliders-h"></i> High Quality
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Audiobookshelf Iframe with Enhanced Configuration -->
+                <div class="iframe-audio-container">
+                    <iframe 
+                        id="audiobookshelfFrame"
+                        title="Audiobookshelf Professional Audio Library" 
+                        class="embedded-audio-frame"
+                        allow="autoplay; encrypted-media; fullscreen; microphone"
+                        allowfullscreen
+                        loading="eager"
+                        src="/audiobookshelf/"
+                    ></iframe>
+                    
+                    <div class="iframe-audio-overlay" id="audioLoading">
+                        <div class="audio-loading-spinner">
+                            <div class="audio-spinner"></div>
+                            <p>Loading Audiobookshelf Library...</p>
+                            <div class="waveform-animation">
+                                <div class="wave-bar"></div>
+                                <div class="wave-bar"></div>
+                                <div class="wave-bar"></div>
+                                <div class="wave-bar"></div>
+                                <div class="wave-bar"></div>
+                            </div>
+                            <button type="button" onclick="refreshAudioLibrary()" class="btn-audio-retry">
+                                <i class="fas fa-redo"></i> Retry Connection
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="audio-library-footer">
+                    <div class="audio-security-info">
+                        <i class="fas fa-shield-alt"></i>
+                        <span>Secure streaming • DRM protected • Premium audio quality</span>
+                    </div>
+                    
+                    <div class="audio-quality-selector">
+                        <span class="quality-label">Audio Quality:</span>
+                        <div class="quality-buttons">
+                            <button class="quality-btn active" onclick="setAudioQuality('high')" data-quality="high">
+                                <i class="fas fa-volume-up"></i> High
+                            </button>
+                            <button class="quality-btn" onclick="setAudioQuality('medium')" data-quality="medium">
+                                <i class="fas fa-volume-down"></i> Medium
+                            </button>
+                            <button class="quality-btn" onclick="setAudioQuality('low')" data-quality="low">
+                                <i class="fas fa-volume-off"></i> Low
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="audio-quick-actions">
+                <a href="javascript:void(0)" class="quick-action" onclick="navigateToAudioSection('recent')">
+                    <div class="action-icon">
+                        <i class="fas fa-history"></i>
+                    </div>
+                    <div class="action-content">
+                        <h4>Recently Added</h4>
+                        <p>Discover the latest audio books added to our collection</p>
+                        <span class="action-badge" id="recentCount">12 new</span>
+                    </div>
+                </a>
+                
+                <a href="javascript:void(0)" class="quick-action" onclick="navigateToAudioSection('popular')">
+                    <div class="action-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="action-content">
+                        <h4>Most Popular</h4>
+                        <p>Explore the most listened audio books from our library</p>
+                        <span class="action-badge" id="popularCount">Top 50</span>
+                    </div>
+                </a>
+                
+                <a href="javascript:void(0)" class="quick-action" onclick="navigateToAudioSection('collections')">
+                    <div class="action-icon">
+                        <i class="fas fa-folder-open"></i>
+                    </div>
+                    <div class="action-content">
+                        <h4>Collections</h4>
+                        <p>Browse curated collections and themed playlists</p>
+                        <span class="action-badge" id="collectionCount">25+</span>
+                    </div>
+                </a>
+                
+                <a href="javascript:void(0)" class="quick-action" onclick="navigateToAudioSection('continue')">
+                    <div class="action-icon">
+                        <i class="fas fa-play-circle"></i>
+                    </div>
+                    <div class="action-content">
+                        <h4>Continue Listening</h4>
+                        <p>Pick up where you left off in your audio journey</p>
+                        <span class="action-badge" id="continueCount">3 books</span>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Audio Features Grid -->
+            <div class="audio-features-grid">
+                <div class="audio-feature-card">
+                    <div class="audio-feature-icon">
+                        <i class="fas fa-broadcast-tower"></i>
+                    </div>
+                    <h4>High Quality Streaming</h4>
+                    <p>Stream audio in up to 320kbps quality with adaptive bitrate for seamless listening.</p>
+                    <div class="feature-badge">HD Audio</div>
+                </div>
+                
+                <div class="audio-feature-card">
+                    <div class="audio-feature-icon">
+                        <i class="fas fa-sync-alt"></i>
+                    </div>
+                    <h4>Cross-Device Sync</h4>
+                    <p>Sync your listening progress, bookmarks, and playlists across all your devices.</p>
+                    <div class="feature-badge">Cloud Sync</div>
+                </div>
+                
+                <div class="audio-feature-card">
+                    <div class="audio-feature-icon">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <h4>Smart Recommendations</h4>
+                    <p>Get personalized recommendations based on your listening history and preferences.</p>
+                    <div class="feature-badge">AI Powered</div>
+                </div>
+                
+                <div class="audio-feature-card">
+                    <div class="audio-feature-icon">
+                        <i class="fas fa-download"></i>
+                    </div>
+                    <h4>Offline Listening</h4>
+                    <p>Download audio books for offline listening when you're on the go (premium feature).</p>
+                    <div class="feature-badge">Offline Mode</div>
+                </div>
+            </div>
+
+            <!-- Listening Statistics -->
+            <div class="listening-stats" id="listeningStats">
+                <h3>Your Listening Journey</h3>
+                <p class="stats-subtitle">Track your audio book progress and achievements</p>
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h4 id="totalListeningTime">0</h4>
+                            <p>Total Listening Hours</p>
+                            <div class="stat-progress">
+                                <div class="stat-progress-bar" style="width: 65%"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-item">
+                        <div class="stat-icon">
+                            <i class="fas fa-book"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h4 id="completedBooks">0</h4>
+                            <p>Books Completed</p>
+                            <div class="stat-progress">
+                                <div class="stat-progress-bar" style="width: 40%"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-item">
+                        <div class="stat-icon">
+                            <i class="fas fa-bookmark"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h4 id="savedBookmarks">0</h4>
+                            <p>Saved Bookmarks</p>
+                            <div class="stat-progress">
+                                <div class="stat-progress-bar" style="width: 75%"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-item">
+                        <div class="stat-icon">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h4 id="topGenre">-</h4>
+                            <p>Top Genre</p>
+                            <div class="stat-progress">
+                                <div class="stat-progress-bar" style="width: 50%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Audio Player Controls Panel -->
+            <div class="audio-controls-panel">
+                <h3>Enhanced Audio Controls</h3>
+                <div class="controls-grid">
+                    <div class="control-item">
+                        <button class="control-btn" onclick="setPlaybackSpeed(0.75)" title="Slower speed">
+                            <i class="fas fa-tachometer-alt"></i>
+                            <span>0.75x</span>
+                        </button>
+                    </div>
+                    <div class="control-item">
+                        <button class="control-btn active" onclick="setPlaybackSpeed(1)" title="Normal speed">
+                            <i class="fas fa-tachometer-alt"></i>
+                            <span>1x</span>
+                        </button>
+                    </div>
+                    <div class="control-item">
+                        <button class="control-btn" onclick="setPlaybackSpeed(1.25)" title="Faster speed">
+                            <i class="fas fa-tachometer-alt"></i>
+                            <span>1.25x</span>
+                        </button>
+                    </div>
+                    <div class="control-item">
+                        <button class="control-btn" onclick="setPlaybackSpeed(1.5)" title="Fastest speed">
+                            <i class="fas fa-tachometer-alt"></i>
+                            <span>1.5x</span>
+                        </button>
+                    </div>
+                    <div class="control-item">
+                        <button class="control-btn" onclick="setSleepTimer(15)" title="Sleep timer 15min">
+                            <i class="fas fa-moon"></i>
+                            <span>15 min</span>
+                        </button>
+                    </div>
+                    <div class="control-item">
+                        <button class="control-btn" onclick="setSleepTimer(30)" title="Sleep timer 30min">
+                            <i class="fas fa-moon"></i>
+                            <span>30 min</span>
+                        </button>
+                    </div>
+                    <div class="control-item">
+                        <button class="control-btn" onclick="toggleEqualizer()" title="Toggle equalizer">
+                            <i class="fas fa-sliders-h"></i>
+                            <span>EQ</span>
+                        </button>
+                    </div>
+                    <div class="control-item">
+                        <button class="control-btn" onclick="toggleChapterMode()" title="Chapter navigation">
+                            <i class="fas fa-list-ol"></i>
+                            <span>Chapters</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="main-footer professional-audio-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <img src="/assets/icons/logo-square.png" alt="Raphael's Horizon" class="footer-logo">
+                    <div class="footer-mission">
+                        <h3>Raphael's Horizon</h3>
+                        <p>Unveiling God's Promises through Boundless Possibilities</p>
+                    </div>
+                </div>
+
+                <nav class="footer-nav" aria-label="Footer navigation">
+                    <div class="footer-nav-column">
+                        <h4>Navigation</h4>
+                        <ul>
+                            <li><a href="../../../homepage.html">Home</a></li>
+                            <li><a href="../books.html">Books</a></li>
+                            <li><a href="../../../pages/about/about-us.html">About</a></li>
+                            <li><a href="../../../pages/contact/contact-us.html">Contact</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="footer-nav-column">
+                        <h4>Audio Resources</h4>
+                        <ul>
+                            <li><a href="audio-books.html">Audio Library</a></li>
+                            <li><a href="books-online.html">Online Books</a></li>
+                            <li><a href="javascript:void(0)" onclick="showAudioGuide()">User Guide</a></li>
+                            <li><a href="javascript:void(0)" onclick="showAudioTroubleshooting()">Troubleshooting</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="footer-nav-column">
+                        <h4>Legal</h4>
+                        <ul>
+                            <li><a href="../../../pages/contact/privacy-policy.html">Privacy Policy</a></li>
+                            <li><a href="javascript:void(0)" onclick="showCookiePreferences()">Cookie Preferences</a></li>
+                            <li><a href="../../../pages/contact/contact-us.html">Terms of Service</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="footer-nav-column">
+                        <h4>Connect</h4>
+                        <div class="social-links">
+                            <a href="https://facebook.com/raphaelshorizon" target="_blank" rel="noopener noreferrer" title="Facebook">
+                                <i class="fab fa-facebook"></i>
+                            </a>
+                            <a href="https://twitter.com/raphaelshorizon" target="_blank" rel="noopener noreferrer" title="Twitter">
+                                <i class="fab fa-twitter"></i>
+                            </a>
+                            <a href="https://youtube.com/@raphaelshorizon" target="_blank" rel="noopener noreferrer" title="YouTube">
+                                <i class="fab fa-youtube"></i>
+                            </a>
+                            <a href="https://instagram.com/raphaelshorizon" target="_blank" rel="noopener noreferrer" title="Instagram">
+                                <i class="fab fa-instagram"></i>
+                            </a>
+                        </div>
+                        <p class="newsletter-text">Get audio book updates</p>
+                        <form class="newsletter-form" id="audioNewsletterForm">
+                            <input type="email" placeholder="Your email" aria-label="Email for audio newsletter" required>
+                            <button type="submit" class="btn-subscribe">
+                                <i class="fas fa-paper-plane"></i>
+                            </button>
+                        </form>
+                    </div>
+                </nav>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; <span id="audioCurrentYear">2024</span> Raphael's Horizon. All Rights Reserved.</p>
+                <p class="footer-tagline">Unveiling God's Promises Through Boundless Possibilities</p>
+                <div class="audio-tech-info">
+                    <span>Audiobookshelf v2.4.0 • High Quality Audio • Secure Streaming</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modals -->
+    <div class="modal-overlay audio-guide-modal" id="audioGuideModal" style="display: none;">
+        <div class="modal-content audio-guide-content">
+            <div class="modal-header">
+                <h3>Audiobookshelf Library Guide</h3>
+                <button class="modal-close" onclick="closeAudioGuide()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="guide-sections">
+                    <div class="guide-section">
+                        <h4><i class="fas fa-search"></i> Finding Audio Books</h4>
+                        <p>Use the search bar to find specific titles, authors, or genres.</p>
+                    </div>
+                    <div class="guide-section">
+                        <h4><i class="fas fa-play-circle"></i> Playback Controls</h4>
+                        <p>Use playback controls to play, pause, skip chapters, adjust speed.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay audio-troubleshooting-modal" id="audioTroubleshootingModal" style="display: none;">
+        <div class="modal-content audio-troubleshooting-content">
+            <div class="modal-header">
+                <h3>Audio Troubleshooting Guide</h3>
+                <button class="modal-close" onclick="closeAudioTroubleshooting()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="troubleshooting-items">
+                    <div class="troubleshooting-item">
+                        <h4><i class="fas fa-volume-mute"></i> No Sound</h4>
+                        <p>Check your device volume and browser audio settings.</p>
+                        <button class="btn-troubleshoot" onclick="testAudio()">Test Audio</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- All JavaScript Combined -->
+    <script>
+        // ============================================
+        // MOBILE MENU FIX
+        // ============================================
+        class MobileMenuFix {
+            constructor() {
+                this.menuOpen = false;
+                this.init();
+            }
+
+            init() {
+                this.setupMenuToggle();
+                this.setupMenuLinks();
+                this.setupDropdowns();
+                this.handleResize();
+                this.setupSwipeToClose();
+                console.log('Mobile Menu Fix initialized');
+            }
+
+            setupMenuToggle() {
+                const mobileToggle = document.querySelector('.mobile-menu-toggle');
+                const navMenu = document.querySelector('.nav-menu');
+                const body = document.body;
+
+                if (!mobileToggle || !navMenu) return;
+
+                mobileToggle.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    this.toggleMenu();
+                });
+
+                document.addEventListener('click', (e) => {
+                    if (this.menuOpen && 
+                        !navMenu.contains(e.target) && 
+                        !mobileToggle.contains(e.target)) {
+                        this.closeMenu();
+                    }
+                });
+
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'Escape' && this.menuOpen) {
+                        this.closeMenu();
+                    }
+                });
+            }
+
+            toggleMenu() {
+                const mobileToggle = document.querySelector('.mobile-menu-toggle');
+                const navMenu = document.querySelector('.nav-menu');
+                const body = document.body;
+
+                this.menuOpen = !this.menuOpen;
+
+                if (this.menuOpen) {
+                    mobileToggle.classList.add('active');
+                    navMenu.classList.add('active');
+                    body.classList.add('menu-open');
+                    body.style.overflow = 'hidden';
+                    this.createBackdrop();
+                    this.animateMenuItems();
+                } else {
+                    this.closeMenu();
+                }
+            }
+
+            closeMenu() {
+                const mobileToggle = document.querySelector('.mobile-menu-toggle');
+                const navMenu = document.querySelector('.nav-menu');
+                const body = document.body;
+
+                this.menuOpen = false;
+                mobileToggle.classList.remove('active');
+                navMenu.classList.remove('active');
+                body.classList.remove('menu-open');
+                body.style.overflow = '';
+                this.removeBackdrop();
+                this.closeAllDropdowns();
+            }
+
+            createBackdrop() {
+                if (!document.querySelector('.menu-backdrop')) {
+                    const backdrop = document.createElement('div');
+                    backdrop.className = 'menu-backdrop';
+                    backdrop.addEventListener('click', () => this.closeMenu());
+                    document.body.appendChild(backdrop);
+                    
+                    const style = document.createElement('style');
+                    style.id = 'menu-backdrop-styles';
+                    style.textContent = `
+                        .menu-backdrop {
+                            position: fixed;
+                            top: 0;
+                            left: 0;
+                            right: 0;
+                            bottom: 0;
+                            background: rgba(0,0,0,0.5);
+                            backdrop-filter: blur(4px);
+                            z-index: 999;
+                            opacity: 0;
+                            animation: fadeIn 0.3s ease forwards;
+                        }
+                        @keyframes fadeIn {
+                            from { opacity: 0; }
+                            to { opacity: 1; }
+                        }
+                        body.menu-open { overflow: hidden; }
+                        .mobile-menu-toggle { z-index: 1001; }
+                        .nav-menu.active { z-index: 1000; }
+                    `;
+                    document.head.appendChild(style);
+                    
+                    setTimeout(() => { backdrop.style.opacity = '1'; }, 10);
+                }
+            }
+
+            removeBackdrop() {
+                const backdrop = document.querySelector('.menu-backdrop');
+                if (backdrop) {
+                    backdrop.style.opacity = '0';
+                    setTimeout(() => { backdrop.remove(); }, 300);
+                }
+            }
+
+            setupMenuLinks() {
+                const navLinks = document.querySelectorAll('.nav-link');
+                navLinks.forEach(link => {
+                    link.addEventListener('click', (e) => {
+                        if (link.classList.contains('dropdown-toggle')) return;
+                        this.closeMenu();
+                    });
+                });
+            }
+
+            setupDropdowns() {
+                const dropdownToggles = document.querySelectorAll('.dropdown-toggle');
+                
+                dropdownToggles.forEach(toggle => {
+                    toggle.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        
+                        const parent = toggle.closest('.nav-dropdown');
+                        const menu = parent.querySelector('.dropdown-menu');
+                        
+                        this.closeOtherDropdowns(parent);
+                        
+                        const isExpanded = toggle.getAttribute('aria-expanded') === 'true';
+                        toggle.setAttribute('aria-expanded', !isExpanded);
+                        menu.classList.toggle('show');
+                        
+                        const arrow = toggle.querySelector('.dropdown-arrow');
+                        if (arrow) {
+                            arrow.style.transform = !isExpanded ? 'rotate(180deg)' : 'rotate(0deg)';
+                        }
+                    });
+                });
+                
+                document.addEventListener('click', (e) => {
+                    if (!e.target.closest('.nav-dropdown')) {
+                        this.closeAllDropdowns();
+                    }
+                });
+            }
+
+            closeOtherDropdowns(currentParent) {
+                const allDropdowns = document.querySelectorAll('.nav-dropdown');
+                allDropdowns.forEach(dropdown => {
+                    if (dropdown !== currentParent) {
+                        const toggle = dropdown.querySelector('.dropdown-toggle');
+                        const menu = dropdown.querySelector('.dropdown-menu');
+                        
+                        if (toggle) toggle.setAttribute('aria-expanded', 'false');
+                        if (menu) menu.classList.remove('show');
+                        
+                        const arrow = toggle.querySelector('.dropdown-arrow');
+                        if (arrow) arrow.style.transform = 'rotate(0deg)';
+                    }
+                });
+            }
+
+            closeAllDropdowns() {
+                const dropdowns = document.querySelectorAll('.nav-dropdown');
+                dropdowns.forEach(dropdown => {
+                    const toggle = dropdown.querySelector('.dropdown-toggle');
+                    const menu = dropdown.querySelector('.dropdown-menu');
+                    
+                    if (toggle) toggle.setAttribute('aria-expanded', 'false');
+                    if (menu) menu.classList.remove('show');
+                    
+                    const arrow = toggle.querySelector('.dropdown-arrow');
+                    if (arrow) arrow.style.transform = 'rotate(0deg)';
+                });
+            }
+
+            animateMenuItems() {
+                const menuItems = document.querySelectorAll('.nav-menu > li');
+                menuItems.forEach((item, index) => {
+                    item.style.opacity = '0';
+                    item.style.transform = 'translateX(-20px)';
+                    item.style.transition = 'all 0.3s ease';
+                    
+                    setTimeout(() => {
+                        item.style.opacity = '1';
+                        item.style.transform = 'translateX(0)';
+                    }, 100 + (index * 50));
+                });
+            }
+
+            handleResize() {
+                let resizeTimer;
+                window.addEventListener('resize', () => {
+                    clearTimeout(resizeTimer);
+                    resizeTimer = setTimeout(() => {
+                        if (window.innerWidth > 992) {
+                            this.closeMenu();
+                            this.closeAllDropdowns();
+                        }
+                    }, 250);
+                });
+            }
+
+            setupSwipeToClose() {
+                let startX, startY;
+                const threshold = 50;
+                
+                document.addEventListener('touchstart', (e) => {
+                    if (!this.menuOpen) return;
+                    startX = e.touches[0].clientX;
+                    startY = e.touches[0].clientY;
+                });
+                
+                document.addEventListener('touchmove', (e) => {
+                    if (!this.menuOpen || !startX || !startY) return;
+                    const currentX = e.touches[0].clientX;
+                    const diffX = startX - currentX;
+                    
+                    if (startX < 100 && diffX > threshold) {
+                        this.closeMenu();
+                        startX = null;
+                        startY = null;
+                    }
+                });
+            }
+        }
+
+        // ============================================
+        // THEME MANAGER
+        // ============================================
+        class ThemeManager {
+            constructor() {
+                this.theme = localStorage.getItem('theme') || 'light';
+                this.init();
+            }
+
+            init() {
+                this.applyTheme();
+                this.setupThemeToggle();
+                this.setupSystemThemeListener();
+                this.addThemeTransition();
+            }
+
+            applyTheme() {
+                document.documentElement.setAttribute('data-theme', this.theme);
+                localStorage.setItem('theme', this.theme);
+                this.updateMetaThemeColor();
+            }
+
+            setupThemeToggle() {
+                const toggle = document.getElementById('themeToggle');
+                if (toggle) {
+                    toggle.addEventListener('click', () => {
+                        this.toggleTheme();
+                    });
+                }
+            }
+
+            toggleTheme() {
+                this.theme = this.theme === 'light' ? 'dark' : 'light';
+                this.applyTheme();
+                this.showThemeNotification();
+                
+                document.documentElement.classList.add('theme-changing');
+                setTimeout(() => {
+                    document.documentElement.classList.remove('theme-changing');
+                }, 500);
+            }
+
+            setupSystemThemeListener() {
+                if (window.matchMedia) {
+                    const systemTheme = window.matchMedia('(prefers-color-scheme: dark)');
+                    systemTheme.addEventListener('change', (e) => {
+                        if (!localStorage.getItem('theme')) {
+                            this.theme = e.matches ? 'dark' : 'light';
+                            this.applyTheme();
+                        }
+                    });
+                }
+            }
+
+            addThemeTransition() {
+                const style = document.createElement('style');
+                style.textContent = `
+                    html { transition: background-color 0.5s ease, color 0.5s ease; }
+                    html.theme-changing { transition: background-color 0.5s ease, color 0.5s ease; }
+                    * { transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease; }
+                `;
+                document.head.appendChild(style);
+            }
+
+            updateMetaThemeColor() {
+                let themeColor = this.theme === 'dark' ? '#1a202c' : '#1a365d';
+                let metaThemeColor = document.querySelector('meta[name="theme-color"]');
+                if (!metaThemeColor) {
+                    metaThemeColor = document.createElement('meta');
+                    metaThemeColor.name = 'theme-color';
+                    document.head.appendChild(metaThemeColor);
+                }
+                metaThemeColor.content = themeColor;
+            }
+
+            showThemeNotification() {
+                const message = this.theme === 'dark' ? 'Dark mode activated' : 'Light mode activated';
+                this.showNotification(message, 'info');
+            }
+
+            showNotification(message, type) {
+                const notification = document.createElement('div');
+                notification.className = `notification ${type}`;
+                notification.innerHTML = `
+                    <i class="fas fa-${type === 'success' ? 'check-circle' : 'info-circle'}"></i>
+                    <span>${message}</span>
+                `;
+                
+                document.body.appendChild(notification);
+                
+                setTimeout(() => { notification.classList.add('show'); }, 10);
+                setTimeout(() => {
+                    notification.classList.remove('show');
+                    setTimeout(() => { notification.remove(); }, 300);
+                }, 3000);
+            }
+        }
+
+        // ============================================
+        // AUDIO ENHANCEMENTS
+        // ============================================
+        class AudioEnhancements {
+            constructor() {
+                this.audioElements = new Map();
+                this.currentAudio = null;
+                this.isPlaying = false;
+                this.listenersSetup = false;
+                this.init();
+            }
+
+            init() {
+                this.setupAudioListeners();
+                this.enhanceAudiobookshelfIframe();
+                this.setupPlaybackControls();
+                this.setupAudioAnalytics();
+                this.setupAudioShortcuts();
+                console.log('Audio Enhancements initialized');
+            }
+
+            setupAudioListeners() {
+                if (this.listenersSetup) return;
+                
+                window.addEventListener('message', (event) => {
+                    this.handleAudiobookshelfMessage(event);
+                });
+
+                document.addEventListener('keydown', (e) => {
+                    this.handleKeyboardShortcuts(e);
+                });
+
+                setInterval(() => {
+                    this.updateAudioProgress();
+                }, 1000);
+
+                this.listenersSetup = true;
+            }
+
+            enhanceAudiobookshelfIframe() {
+                const iframe = document.getElementById('audiobookshelfFrame');
+                if (!iframe) return;
+
+                iframe.addEventListener('load', () => {
+                    console.log('Audiobookshelf iframe loaded');
+                });
+
+                iframe.addEventListener('error', () => {
+                    console.error('Failed to load Audiobookshelf');
+                    this.showAudioNotification('Failed to load audio library', 'error');
+                });
+            }
+
+            handleAudiobookshelfMessage(event) {
+                if (event.data.type === 'audiobookshelf') {
+                    const { action, data } = event.data;
+                    
+                    switch(action) {
+                        case 'playerUpdate':
+                            this.handlePlayerUpdate(data);
+                            break;
+                        case 'loaded':
+                            console.log('Audiobookshelf loaded');
+                            break;
+                    }
+                }
+            }
+
+            handlePlayerUpdate(data) {
+                if (data.playing) {
+                    this.showNowPlayingBar(data);
+                    this.isPlaying = true;
+                } else {
+                    this.isPlaying = false;
+                }
+                
+                this.updateProgressBar(data);
+                this.saveListeningSession(data);
+            }
+
+            showNowPlayingBar(data) {
+                const nowPlayingBar = document.getElementById('nowPlayingBar');
+                const nowPlayingTitle = document.getElementById('nowPlayingTitle');
+                const nowPlayingAuthor = document.getElementById('nowPlayingAuthor');
+                
+                if (nowPlayingTitle && data.title) {
+                    nowPlayingTitle.textContent = data.title;
+                }
+                
+                if (nowPlayingAuthor && data.author) {
+                    nowPlayingAuthor.textContent = data.author;
+                }
+                
+                if (nowPlayingBar) {
+                    nowPlayingBar.classList.add('visible');
+                }
+                
+                this.updateMiniPlayerControls(data.playing);
+            }
+
+            updateMiniPlayerControls(isPlaying) {
+                const miniPlayIcon = document.getElementById('miniPlayIcon');
+                if (miniPlayIcon) {
+                    miniPlayIcon.className = isPlaying ? 'fas fa-pause' : 'fas fa-play';
+                }
+            }
+
+            updateProgressBar(data) {
+                const progressFill = document.getElementById('miniProgressFill');
+                const currentTimeEl = document.getElementById('currentTime');
+                const totalTimeEl = document.getElementById('totalTime');
+                
+                if (progressFill && data.duration > 0) {
+                    const percentage = (data.currentTime / data.duration) * 100;
+                    progressFill.style.width = `${percentage}%`;
+                }
+                
+                if (currentTimeEl) {
+                    currentTimeEl.textContent = this.formatTime(data.currentTime);
+                }
+                
+                if (totalTimeEl) {
+                    totalTimeEl.textContent = this.formatTime(data.duration);
+                }
+            }
+
+            formatTime(seconds) {
+                if (!seconds || seconds < 0) return '0:00';
+                const mins = Math.floor(seconds / 60);
+                const secs = Math.floor(seconds % 60);
+                return `${mins}:${secs.toString().padStart(2, '0')}`;
+            }
+
+            setupPlaybackControls() {
+                window.togglePlayPause = () => {
+                    const iframe = document.getElementById('audiobookshelfFrame');
+                    if (iframe) {
+                        iframe.contentWindow.postMessage({
+                            action: 'togglePlayPause'
+                        }, '*');
+                    }
+                    this.isPlaying = !this.isPlaying;
+                    this.updateMiniPlayerControls(this.isPlaying);
+                };
+                
+                window.skipForward = () => {
+                    const iframe = document.getElementById('audiobookshelfFrame');
+                    if (iframe) {
+                        iframe.contentWindow.postMessage({
+                            action: 'skipForward',
+                            seconds: 30
+                        }, '*');
+                    }
+                    this.showAudioNotification('Skipped forward 30 seconds', 'info');
+                };
+                
+                window.skipBackward = () => {
+                    const iframe = document.getElementById('audiobookshelfFrame');
+                    if (iframe) {
+                        iframe.contentWindow.postMessage({
+                            action: 'skipBackward',
+                            seconds: 15
+                        }, '*');
+                    }
+                    this.showAudioNotification('Skipped backward 15 seconds', 'info');
+                };
+                
+                window.seekAudio = (event) => {
+                    const progressBar = event.currentTarget;
+                    const rect = progressBar.getBoundingClientRect();
+                    const x = event.clientX - rect.left;
+                    const percentage = (x / rect.width) * 100;
+                    
+                    const iframe = document.getElementById('audiobookshelfFrame');
+                    if (iframe) {
+                        iframe.contentWindow.postMessage({
+                            action: 'seekTo',
+                            percentage: percentage
+                        }, '*');
+                    }
+                };
+                
+                window.closeMiniPlayer = () => {
+                    const nowPlayingBar = document.getElementById('nowPlayingBar');
+                    const audioPlayerStatus = document.getElementById('audioPlayerStatus');
+                    
+                    if (nowPlayingBar) nowPlayingBar.classList.remove('visible');
+                    if (audioPlayerStatus) audioPlayerStatus.style.display = 'none';
+                    
+                    if (this.isPlaying) {
+                        this.togglePlayPause();
+                    }
+                };
+            }
+
+            setupAudioAnalytics() {
+                this.listeningSessions = JSON.parse(localStorage.getItem('audioListeningSessions') || '[]');
+                
+                setInterval(() => {
+                    if (this.isPlaying) {
+                        this.trackListeningTime();
+                    }
+                }, 60000);
+            }
+
+            trackListeningTime() {
+                const session = {
+                    timestamp: new Date().toISOString(),
+                    duration: 1,
+                    book: document.getElementById('nowPlayingTitle')?.textContent || 'Unknown'
+                };
+                
+                this.listeningSessions.push(session);
+                
+                if (this.listeningSessions.length > 1000) {
+                    this.listeningSessions = this.listeningSessions.slice(-1000);
+                }
+                
+                localStorage.setItem('audioListeningSessions', JSON.stringify(this.listeningSessions));
+                this.updateListeningStats();
+            }
+
+            updateListeningStats() {
+                const totalTime = this.listeningSessions.reduce((sum, session) => sum + session.duration, 0);
+                const completedBooks = this.listeningSessions.filter(s => s.duration >= 30).length;
+                
+                const totalTimeEl = document.getElementById('totalListeningTime');
+                const completedBooksEl = document.getElementById('completedBooks');
+                const bookmarksEl = document.getElementById('savedBookmarks');
+                const topGenreEl = document.getElementById('topGenre');
+                
+                if (totalTimeEl) totalTimeEl.textContent = Math.round(totalTime / 60);
+                if (completedBooksEl) completedBooksEl.textContent = completedBooks;
+                
+                const bookmarks = JSON.parse(localStorage.getItem('audioBookmarks') || '[]');
+                if (bookmarksEl) bookmarksEl.textContent = bookmarks.length;
+                
+                const genres = JSON.parse(localStorage.getItem('audioGenres') || '[]');
+                if (genres.length > 0 && topGenreEl) {
+                    const topGenre = genres.reduce((a, b) => 
+                        genres.filter(v => v === a).length >= genres.filter(v => v === b).length ? a : b
+                    );
+                    topGenreEl.textContent = topGenre;
+                }
+            }
+
+            saveListeningSession(data) {
+                const session = {
+                    timestamp: new Date().toISOString(),
+                    book: data.title,
+                    author: data.author,
+                    duration: data.duration,
+                    currentTime: data.currentTime
+                };
+                
+                let sessions = JSON.parse(localStorage.getItem('recentListeningSessions') || '[]');
+                sessions.unshift(session);
+                sessions = sessions.slice(0, 50);
+                localStorage.setItem('recentListeningSessions', JSON.stringify(sessions));
+            }
+
+            setupAudioShortcuts() {
+                // Handled in handleKeyboardShortcuts
+            }
+
+            handleKeyboardShortcuts(e) {
+                if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+                
+                switch(e.key) {
+                    case ' ':
+                        e.preventDefault();
+                        window.togglePlayPause();
+                        break;
+                    case 'ArrowRight':
+                        if (e.ctrlKey) window.skipForward();
+                        break;
+                    case 'ArrowLeft':
+                        if (e.ctrlKey) window.skipBackward();
+                        break;
+                    case 'Escape':
+                        window.closeMiniPlayer();
+                        break;
+                }
+            }
+
+            showAudioNotification(message, type = 'info') {
+                if (window.themeManager && window.themeManager.showNotification) {
+                    window.themeManager.showNotification(message, type);
+                }
+            }
+        }
+
+        // ============================================
+        // LOGO ANIMATIONS
+        // ============================================
+        class LogoAnimations {
+            constructor() {
+                this.logos = [];
+                this.init();
+            }
+
+            init() {
+                this.findLogos();
+                this.enhanceLogos();
+                this.setupLogoInteractions();
+                console.log('Logo animations initialized');
+            }
+
+            findLogos() {
+                this.logos = Array.from(document.querySelectorAll('img[src*="logo"]')).concat(
+                    Array.from(document.querySelectorAll('.logo, .nav-logo, .footer-logo'))
+                );
+                
+                const logoContainers = document.querySelectorAll('.nav-brand, .footer-brand, .logo-link');
+                logoContainers.forEach(container => {
+                    this.logos.push(container);
+                });
+            }
+
+            enhanceLogos() {
+                this.logos.forEach((logo, index) => {
+                    logo.style.transition = 'all 0.3s ease';
+                    
+                    if (logo.classList.contains('nav-logo') || logo.classList.contains('logo-link')) {
+                        this.enhanceNavLogo(logo);
+                    } else if (logo.classList.contains('footer-logo')) {
+                        this.enhanceFooterLogo(logo);
+                    }
+                });
+            }
+
+            enhanceNavLogo(logo) {
+                logo.addEventListener('mouseenter', () => {
+                    logo.style.transform = 'rotate(5deg) scale(1.1)';
+                    logo.style.filter = 'drop-shadow(0 4px 12px rgba(0,0,0,0.2))';
+                });
+                
+                logo.addEventListener('mouseleave', () => {
+                    logo.style.transform = 'rotate(0) scale(1)';
+                    logo.style.filter = 'drop-shadow(0 2px 6px rgba(0,0,0,0.1))';
+                });
+                
+                logo.style.filter = 'drop-shadow(0 2px 6px rgba(0,0,0,0.1))';
+            }
+
+            enhanceFooterLogo(logo) {
+                logo.addEventListener('mouseenter', () => {
+                    logo.style.transform = 'scale(1.05)';
+                    logo.style.filter = 'brightness(1.1)';
+                });
+                
+                logo.addEventListener('mouseleave', () => {
+                    logo.style.transform = 'scale(1)';
+                    logo.style.filter = 'brightness(1)';
+                });
+            }
+
+            setupLogoInteractions() {
+                this.logos.forEach(logo => {
+                    logo.addEventListener('click', (e) => {
+                        this.createRippleEffect(e, logo);
+                        logo.style.transform = 'scale(0.95)';
+                        setTimeout(() => {
+                            logo.style.transform = 'scale(1)';
+                        }, 150);
+                    });
+                });
+            }
+
+            createRippleEffect(event, element) {
+                const ripple = document.createElement('span');
+                const rect = element.getBoundingClientRect();
+                const size = Math.max(rect.width, rect.height);
+                const x = event.clientX - rect.left - size / 2;
+                const y = event.clientY - rect.top - size / 2;
+                
+                ripple.style.width = ripple.style.height = size + 'px';
+                ripple.style.left = x + 'px';
+                ripple.style.top = y + 'px';
+                ripple.classList.add('logo-ripple');
+                
+                element.appendChild(ripple);
+                
+                setTimeout(() => {
+                    ripple.remove();
+                }, 600);
+            }
+        }
+
+        // ============================================
+        // MAIN AUDIO CONTROLS
+        // ============================================
+        let currentAudioQuality = 'high';
+        let isAudioPlaying = false;
+        let currentAudioTime = 0;
+        let totalAudioTime = 0;
+        let audioProgressInterval = null;
+        let sleepTimer = null;
+        
+        function toggleAudioFullscreen() {
+            const iframe = document.getElementById('audiobookshelfFrame');
+            const container = iframe.closest('.iframe-audio-container');
+            
+            if (!document.fullscreenElement) {
+                if (container.requestFullscreen) {
+                    container.requestFullscreen();
+                } else if (container.webkitRequestFullscreen) {
+                    container.webkitRequestFullscreen();
+                } else if (container.msRequestFullscreen) {
+                    container.msRequestFullscreen();
+                }
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                } else if (document.webkitExitFullscreen) {
+                    document.webkitExitFullscreen();
+                } else if (document.msExitFullscreen) {
+                    document.msExitFullscreen();
+                }
+            }
+        }
+        
+        function refreshAudioLibrary() {
+            const iframe = document.getElementById('audiobookshelfFrame');
+            const loadingOverlay = document.getElementById('audioLoading');
+            
+            loadingOverlay.style.display = 'flex';
+            iframe.style.opacity = '0.5';
+            
+            iframe.src = iframe.src;
+            
+            setTimeout(() => {
+                loadingOverlay.style.display = 'none';
+                iframe.style.opacity = '1';
+            }, 3000);
+            
+            showAudioNotification('Audio library refreshing...', 'info');
+        }
+
+        /**
+         * Log out from Audiobookshelf to clear session and force guest login
+         */
+        async function logoutFromAudiobookshelf() {
+            const iframe = document.getElementById('audiobookshelfFrame');
+            const loadingOverlay = document.getElementById('audioLoading');
+            
+            showAudioNotification('Fixing session... switching to Guest', 'info');
+            loadingOverlay.style.display = 'flex';
+
+            try {
+                // Clear local cache for token
+                if (window.LibraryAuth) {
+                    window.LibraryAuth.clearTokens();
+                }
+
+                // First, try to call the logout endpoint in the iframe if possible (cross-origin might block this)
+                // However, the best way is to reload with a NEW fresh token
+                if (window.LibraryAuth) {
+                    await window.LibraryAuth.initAudiobookshelfIframe('audiobookshelfFrame', true);
+                } else {
+                    iframe.src = iframe.src;
+                }
+            } catch (err) {
+                console.error('Logout error:', err);
+                iframe.src = iframe.src;
+            }
+
+            setTimeout(() => {
+                loadingOverlay.style.display = 'none';
+            }, 3000);
+        }
+        
+        function setAudioQuality(quality) {
+            const buttons = document.querySelectorAll('.quality-btn');
+            buttons.forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.dataset.quality === quality) {
+                    btn.classList.add('active');
+                }
+            });
+            
+            currentAudioQuality = quality;
+            const qualityToggle = document.getElementById('qualityToggle');
+            qualityToggle.innerHTML = `<i class="fas fa-sliders-h"></i> ${quality.charAt(0).toUpperCase() + quality.slice(1)} Quality`;
+            
+            showAudioNotification(`Audio quality set to ${quality}`, 'success');
+        }
+        
+        function toggleAudioQuality() {
+            const qualities = ['high', 'medium', 'low'];
+            const currentIndex = qualities.indexOf(currentAudioQuality);
+            const nextIndex = (currentIndex + 1) % qualities.length;
+            setAudioQuality(qualities[nextIndex]);
+        }
+        
+        function showAudioGuide() {
+            document.getElementById('audioGuideModal').style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeAudioGuide() {
+            document.getElementById('audioGuideModal').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+        
+        function showAudioTroubleshooting() {
+            document.getElementById('audioTroubleshootingModal').style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeAudioTroubleshooting() {
+            document.getElementById('audioTroubleshootingModal').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+        
+        function navigateToAudioSection(section) {
+            const iframe = document.getElementById('audiobookshelfFrame');
+            
+            try {
+                iframe.contentWindow.postMessage({
+                    type: 'navigate',
+                    section: section
+                }, '*');
+            } catch (e) {
+                console.log('Navigation message failed');
+            }
+            
+            showAudioNotification(`Navigating to ${section} section`, 'info');
+        }
+        
+        // Audio Player Functions
+        function togglePlayPause() {
+            const iframe = document.getElementById('audiobookshelfFrame');
+            const playBtn = document.getElementById('miniPlayBtn');
+            const playIcon = document.getElementById('miniPlayIcon');
+            const statusIndicator = document.getElementById('statusIndicator');
+            
+            isAudioPlaying = !isAudioPlaying;
+            
+            if (isAudioPlaying) {
+                playIcon.className = 'fas fa-pause';
+                statusIndicator.classList.add('pulse');
+                document.getElementById('playerStatusText').textContent = 'Now Playing';
+                startProgressTracking();
+                document.getElementById('nowPlayingBar').classList.add('visible');
+            } else {
+                playIcon.className = 'fas fa-play';
+                statusIndicator.classList.remove('pulse');
+                document.getElementById('playerStatusText').textContent = 'Paused';
+                stopProgressTracking();
+            }
+            
+            try {
+                iframe.contentWindow.postMessage({
+                    type: 'playPause',
+                    playing: isAudioPlaying
+                }, '*');
+            } catch (e) {
+                console.log('Play/Pause control failed');
+            }
+        }
+        
+        function skipForward() {
+            const iframe = document.getElementById('audiobookshelfFrame');
+            try {
+                iframe.contentWindow.postMessage({
+                    type: 'skip',
+                    seconds: 30
+                }, '*');
+            } catch (e) {
+                console.log('Skip forward failed');
+            }
+            showAudioNotification('Skipped forward 30 seconds', 'info');
+        }
+        
+        function skipBackward() {
+            const iframe = document.getElementById('audiobookshelfFrame');
+            try {
+                iframe.contentWindow.postMessage({
+                    type: 'skip',
+                    seconds: -15
+                }, '*');
+            } catch (e) {
+                console.log('Skip backward failed');
+            }
+            showAudioNotification('Skipped backward 15 seconds', 'info');
+        }
+        
+        function seekAudio(event) {
+            const progressBar = event.currentTarget;
+            const rect = progressBar.getBoundingClientRect();
+            const x = event.clientX - rect.left;
+            const percentage = (x / rect.width) * 100;
+            
+            const iframe = document.getElementById('audiobookshelfFrame');
+            try {
+                iframe.contentWindow.postMessage({
+                    type: 'seek',
+                    percentage: percentage
+                }, '*');
+            } catch (e) {
+                console.log('Seek control failed');
+            }
+        }
+        
+        function startProgressTracking() {
+            stopProgressTracking();
+            audioProgressInterval = setInterval(updateAudioProgress, 1000);
+        }
+        
+        function stopProgressTracking() {
+            if (audioProgressInterval) {
+                clearInterval(audioProgressInterval);
+                audioProgressInterval = null;
+            }
+        }
+        
+        function updateAudioProgress() {
+            if (isAudioPlaying && totalAudioTime > 0) {
+                currentAudioTime = Math.min(currentAudioTime + 1, totalAudioTime);
+                const percentage = (currentAudioTime / totalAudioTime) * 100;
+                
+                document.getElementById('miniProgressFill').style.width = percentage + '%';
+                document.getElementById('currentTime').textContent = formatTime(currentAudioTime);
+                
+                if (currentAudioTime >= totalAudioTime) {
+                    togglePlayPause();
+                    showAudioNotification('Audio book completed!', 'success');
+                }
+            }
+        }
+        
+        function formatTime(seconds) {
+            if (!seconds || seconds < 0) return '0:00';
+            const mins = Math.floor(seconds / 60);
+            const secs = Math.floor(seconds % 60);
+            return `${mins}:${secs.toString().padStart(2, '0')}`;
+        }
+        
+        function closeMiniPlayer() {
+            document.getElementById('nowPlayingBar').classList.remove('visible');
+            if (isAudioPlaying) {
+                togglePlayPause();
+            }
+        }
+        
+        function setPlaybackSpeed(speed) {
+            const iframe = document.getElementById('audiobookshelfFrame');
+            const buttons = document.querySelectorAll('.control-btn');
+            
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.closest('.control-btn').classList.add('active');
+            
+            try {
+                iframe.contentWindow.postMessage({
+                    type: 'playbackSpeed',
+                    speed: speed
+                }, '*');
+            } catch (e) {
+                console.log('Playback speed control failed');
+            }
+            
+            showAudioNotification(`Playback speed set to ${speed}x`, 'info');
+        }
+        
+        function setSleepTimer(minutes) {
+            if (sleepTimer) {
+                clearTimeout(sleepTimer);
+                sleepTimer = null;
+                showAudioNotification('Sleep timer cancelled', 'info');
+                return;
+            }
+            
+            sleepTimer = setTimeout(() => {
+                if (isAudioPlaying) {
+                    togglePlayPause();
+                }
+                sleepTimer = null;
+                showAudioNotification('Sleep timer ended playback', 'info');
+            }, minutes * 60 * 1000);
+            
+            showAudioNotification(`Sleep timer set for ${minutes} minutes`, 'success');
+        }
+        
+        function toggleEqualizer() {
+            showAudioNotification('Equalizer toggled', 'info');
+        }
+        
+        function toggleChapterMode() {
+            showAudioNotification('Chapter mode toggled', 'info');
+        }
+        
+        function testAudio() {
+            const audio = new Audio('https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3');
+            audio.volume = 0.5;
+            audio.play().then(() => {
+                showAudioNotification('Audio test successful', 'success');
+                setTimeout(() => audio.pause(), 1000);
+            }).catch(() => {
+                showAudioNotification('Audio test failed - check permissions', 'error');
+            });
+        }
+        
+        function showAudioNotification(message, type = 'info') {
+            const existing = document.querySelectorAll('.audio-notification');
+            existing.forEach(el => el.remove());
+            
+            const notification = document.createElement('div');
+            notification.className = `audio-notification ${type}`;
+            notification.innerHTML = `
+                <div class="notification-icon">
+                    <i class="fas fa-${type === 'success' ? 'check-circle' : 'headphones'}"></i>
+                </div>
+                <div class="notification-content">
+                    <strong>${type === 'success' ? 'Success' : 'Audio'}</strong>
+                    <span>${message}</span>
+                </div>
+                <button class="notification-close" onclick="this.parentElement.remove()">
+                    <i class="fas fa-times"></i>
+                </button>
+            `;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.classList.add('show');
+            }, 10);
+            
+            setTimeout(() => {
+                if (notification.parentElement) {
+                    notification.classList.remove('show');
+                    setTimeout(() => {
+                        if (notification.parentElement) {
+                            notification.remove();
+                        }
+                    }, 300);
+                }
+            }, 5000);
+        }
+
+        // ============================================
+        // INITIALIZATION
+        // ============================================
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set current year
+            document.getElementById('audioCurrentYear').textContent = new Date().getFullYear();
+            
+            // Initialize managers
+            window.themeManager = new ThemeManager();
+            window.mobileMenuFix = new MobileMenuFix();
+            window.audioEnhancements = new AudioEnhancements();
+            window.logoAnimations = new LogoAnimations();
+            
+            // Setup iframe
+            const iframe = document.getElementById('audiobookshelfFrame');
+            const loadingOverlay = document.getElementById('audioLoading');
+            
+            // Fallback: Hide loading after 3 seconds
+            setTimeout(() => {
+                if (loadingOverlay) {
+                    loadingOverlay.style.display = 'none';
+                }
+                if (iframe) {
+                    iframe.style.opacity = '1';
+                }
+            }, 3000);
+            
+            if (iframe) {
+                iframe.addEventListener('load', function() {
+                    if (loadingOverlay) loadingOverlay.style.display = 'none';
+                    iframe.style.opacity = '1';
+                });
+                
+                iframe.addEventListener('error', function() {
+                    if (loadingOverlay) {
+                        loadingOverlay.innerHTML = `
+                            <div class="audio-loading-spinner">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                <p>Failed to load audio library</p>
+                                <div class="error-details">
+                                    <p>Audiobookshelf service may be unavailable</p>
+                                </div>
+                                <button type="button" onclick="refreshAudioLibrary()" class="btn-audio-retry">
+                                    <i class="fas fa-redo"></i> Retry Connection
+                                </button>
+                            </div>
+                        `;
+                    }
+                });
+            }
+            
+            // Setup volume controls
+            const volumeSlider = document.getElementById('volumeSlider');
+            const miniVolumeSlider = document.getElementById('miniVolumeSlider');
+            
+            if (volumeSlider && miniVolumeSlider) {
+                volumeSlider.addEventListener('input', function() {
+                    miniVolumeSlider.value = this.value;
+                    updateVolume(this.value);
+                });
+                
+                miniVolumeSlider.addEventListener('input', function() {
+                    volumeSlider.value = this.value;
+                    updateVolume(this.value);
+                });
+                
+                function updateVolume(value) {
+                    const iframe = document.getElementById('audiobookshelfFrame');
+                    try {
+                        iframe.contentWindow.postMessage({
+                            type: 'volume',
+                            volume: value / 100
+                        }, '*');
+                    } catch (e) {
+                        console.log('Volume control failed');
+                    }
+                }
+            }
+            
+            // Demo statistics
+            setTimeout(() => {
+                animateStat('totalBooks', 1247);
+                animateStat('totalHours', 5823);
+                animateStat('activeListeners', 12456);
+                animateStat('audioFormats', 18);
+                loadListeningStats();
+            }, 1500);
+            
+            // Setup animations
+            setupAudioAnimations();
+            
+            // Handle fullscreen changes
+            document.addEventListener('fullscreenchange', updateFullscreenButton);
+            document.addEventListener('webkitfullscreenchange', updateFullscreenButton);
+            document.addEventListener('msfullscreenchange', updateFullscreenButton);
+            
+            function updateFullscreenButton() {
+                const fullscreenBtn = document.querySelector('.audio-library-btn:nth-child(1)');
+                if (document.fullscreenElement) {
+                    fullscreenBtn.innerHTML = '<i class="fas fa-compress"></i> Exit Fullscreen';
+                } else {
+                    fullscreenBtn.innerHTML = '<i class="fas fa-expand"></i> Fullscreen';
+                }
+            }
+            
+            // Load demo data
+            loadDemoData();
+        });
+        
+        function animateStat(elementId, target) {
+            const element = document.getElementById(elementId);
+            if (!element) return;
+            
+            let current = 0;
+            const increment = target / 30;
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= target) {
+                    current = target;
+                    clearInterval(timer);
+                }
+                element.textContent = Math.floor(current).toLocaleString() + '+';
+            }, 50);
+        }
+        
+        function loadListeningStats() {
+            const stats = JSON.parse(localStorage.getItem('audioListeningStats') || '{}');
+            
+            const totalTimeEl = document.getElementById('totalListeningTime');
+            const completedBooksEl = document.getElementById('completedBooks');
+            const bookmarksEl = document.getElementById('savedBookmarks');
+            const topGenreEl = document.getElementById('topGenre');
+            
+            if (totalTimeEl) totalTimeEl.textContent = Math.round(stats.totalHours || 0);
+            if (completedBooksEl) completedBooksEl.textContent = stats.completedBooks || 0;
+            if (bookmarksEl) bookmarksEl.textContent = stats.bookmarks || 0;
+            if (topGenreEl) topGenreEl.textContent = stats.topGenre || 'Inspires';
+        }
+        
+        function setupAudioAnimations() {
+            const progressBar = document.querySelector('.mini-progress-bar');
+            if (progressBar) {
+                progressBar.addEventListener('mousemove', function(e) {
+                    const rect = this.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const percentage = (x / rect.width) * 100;
+                    document.getElementById('miniProgressHover').style.width = percentage + '%';
+                });
+                
+                progressBar.addEventListener('mouseleave', function() {
+                    document.getElementById('miniProgressHover').style.width = '0';
+                });
+            }
+        }
+        
+        function loadDemoData() {
+            setTimeout(() => {
+                const recentCount = document.getElementById('recentCount');
+                const popularCount = document.getElementById('popularCount');
+                const collectionCount = document.getElementById('collectionCount');
+                const continueCount = document.getElementById('continueCount');
+                
+                if (recentCount) recentCount.textContent = '12 new';
+                if (popularCount) popularCount.textContent = 'Top 50';
+                if (collectionCount) collectionCount.textContent = '25+';
+                if (continueCount) continueCount.textContent = '3 books';
+            }, 2000);
+        }
+        
+        // Handle messages from iframe
+        window.addEventListener('message', function(event) {
+            if (event.data.type === 'audioUpdate') {
+                const data = event.data.data;
+                
+                if (data.title) {
+                    const titleEl = document.getElementById('nowPlayingTitle');
+                    const authorEl = document.getElementById('nowPlayingAuthor');
+                    const coverEl = document.getElementById('nowPlayingCover');
+                    const totalTimeEl = document.getElementById('totalTime');
+                    
+                    if (titleEl) titleEl.textContent = data.title;
+                    if (authorEl) authorEl.textContent = data.author || '-';
+                    if (coverEl && data.cover) coverEl.src = data.cover;
+                    if (totalTimeEl && data.duration) {
+                        totalAudioTime = data.duration;
+                        totalTimeEl.textContent = formatTime(data.duration);
+                    }
+                    
+                    if (data.playing) {
+                        isAudioPlaying = true;
+                        const playIcon = document.getElementById('miniPlayIcon');
+                        const statusIndicator = document.getElementById('statusIndicator');
+                        const nowPlayingBar = document.getElementById('nowPlayingBar');
+                        
+                        if (playIcon) playIcon.className = 'fas fa-pause';
+                        if (statusIndicator) statusIndicator.classList.add('pulse');
+                        startProgressTracking();
+                        if (nowPlayingBar) nowPlayingBar.classList.add('visible');
+                    }
+                }
+                
+                if (data.listeningTime) {
+                    updateListeningStats(data);
+                }
+            }
+        });
+        
+        function updateListeningStats(data) {
+            const stats = JSON.parse(localStorage.getItem('audioListeningStats') || '{}');
+            
+            stats.totalHours = (stats.totalHours || 0) + (data.listeningTime / 3600);
+            if (data.completed) {
+                stats.completedBooks = (stats.completedBooks || 0) + 1;
+            }
+            
+            localStorage.setItem('audioListeningStats', JSON.stringify(stats));
+            loadListeningStats();
+        }
+        
+        function showCookiePreferences() {
+            console.log('Cookie preferences would open here');
+        }
+
+        // Export for debugging
+        window.AudioSystem = {
+            version: '3.0.0',
+            features: {
+                mobileMenu: true,
+                themeManager: true,
+                audioEnhancements: true,
+                logoAnimations: true,
+                fullAudioControls: true
+            }
+        };
+
+        // Initialize Library Authentication
+        document.addEventListener('DOMContentLoaded', function() {
+            if (window.LibraryAuth) {
+                LibraryAuth.initAudiobookshelfIframe('audiobookshelfFrame');
+            }
+        });
+    </script>
+    <script src="/js/api.js"></script>
+    <script src="/js/auth.js"></script>
+    <script src="/js/library-auth.js"></script>
+</body>
+</html>

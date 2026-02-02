@@ -1,0 +1,121 @@
+{
+  "name": "raphaels-horizon",
+  "version": "1.0.0",
+  "description": "PRIVATE PROPERTY - Full-stack application for Raphael's Horizon. Copyright © 2024 Raphael's Horizon. All rights reserved. Unauthorized use prohibited.",
+  "main": "electron/main.js",
+  "author": "Raphael's Horizon <copyright@raphaelshorizon.com>",
+  "license": "PRIVATE - All Rights Reserved",
+  "private": true,
+  "scripts": {
+    "install:all": "npm run install:backend && npm run install:frontend",
+    "install:backend": "cd backend && npm install",
+    "install:frontend": "cd frontend && [ -f package.json ] && npm install",
+    "build": "npm run build:frontend",
+    "build:frontend": "echo 'No build step required for static frontend'",
+    "build:backend": "echo 'No backend build needed'",
+    "start": "npm run start:backend",
+    "start:backend": "cd backend && npm start",
+    "start:frontend": "cd frontend && npx serve -s .",
+    "start:frontend:spa": "cd frontend && npx serve -s .",
+    "electron:dev": "concurrently \"cd frontend && npx serve -s . -l 3000\" \"electron .\"",
+    "electron:build": "electron-builder",
+    "electron:publish": "electron-builder --publish=always",
+    "build:backend:bin:win": "pkg backend/server.js --targets node18-win-x64 --output electron/binaries/win/backend.exe",
+    "build:backend:bin:mac": "pkg backend/server.js --targets node18-macos-x64 --output electron/binaries/mac/backend",
+    "build:backend:bin:linux": "pkg backend/server.js --targets node18-linux-x64 --output electron/binaries/linux/backend",
+    "build:backend:bin:ci": "npm run build:backend:bin:${OS:-win}",
+    "dev": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",
+    "dev:backend": "cd backend && npm run dev",
+    "dev:frontend": "cd frontend && npx serve .",
+    "deploy:netlify": "netlify deploy --prod --dir=frontend",
+    "deploy:vercel": "vercel --prod",
+    "deploy:vercel:force": "vercel --prod --force",
+    "test": "npm run test:backend",
+    "test:backend": "cd backend && npm test",
+    "test:e2e": "node tools/e2e/mobile-hamburger.test.js",
+    "lint": "npm run lint:backend && npm run lint:frontend",
+    "lint:backend": "cd backend && npm run lint",
+    "lint:frontend": "cd frontend && npm run lint"
+  },
+  "build": {
+    "appId": "com.raphaelshorizon.app",
+    "productName": "RHorizon",
+    "icon": "electron/icons/icon",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "frontend/**/*",
+      "electron/**/*",
+      "backend/**/*",
+      "package.json"
+    ],
+    "publish": [
+      {
+        "provider": "github",
+        "owner": "albert-raphael",
+        "repo": "raphaelshorizon"
+      }
+    ],
+    "asarUnpack": [
+      "backend/**"
+    ],
+    "extraResources": [
+      {
+        "from": "electron/binaries",
+        "to": "binaries",
+        "filter": ["**/*"]
+      }
+    ],
+    "win": {
+      "target": [
+        "zip"
+      ],
+      "sign": false
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false
+    },
+    "mac": {
+      "target": [
+        "dmg"
+      ]
+    },
+    "linux": {
+      "target": [
+        "AppImage"
+      ]
+    }
+  },
+  "keywords": [
+    "christian",
+    "books",
+    "fullstack",
+    "production"
+  ],
+  "author": "Raphael's Horizon",
+  "license": "MIT",
+  "devDependencies": {
+    "concurrently": "^8.2.2",
+    "electron": "^26.2.0",
+    "electron-builder": "^24.7.0",
+    "electron-is-dev": "^2.0.0",
+    "electron-packager": "^17.1.2",
+    "electron-updater": "^6.5.1",
+    "pkg": "^5.8.0"
+  },
+  "engines": {
+    "node": ">=16.0.0",
+    "npm": ">=8.0.0"
+  },
+  "workspaces": [
+    "backend",
+    "frontend"
+  ],
+  "pkg": {
+    "assets": [
+      "backend/embedded-data/**/*"
+    ]
+  }
+}

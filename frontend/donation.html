@@ -1,0 +1,901 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Support Us - Raphael's Horizon</title>
+    <link rel="icon" type="image/png" href="assets/icons/logo-square.png">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Stripe JS -->
+    <script src="https://js.stripe.com/v3/"></script>
+    <!-- PayPal JS - Sandbox Mode -->
+    <script src="https://www.paypal.com/sdk/js?client-id=AdMeOS47eeLcF9yVGNFSDmYGYjGJMYWuJPds1tvZiMnoT2QHsZC-wfrMBGWcJ4jifD0NhxCehIG2WQeZ&currency=USD"></script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .donation-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1em;
+            transition: all 0.3s;
+        }
+
+        .back-link:hover {
+            color: #764ba2;
+            transform: translateX(-5px);
+        }
+
+        .donation-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .donation-header h1 {
+            color: #667eea;
+            font-size: 2.8em;
+            margin-bottom: 15px;
+        }
+
+        .donation-header p {
+            color: #666;
+            font-size: 1.2em;
+            line-height: 1.6;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .creator-section {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 40px;
+            border-radius: 15px;
+            margin-bottom: 40px;
+            display: flex;
+            gap: 30px;
+            align-items: center;
+            border-left: 5px solid #667eea;
+        }
+
+        .creator-image {
+            flex-shrink: 0;
+        }
+
+        .creator-image img {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 5px solid #667eea;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .creator-info {
+            flex: 1;
+        }
+
+        .creator-info h2 {
+            color: #333;
+            font-size: 2em;
+            margin-bottom: 15px;
+        }
+
+        .creator-info p {
+            color: #666;
+            font-size: 1.1em;
+            line-height: 1.8;
+            margin-bottom: 10px;
+        }
+
+        .section {
+            margin-bottom: 40px;
+            padding: 30px;
+            background: #f8f9fa;
+            border-radius: 15px;
+            border-left: 5px solid #667eea;
+        }
+
+        .section h2 {
+            color: #333;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .payment-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 25px;
+        }
+
+        .payment-card {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s;
+            border: 2px solid transparent;
+        }
+
+        .payment-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+            border-color: #667eea;
+        }
+
+        .payment-icon {
+            font-size: 3em;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .payment-title {
+            font-size: 1.5em;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .payment-details {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+
+        .payment-detail-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .payment-detail-item:last-child {
+            border-bottom: none;
+        }
+
+        .payment-detail-label {
+            color: #666;
+            font-weight: 600;
+        }
+
+        .payment-detail-value {
+            color: #333;
+            font-family: monospace;
+            font-size: 0.95em;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+        }
+
+        .btn-success:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(16, 185, 129, 0.4);
+        }
+
+        .donation-amounts {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .amount-option {
+            padding: 20px;
+            background: white;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 1.3em;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .amount-option:hover {
+            border-color: #667eea;
+            background: #f8f9ff;
+        }
+
+        .amount-option.selected {
+            border-color: #667eea;
+            background: #667eea;
+            color: white;
+        }
+
+        .custom-amount {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            font-size: 1.2em;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .custom-amount:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .impact-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            border-radius: 15px;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .impact-section h2 {
+            color: white;
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+
+        .impact-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .impact-stat {
+            text-align: center;
+        }
+
+        .impact-number {
+            font-size: 3em;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .impact-label {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .copy-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85em;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .copy-btn:hover {
+            background: #5568d3;
+        }
+
+        .alert {
+            padding: 15px 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            font-weight: 500;
+            display: none;
+        }
+
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .alert-error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .stripe-element {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            border: 2px solid #ddd;
+            margin-bottom: 15px;
+        }
+
+        .stripe-element:focus-within {
+            border-color: #667eea;
+        }
+
+        #card-errors {
+            color: #dc3545;
+            font-size: 0.9em;
+            margin-top: 10px;
+            min-height: 20px;
+        }
+
+        .payment-reference {
+            font-size: 0.9em;
+            color: #666;
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 10px;
+            font-family: monospace;
+            text-align: center;
+        }
+
+        .currency-selector {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .currency-option {
+            padding: 10px 20px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            background: white;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .currency-option:hover {
+            border-color: #667eea;
+        }
+
+        .currency-option.selected {
+            border-color: #667eea;
+            background: #667eea;
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            .creator-section {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .donation-header h1 {
+                font-size: 2em;
+            }
+
+            .payment-options {
+                grid-template-columns: 1fr;
+            }
+
+            .donation-amounts {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <script>
+        try { window.giveFreely = window.giveFreely || { payload: {} }; } catch (e) {}
+    </script>
+    <div class="donation-container">
+        <a href="homepage.html" class="back-link">← Back to Home</a>
+        
+        <div class="donation-header">
+            <h1>💝 Support Raphael's Horizon</h1>
+            <p>Your generous donation helps us continue our mission of unveiling God's promises through books, teachings, and transformative content. Every contribution makes a difference!</p>
+            <p><strong>Payment Purpose: RAPHAELSHORIZON</strong></p>
+        </div>
+
+        <div id="alertContainer"></div>
+
+        <!-- Creator Section -->
+        <div class="creator-section">
+            <div class="creator-image">
+                <img src="assets/images/raphael.png" alt="Raphael - Founder of Raphael's Horizon">
+            </div>
+            <div class="creator-info">
+                <h2>👋 Hi, I'm Raphael</h2>
+                <p>I founded Raphael's Horizon to share God's transformative promises through inspirational books and teachings. Our mission is to help people discover their divine purpose and walk in spiritual growth.</p>
+                <p>Your support helps us continue creating transformative content, reaching more people, and expanding our ministry to share the light of God's promises.</p>
+                <p><strong>Thank you for partnering with us! 🙏</strong></p>
+            </div>
+        </div>
+
+        <!-- Impact Section -->
+        <div class="impact-section">
+            <h2>🌟 Your Impact</h2>
+            <p style="font-size: 1.2em; margin-bottom: 20px;">Together, we're making a difference!</p>
+            <div class="impact-stats">
+                <div class="impact-stat">
+                    <div class="impact-number">5+</div>
+                    <div class="impact-label">Books Published</div>
+                </div>
+                <div class="impact-stat">
+                    <div class="impact-number">10K+</div>
+                    <div class="impact-label">Lives Touched</div>
+                </div>
+                <div class="impact-stat">
+                    <div class="impact-number">∞</div>
+                    <div class="impact-label">Divine Possibilities</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Currency Selection -->
+        <div class="section">
+            <h2>💰 Select Currency</h2>
+            <div class="currency-selector">
+                <div class="currency-option selected" data-currency="USD">USD ($)</div>
+                <div class="currency-option" data-currency="EUR">EUR (€)</div>
+            </div>
+        </div>
+
+        <!-- Donation Amount Selection -->
+        <div class="section">
+            <h2>Choose Your Donation Amount</h2>
+            <div class="donation-amounts" id="usdAmounts">
+                <div class="amount-option" data-amount="5">$5</div>
+                <div class="amount-option" data-amount="10">$10</div>
+                <div class="amount-option" data-amount="25">$25</div>
+                <div class="amount-option" data-amount="50">$50</div>
+                <div class="amount-option" data-amount="100">$100</div>
+            </div>
+            <div class="donation-amounts" id="eurAmounts" style="display: none;">
+                <div class="amount-option" data-amount="5">€5</div>
+                <div class="amount-option" data-amount="10">€10</div>
+                <div class="amount-option" data-amount="20">€20</div>
+                <div class="amount-option" data-amount="50">€50</div>
+                <div class="amount-option" data-amount="100">€100</div>
+            </div>
+            <input type="number" class="custom-amount" placeholder="Or enter custom amount" id="customAmount" min="1">
+            <div class="payment-reference">
+                <strong>Please include this reference:</strong> RAPHAELSHORIZON
+            </div>
+        </div>
+
+        <!-- Payment Options -->
+        <div class="section">
+            <h2>💳 Online Payment Methods</h2>
+            <div class="payment-options">
+                <!-- PayPal -->
+                <div class="payment-card">
+                    <div class="payment-icon">💙</div>
+                    <div class="payment-title">PayPal</div>
+                    <div class="payment-details">
+                        <div class="payment-detail-item">
+                            <span class="payment-detail-label">Secure Online Payment</span>
+                        </div>
+                        <div class="payment-detail-item">
+                            <span class="payment-detail-label">Accepts:</span>
+                            <span class="payment-detail-value">Cards & PayPal</span>
+                        </div>
+                    </div>
+                    <div id="paypal-button-container"></div>
+                </div>
+
+                <!-- Stripe Card Payment -->
+                <div class="payment-card">
+                    <div class="payment-icon">💳</div>
+                    <div class="payment-title">Credit/Debit Card</div>
+                    <div class="payment-details">
+                        <div class="payment-detail-item">
+                            <span class="payment-detail-label">Secure Payment via Stripe</span>
+                        </div>
+                        <div class="payment-detail-item">
+                            <span class="payment-detail-label">Accepts:</span>
+                            <span class="payment-detail-value">Visa, Mastercard, Amex</span>
+                        </div>
+                    </div>
+                    <form id="stripe-payment-form">
+                        <div class="stripe-element">
+                            <div id="card-element"></div>
+                        </div>
+                        <div id="card-errors" role="alert"></div>
+                        <button type="submit" class="btn btn-primary" id="stripe-submit">
+                            <span id="stripe-button-text">Pay Now</span>
+                            <span id="stripe-spinner" style="display: none;">Processing...</span>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bank Transfer Options -->
+        <div class="section">
+            <h2>🏦 Bank Transfer</h2>
+            <p style="color: #666; margin-bottom: 20px;">For bank transfers, please include the reference: <strong>RAPHAELSHORIZON</strong></p>
+            
+            <div class="payment-options">
+                <!-- African Bank -->
+                <div class="payment-card">
+                    <div class="payment-icon">🌍</div>
+                    <div class="payment-title">African Bank (UBA)</div>
+                    <div class="payment-details">
+                        <div class="payment-detail-item">
+                            <span class="payment-detail-label">Bank Name:</span>
+                            <span class="payment-detail-value">United Bank For Africa</span>
+                        </div>
+                        <div class="payment-detail-item">
+                            <span class="payment-detail-label">Account Name:</span>
+                            <span class="payment-detail-value">Assimagbe Albert Raphael</span>
+                        </div>
+                        <div class="payment-detail-item">
+                            <span class="payment-detail-label">Account Number:</span>
+                            <span class="payment-detail-value">3039743414</span>
+                        </div>
+                        <div class="payment-detail-item">
+                            <span class="payment-detail-label">Currency:</span>
+                            <span class="payment-detail-value">USD/EUR Available</span>
+                        </div>
+                    </div>
+                    <button class="btn btn-success" onclick="copyBankDetails('african')">
+                        📋 Copy Details
+                    </button>
+                </div>
+
+                <!-- European Bank -->
+                <div class="payment-card">
+                    <div class="payment-icon">🇪🇺</div>
+                    <div class="payment-title">European Bank (Revolut)</div>
+                    <div class="payment-details">
+                        <div class="payment-detail-item">
+                            <span class="payment-detail-label">Beneficiary:</span>
+                            <span class="payment-detail-value">Albert Raphael Assimagbe</span>
+                        </div>
+                        <div class="payment-detail-item">
+                            <span class="payment-detail-label">IBAN:</span>
+                            <span class="payment-detail-value">DE57 1001 0178 9959 1597 74</span>
+                        </div>
+                        <div class="payment-detail-item">
+                            <span class="payment-detail-label">SWIFT/BIC:</span>
+                            <span class="payment-detail-value">REVODEB2</span>
+                        </div>
+                        <div class="payment-detail-item">
+                            <span class="payment-detail-label">Bank Address:</span>
+                            <span class="payment-detail-value">Berlin, Germany</span>
+                        </div>
+                    </div>
+                    <button class="btn btn-success" onclick="copyBankDetails('european')">
+                        📋 Copy Details
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Thank You Section -->
+        <div class="section" style="text-align: center; background: linear-gradient(135deg, #fff5f5 0%, #ffe5e5 100%); border-left-color: #ef4444;">
+            <h2>Thank You!</h2>
+            <p style="font-size: 1.2em; color: #666; line-height: 1.8;">
+                Every donation, no matter the size, helps our ministry grow and reach more people.
+                Your support means the world to us and enables us to continue sharing God's promises
+                through transformative books and teachings.
+            </p>
+            <p style="font-size: 1.1em; color: #999; margin-top: 20px;">
+                All donors will be featured in our "Supporters" section (optional)
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // Configuration - Payment Keys
+        const STRIPE_PUBLIC_KEY = 'pk_test_51SpRqDFyeKaZeFqI5143tzaue8iJ9ZuZvbo6uFwaAvH3LmxT0wg0e3JNDfMBTmUWQmJ2OYVzHk5zT3Rk6gFBHG2400YoAmFuIn';
+        const PAYPAL_CLIENT_ID = 'AdMeOS47eeLcF9yVGNFSDmYGYjGJMYWuJPds1tvZiMnoT2QHsZC-wfrMBGWcJ4jifD0NhxCehIG2WQeZ';
+        
+        // API Base URL - Use relative path which nginx proxies to backend
+        const API_BASE_URL = '';
+
+        // Initialize Stripe
+        const stripe = Stripe(STRIPE_PUBLIC_KEY);
+        const elements = stripe.elements();
+        
+        // Create card element
+        const card = elements.create('card', {
+            style: {
+                base: {
+                    fontSize: '16px',
+                    color: '#32325d',
+                    fontFamily: '"Segoe UI", sans-serif',
+                }
+            }
+        });
+
+        card.mount('#card-element');
+
+        // Handle real-time validation errors from the card Element
+        card.on('change', function(event) {
+            const displayError = document.getElementById('card-errors');
+            if (event.error) {
+                displayError.textContent = event.error.message;
+            } else {
+                displayError.textContent = '';
+            }
+        });
+
+        // Current donation state
+        let currentAmount = 25;
+        let currentCurrency = 'USD';
+        let selectedAmountElement = null;
+
+        // Currency selection
+        document.querySelectorAll('.currency-option').forEach(option => {
+            option.addEventListener('click', function() {
+                document.querySelectorAll('.currency-option').forEach(o => o.classList.remove('selected'));
+                this.classList.add('selected');
+                
+                currentCurrency = this.dataset.currency;
+                
+                // Show/hide currency-specific amounts
+                if (currentCurrency === 'USD') {
+                    document.getElementById('usdAmounts').style.display = 'grid';
+                    document.getElementById('eurAmounts').style.display = 'none';
+                } else {
+                    document.getElementById('usdAmounts').style.display = 'none';
+                    document.getElementById('eurAmounts').style.display = 'grid';
+                }
+                
+                // Reset amount selection
+                document.querySelectorAll('.amount-option').forEach(o => o.classList.remove('selected'));
+                document.getElementById('customAmount').value = '';
+                selectedAmountElement = null;
+            });
+        });
+
+        // Amount selection
+        document.querySelectorAll('.amount-option').forEach(option => {
+            option.addEventListener('click', function() {
+                if (selectedAmountElement) {
+                    selectedAmountElement.classList.remove('selected');
+                }
+                
+                this.classList.add('selected');
+                selectedAmountElement = this;
+                currentAmount = parseFloat(this.dataset.amount);
+                document.getElementById('customAmount').value = '';
+            });
+        });
+
+        // Custom amount input
+        document.getElementById('customAmount').addEventListener('input', function() {
+            if (this.value) {
+                if (selectedAmountElement) {
+                    selectedAmountElement.classList.remove('selected');
+                }
+                selectedAmountElement = null;
+                currentAmount = parseFloat(this.value);
+            }
+        });
+
+        // PayPal Integration
+        paypal.Buttons({
+            style: {
+                layout: 'vertical',
+                color: 'blue',
+                shape: 'rect',
+                label: 'pay'
+            },
+            createOrder: function(data, actions) {
+                if (!currentAmount || currentAmount < 1) {
+                    showAlert('Please select or enter a donation amount', 'error');
+                    return actions.reject();
+                }
+                
+                return actions.order.create({
+                    purchase_units: [{
+                        amount: {
+                            value: currentAmount.toFixed(2),
+                            currency_code: currentCurrency
+                        },
+                        description: 'Raphael\'s Horizon Donation - RAPHAELSHORIZON'
+                    }]
+                });
+            },
+            onApprove: function(data, actions) {
+                return actions.order.capture().then(function(details) {
+                    showAlert(`Thank you ${details.payer.name.given_name}! Your donation of ${currentAmount} ${currentCurrency} was successful.`, 'success');
+                    
+                    // Send to your server for recording
+                    fetch(API_BASE_URL + '/api/donate/paypal', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            orderID: data.orderID,
+                            amount: currentAmount,
+                            currency: currentCurrency,
+                            payer: details.payer
+                        })
+                    }).catch(err => console.log('Recording donation:', err));
+                });
+            },
+            onError: function(err) {
+                console.error('PayPal error:', err);
+                showAlert('An error occurred with PayPal payment', 'error');
+            }
+        }).render('#paypal-button-container');
+
+        // Stripe Payment Form Submission
+        const stripeForm = document.getElementById('stripe-payment-form');
+        stripeForm.addEventListener('submit', async function(event) {
+            event.preventDefault();
+            
+            if (!currentAmount || currentAmount < 1) {
+                showAlert('Please select or enter a donation amount', 'error');
+                return;
+            }
+
+            // Disable button and show spinner
+            document.getElementById('stripe-submit').disabled = true;
+            document.getElementById('stripe-button-text').style.display = 'none';
+            document.getElementById('stripe-spinner').style.display = 'inline';
+
+            try {
+                // Create payment method
+                const { paymentMethod, error } = await stripe.createPaymentMethod({
+                    type: 'card',
+                    card: card,
+                    billing_details: {
+                        name: 'Donor', // You can add a name field to your form
+                    }
+                });
+
+                if (error) {
+                    throw error;
+                }
+
+                // Send to your server for processing
+                const response = await fetch(API_BASE_URL + '/api/donate/stripe', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        paymentMethodId: paymentMethod.id,
+                        amount: currentAmount * 100, // Convert to cents
+                        currency: currentCurrency.toLowerCase(),
+                        description: `Raphael's Horizon Donation - RAPHAELSHORIZON`
+                    })
+                });
+
+                const paymentResult = await response.json();
+
+                if (paymentResult.error) {
+                    throw new Error(paymentResult.error);
+                }
+
+                if (paymentResult.requires_action) {
+                    // Handle 3D Secure authentication
+                    const { error: confirmError } = await stripe.confirmCardPayment(
+                        paymentResult.client_secret
+                    );
+
+                    if (confirmError) {
+                        throw confirmError;
+                    }
+                }
+
+                // Payment successful
+                showAlert(`Thank you! Your donation of ${currentAmount} ${currentCurrency} was successful.`, 'success');
+                stripeForm.reset();
+                card.clear();
+
+            } catch (error) {
+                console.error('Stripe error:', error);
+                showAlert(error.message || 'An error occurred with card payment', 'error');
+                document.getElementById('card-errors').textContent = error.message;
+            } finally {
+                // Re-enable button
+                document.getElementById('stripe-submit').disabled = false;
+                document.getElementById('stripe-button-text').style.display = 'inline';
+                document.getElementById('stripe-spinner').style.display = 'none';
+            }
+        });
+
+        // Copy functions
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                showAlert('Copied to clipboard!');
+            }).catch(err => {
+                console.error('Copy failed:', err);
+                showAlert('Failed to copy', 'error');
+            });
+        }
+
+        function copyBankDetails(bankType) {
+            let details = '';
+            
+            if (bankType === 'african') {
+                details = `Bank Transfer Details (Africa):
+Bank Name: United Bank For Africa
+Account Name: Assimagbe Albert Raphael
+Account Number: 3039743414
+Reference: RAPHAELSHORIZON
+Currency: USD/EUR`;
+            } else if (bankType === 'european') {
+                details = `Bank Transfer Details (Europe):
+Beneficiary: Albert Raphael Assimagbe
+IBAN: DE57 1001 0178 9959 1597 74
+SWIFT/BIC: REVODEB2
+Bank: Revolut Bank UAB, Berlin, Germany
+Reference: RAPHAELSHORIZON`;
+            }
+            
+            copyToClipboard(details);
+        }
+
+        function showAlert(message, type = 'success') {
+            const alertContainer = document.getElementById('alertContainer');
+            const alertClass = type === 'success' ? 'alert-success' : 'alert-error';
+            
+            alertContainer.innerHTML = `
+                <div class="alert ${alertClass}">
+                    ${message}
+                </div>
+            `;
+            
+            const alert = alertContainer.querySelector('.alert');
+            alert.style.display = 'block';
+            
+            setTimeout(() => {
+                alert.style.display = 'none';
+            }, 5000);
+        }
+
+        // Initialize with USD selected
+        document.querySelector('.currency-option[data-currency="USD"]').click();
+        document.querySelector('.amount-option[data-amount="25"]').click();
+    </script>
+</body>
+</html>

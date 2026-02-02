@@ -1,0 +1,334 @@
+# 🏗️ Raphael's Horizon - Complete Site Architecture Documentation
+
+## Overview
+Raphael's Horizon is a comprehensive Christian literature and audio platform built with a modern full-stack architecture featuring user authentication, content management, and admin capabilities.
+
+---
+
+## 📁 BACKEND STRUCTURE (Node.js/Express API)
+
+### Core Files:
+```
+backend/
+├── server.js              # Main Express server entry point
+├── package.json           # Dependencies & scripts
+├── .env                   # Environment variables (DB, secrets, etc.)
+├── oauth20.json           # Google OAuth credentials
+└── create-admin.js        # Script to create admin user
+```
+
+### Configuration:
+```
+backend/config/
+├── database.js            # MongoDB connection setup
+└── passport.js            # Google OAuth strategy
+```
+
+### Data Models (MongoDB):
+```
+backend/models/
+├── User.js                # User accounts, roles, auth
+├── Post.js                # Blog posts
+├── Comment.js             # Comments on posts
+├── Media.js               # File uploads
+└── Analytics.js           # Site analytics data
+```
+
+### Business Logic:
+```
+backend/controllers/
+├── authController.js      # Login, register, Google OAuth
+├── blogController.js      # Blog post CRUD operations
+├── commentController.js   # Comment management
+├── uploadController.js    # File upload handling
+└── analyticsController.js # Analytics processing
+```
+
+### API Routes:
+```
+backend/routes/
+├── auth.js                # Authentication endpoints
+├── blog.js                # Blog post routes
+├── comments.js            # Comment routes
+├── books.js               # Book-related routes
+├── upload.js              # File upload routes
+├── users.js               # User management
+├── analytics.js           # Analytics routes
+├── subscriptions.js       # Subscription handling
+└── admin.js               # Admin-only routes
+```
+
+### Middleware:
+```
+backend/middleware/
+├── auth.js                # JWT authentication middleware
+├── error.js               # Error handling middleware
+└── validation.js          # Input validation middleware
+```
+
+### Utilities:
+```
+backend/utils/
+├── sendEmail.js           # Email sending functionality
+└── cronJobs.js            # Scheduled tasks
+```
+
+---
+
+## 🎨 FRONTEND STRUCTURE (HTML/CSS/JavaScript)
+
+### Core Files:
+```
+frontend/
+├── index.html             # Main homepage
+├── 404.html               # Error page
+├── site-manifest.json     # PWA manifest
+├── sw.js                  # Service worker for PWA
+└── .dockerfile            # Docker configuration
+```
+
+### Assets:
+```
+frontend/assets/
+├── documents/             # Static documents
+├── images/                # Image files
+└── icons/                 # Icon files
+```
+
+### Styling:
+```
+frontend/css/
+├── styles.css             # Main stylesheet
+├── auth.css               # Authentication styles
+└── admin-login.css        # Admin login styles
+```
+
+### JavaScript:
+```
+frontend/js/
+├── scripts.js             # Main site functionality
+├── auth.js                # Authentication handling
+├── api.js                 # API communication
+├── cookies.js             # Cookie management
+├── pwa-install.js         # PWA installation
+└── pdfjs/                 # PDF viewing library
+    ├── pdf.mjs
+    └── pdf.worker.mjs
+```
+
+### Pages Structure:
+```
+frontend/pages/
+├── about/                 # About pages
+│   ├── about-us.html
+│   ├── assimagbe-albert-raphael.html
+│   └── index.html
+├── admin/                 # Admin panel
+│   ├── login_admin.html   # Admin login page
+│   ├── admin-dashboard.html # Admin dashboard
+│   ├── admin-login.css/js # Admin styling/scripts
+│   ├── admin-security.js  # Security management
+│   ├── admin-analytics.js # Analytics management
+│   ├── admin-books.js     # Book management
+│   ├── admin-users.js     # User management
+│   └── admin-audio.js     # Audio content management
+├── blog/                  # Blog section
+│   ├── index.html         # Blog listing
+│   ├── blog-template.html # Post template
+│   ├── categories.html    # Category pages
+│   ├── post-1.html        # Individual posts
+│   └── blog-manager.js    # Blog management
+├── books/                 # Books section
+│   ├── books.html         # Books overview
+│   ├── audio-books/       # Audio books pages
+│   └── books-reader/      # Book reader functionality
+├── contact/               # Contact pages
+└── profile/               # User profile pages
+```
+
+### Content Library:
+```
+frontend/library/
+├── books/                 # Book files and covers
+│   ├── books_cover/       # Book cover images
+│   └── New folder/        # Additional book content
+├── audio/                 # Audio book files
+│   └── covers/            # Audio book cover images
+├── audio_links and books Title.md  # Content metadata
+└── audio_links and books Title.txt # Content lists
+```
+
+---
+
+## 🔄 DATA FLOW & ARCHITECTURE
+
+### Authentication Flow:
+1. Frontend (auth.js) → Login/Register forms
+2. API Call → POST /api/auth/login or /api/auth/register
+3. Backend (authController.js) → Validate credentials
+4. Database (User.js) → Store/retrieve user data
+5. JWT Token → Return to frontend for session management
+
+### Content Management:
+1. Admin Dashboard → Content creation forms
+2. API Calls → POST /api/blog or /api/upload
+3. Backend Controllers → Process and validate data
+4. Database Models → Store in MongoDB
+5. Frontend Display → Render content dynamically
+
+### File Upload Flow:
+1. Frontend → File selection and upload
+2. API → POST /api/upload
+3. Backend (uploadController.js) → Process file
+4. Storage → Save to server or cloud storage
+5. Database → Store file metadata
+
+---
+
+## 🛠️ DEVELOPMENT SETUP
+
+### Running the Application:
+
+Backend Server:
+```bash
+cd backend
+npm install
+npm start  # Runs on port 5002
+```
+
+Frontend Server:
+```bash
+cd frontend
+python -m http.server 3000  # Or use any static server
+```
+
+Database:
+- MongoDB Atlas (configured in .env)
+- Local MongoDB (optional)
+
+### Key URLs:
+- Main Site: http://localhost:3000
+- API: http://localhost:5002/api
+- Admin Login: http://localhost:3000/pages/admin/login_admin.html
+- Admin Dashboard: http://localhost:3000/pages/admin/admin-dashboard.html
+
+---
+
+## 📊 CURRENT FEATURES
+
+### User Features:
+- ✅ Google OAuth login
+- ✅ Email/password authentication
+- ✅ User registration
+- ✅ Session management
+- ✅ Protected content access
+
+### Content Features:
+- ✅ Blog system with posts and comments
+- ✅ Book library with PDF reader
+- ✅ Audio book collection
+- ✅ File upload system
+- ✅ Search and categorization
+
+### Admin Features:
+- ✅ Admin authentication
+- ✅ Dashboard with analytics
+- ✅ Content management
+- ✅ User management
+- ✅ Security monitoring
+
+### Technical Features:
+- ✅ Progressive Web App (PWA)
+- ✅ Responsive design
+- ✅ RESTful API
+- ✅ JWT authentication
+- ✅ MongoDB database
+- ✅ File upload handling
+
+---
+
+## 🚀 NEXT STEPS FOR DEVELOPMENT
+
+1. Testing: Complete end-to-end testing of all features
+2. Security: Implement HTTPS and additional security measures
+3. Performance: Optimize images, implement caching
+4. SEO: Add meta tags, sitemap, structured data
+5. Analytics: Integrate Google Analytics or similar
+6. Deployment: Set up production hosting (Vercel, Netlify, etc.)
+
+---
+
+## 🔐 ADMIN CREDENTIALS
+
+Default Admin Account:
+- Email: admin@raphaelshorizon.com
+- Password: admin123
+
+---
+
+## 📝 API ENDPOINTS SUMMARY
+
+### Authentication:
+- POST /api/auth/register - User registration
+- POST /api/auth/login - User login
+- POST /api/auth/admin/login - Admin login
+- GET /api/auth/google - Google OAuth
+- GET /api/auth/logout - Logout
+
+### Blog:
+- GET /api/blog - Get all posts
+- POST /api/blog - Create post (admin)
+- GET /api/blog/:id - Get single post
+- PUT /api/blog/:id - Update post (admin)
+- DELETE /api/blog/:id - Delete post (admin)
+
+### Comments:
+- GET /api/comments/:postId - Get comments for post
+- POST /api/comments - Create comment
+- DELETE /api/comments/:id - Delete comment (admin)
+
+### Upload:
+- POST /api/upload - Upload file
+- GET /api/upload/:filename - Get uploaded file
+
+### Analytics:
+- GET /api/analytics - Get site analytics
+- POST /api/analytics - Record analytics event
+
+---
+
+## 🗂️ FILE ORGANIZATION PRINCIPLES
+
+1. **Separation of Concerns**: Backend handles data/API, Frontend handles UI
+2. **Modular Architecture**: Each feature has its own controller/route/model
+3. **Security First**: Authentication required for sensitive operations
+4. **Scalable Structure**: Easy to add new features without major refactoring
+5. **PWA Ready**: Service worker and manifest for offline functionality
+
+---
+
+## 🐛 TROUBLESHOOTING
+
+### Common Issues:
+1. **"Failed to fetch" errors**: Check if backend server is running on port 5002
+2. **MongoDB connection errors**: Verify .env MONGO_URI is correct
+3. **Admin login fails**: Ensure admin user exists (run create-admin.js)
+4. **CORS errors**: Backend should allow requests from localhost:3000
+
+### Debug Commands:
+```bash
+# Check backend server
+curl http://localhost:5002/api/health
+
+# Check MongoDB connection
+cd backend && node -e "require('./config/database')"
+
+# Create admin user
+cd backend && node create-admin.js
+```
+
+---
+
+*Last Updated: January 2, 2026*
+*Raphael's Horizon - Full-Stack Christian Literature Platform*</content>
+<parameter name="filePath">d:\My Website\raphaelshorizon\SITE_ARCHITECTURE.md

@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<meta content="Learn about Raphael's Horizon - Our mission, vision, and the inspiring story behind our ministry and publications." name="description">
+<meta content="Raphael's Horizon, About Us, Christian ministry, spiritual guidance, inspirational books" name="keywords">
+<title>About — Raphael's Horizon</title>
+<link href="/css/styles.css" rel="stylesheet">
+<style>
+        /* About Page Specific Styles */
+        .about-hero {
+            padding: calc(var(--header-height) + 4rem) 0 4rem;
+            background: var(--gradient-primary);
+            color: var(--white);
+            text-align: center;
+        }
+
+        .about-hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .about-hero h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            margin-bottom: var(--space-lg);
+            color: var(--white);
+        }
+
+        .about-hero p {
+            font-size: 1.25rem;
+            opacity: 0.9;
+            line-height: 1.6;
+            margin-bottom: var(--space-xl);
+        }
+
+        .about-navigation {
+            background: var(--white);
+            padding: 2rem 0;
+            box-shadow: var(--shadow-sm);
+            position: sticky;
+            top: var(--header-height);
+            z-index: 100;
+        }
+
+        .about-nav-container {
+            display: flex;
+            justify-content: center;
+            gap: var(--space-lg);
+        }
+
+        .about-nav-link {
+            padding: var(--space-md) var(--space-lg);
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 500;
+            border-radius: var(--radius-md);
+            transition: var(--transition-normal);
+            position: relative;
+        }
+
+        .about-nav-link:hover,
+        .about-nav-link.active {
+            color: var(--primary-light);
+            background: rgba(52, 152, 219, 0.1);
+        }
+
+        .about-nav-link.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 30px;
+            height: 3px;
+            background: var(--primary-light);
+            border-radius: var(--radius-sm);
+        }
+
+        .about-content {
+            padding: var(--space-xxl) 0;
+            background: var(--light-bg);
+        }
+
+        .about-overview {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .mission-vision-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--space-xl);
+            margin: var(--space-xxl) 0;
+        }
+
+        .mission-card,
+        .vision-card {
+            background: var(--white);
+            padding: var(--space-xl);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .mission-card::before,
+        .vision-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+        }
+
+        .mission-card::before {
+            background: var(--primary-light);
+        }
+
+        .vision-card::before {
+            background: var(--accent-color);
+        }
+
+        .card-icon {
+            font-size: 3rem;
+            margin-bottom: var(--space-lg);
+            display: block;
+        }
+
+        .mission-card h3,
+        .vision-card h3 {
+            color: var(--primary-color);
+            margin-bottom: var(--space-md);
+        }
+
+        .core-values {
+            background: var(--white);
+            padding: var(--space-xxl) 0;
+        }
+
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--space-lg);
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .value-card {
+            text-align: center;
+            padding: var(--space-lg);
+            background: var(--light-bg);
+            border-radius: var(--radius-lg);
+            transition: var(--transition-normal);
+        }
+
+        .value-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .value-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--primary-light);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto var(--space-md);
+            color: var(--white);
+            font-size: 1.5rem;
+        }
+
+        .value-card h4 {
+            color: var(--primary-color);
+            margin-bottom: var(--space-sm);
+        }
+
+        .about-cta {
+            background: var(--gradient-primary);
+            color: var(--white);
+            text-align: center;
+            padding: var(--space-xxl) 0;
+        }
+
+        .about-cta h2 {
+            color: var(--white);
+            margin-bottom: var(--space-md);
+        }
+
+        .about-cta p {
+            font-size: 1.125rem;
+            opacity: 0.9;
+            margin-bottom: var(--space-xl);
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: var(--space-md);
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .about-nav-container {
+                flex-direction: column;
+                align-items: center;
+                gap: var(--space-sm);
+            }
+
+            .about-nav-link {
+                width: 100%;
+                max-width: 300px;
+                text-align: center;
+            }
+
+            .mission-vision-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .values-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .cta-buttons .btn {
+                width: 100%;
+                max-width: 300px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .about-hero {
+                padding: calc(var(--header-height) + 2rem) 0 2rem;
+            }
+
+            .mission-card,
+            .vision-card {
+                padding: var(--space-lg);
+            }
+        }
+    </style>
+<style>
+/* INLINE HEADER DONATE OVERRIDE - Hard-coded to bypass cache */
+.nav-donate .btn-donate {
+    background: #ff4444 !important;
+    color: #ffffff !important;
+    font-weight: 800 !important;
+    padding: 10px 22px !important;
+    border-radius: 50px !important;
+    border: 2px solid #ffffff !important;
+    box-shadow: 0 4px 15px rgba(255, 68, 68, 0.4) !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    text-transform: uppercase !important;
+    letter-spacing: 1px !important;
+    transition: all 0.3s ease !important;
+    animation: pulse-red-header 2s infinite !important;
+    margin-left: 15px !important;
+    text-decoration: none !important;
+}
+
+.nav-donate .btn-donate:hover {
+    background: #cc0000 !important;
+    transform: translateY(-2px) scale(1.05) !important;
+    box-shadow: 0 6px 20px rgba(255, 0, 0, 0.6) !important;
+    color: #ffffff !important;
+}
+
+@keyframes pulse-red-header {
+    0% { transform: scale(1); box-shadow: 0 4px 15px rgba(255, 68, 68, 0.4); }
+    50% { transform: scale(1.05); box-shadow: 0 4px 25px rgba(255, 68, 68, 0.7); }
+    100% { transform: scale(1); box-shadow: 0 4px 15px rgba(255, 68, 68, 0.4); }
+}
+</style>
+</head>
+<body><!-- COOKIE CONSENT BANNER -->
+<div class="cookie-banner" id="cookie-banner">
+<div class="cookie-content">
+<div class="cookie-icon">🍪</div>
+<p>
+      This website uses cookies to ensure you get the best experience on our site.
+      <a href="../contact/privacy-policy.html">Learn more</a>
+</p>
+<div class="cookie-actions">
+<button type="button" class="btn-cookie-preferences" id="cookie-preferences">Preferences</button>
+<button type="button" class="btn-accept-cookies" id="accept-cookies">Accept All</button>
+</div>
+</div>
+</div>
+<!-- COOKIE PREFERENCES MODAL -->
+<div class="cookie-modal" id="cookie-modal">
+<div class="modal-content">
+<div class="modal-header">
+<div class="modal-title">
+<div class="cookie-icon">🍪</div>
+<h3>Cookie Preferences</h3>
+</div>
+<button type="button" class="modal-close">×</button>
+</div>
+<div class="modal-body">
+<div class="cookie-category">
+<div class="category-header">
+<h4>Essential Cookies</h4>
+<span class="cookie-required">Required</span>
+</div>
+<p>Necessary for the website to function properly. Cannot be disabled.</p>
+</div>
+<div class="cookie-category">
+<div class="category-header">
+<h4>Analytics Cookies</h4>
+<label class="toggle-switch">
+<input checked id="analytics-toggle" type="checkbox">
+<span class="slider"></span>
+</label>
+</div>
+<p>Help us understand how visitors interact with our website.</p>
+</div>
+<div class="cookie-category">
+<div class="category-header">
+<h4>Functional Cookies</h4>
+<label class="toggle-switch">
+<input checked id="functional-toggle" type="checkbox">
+<span class="slider"></span>
+</label>
+</div>
+<p>Enable enhanced features and personalization.</p>
+</div>
+</div>
+<div class="modal-footer">
+<button type="button" class="btn-save-preferences" id="save-preferences">Save Preferences</button>
+</div>
+</div>
+</div>
+<!-- HEADER NAVIGATION -->
+<header class="main-header">
+<div class="container">
+<nav class="main-nav" aria-label="Primary navigation">
+<div class="nav-brand">
+<a class="logo-link" href="../../homepage.html">
+<img alt="Raphael's Horizon" class="nav-logo" src="/assets/icons/logo-square.png">
+<span class="brand-name">Raphael's Horizon</span>
+</a>
+</div>
+<ul class="nav-menu">
+<li><a class="nav-link" href="../../homepage.html">Home</a></li>
+<!-- Books Dropdown -->
+<li class="nav-dropdown">
+<a aria-controls="books-menu" aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle" href="../books/books.html">
+                        Books <span class="dropdown-arrow">Ôû╝</span>
+</a>
+<div class="dropdown-menu" id="books-menu" role="menu">
+<a class="dropdown-link" href="../books/books.html" role="menuitem">Purchase Books</a>
+<a class="dropdown-link" href="../books/books-online.html" role="menuitem">Read Books Online</a>
+<a class="dropdown-link" href="../books/audio-books.html" role="menuitem">Audio Books Online</a>
+</div>
+</li>
+<!-- About Dropdown -->
+<li class="nav-dropdown">
+<a href="javascript:void(0)" aria-controls="about-menu" aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle" role="button" tabindex="0">
+                        About <span class="dropdown-arrow">▼</span>
+</a>
+<div class="dropdown-menu" id="about-menu" role="menu">
+<a class="dropdown-link" href="about-us.html" role="menuitem">About Us</a>
+<a class="dropdown-link" href="assimagbe-albert-raphael.html" role="menuitem">Assimagbe Albert Raphael</a>
+</div>
+</li>
+<!-- Contact Dropdown -->
+<li class="nav-dropdown">
+<a href="javascript:void(0)" aria-controls="contact-menu" aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle" role="button" tabindex="0">
+                        Contact <span class="dropdown-arrow">▼</span>
+</a>
+<div class="dropdown-menu" id="contact-menu" role="menu">
+<a class="dropdown-link" href="../contact/index.html" role="menuitem">Contact Us</a>
+<a class="dropdown-link" href="../contact/speaking-request.html" role="menuitem">Speaking Request</a>
+<a class="dropdown-link" href="../contact/privacy-policy.html" role="menuitem">Privacy Policy</a>
+</div>
+</li>
+<!-- Blog Dropdown -->
+<li class="nav-dropdown">
+<a aria-controls="blog-menu" aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle active" href="../blog/index.html">
+                        Blog <span class="dropdown-arrow">Ôû╝</span>
+</a>
+<div class="dropdown-menu" id="blog-menu" role="menu">
+<a class="dropdown-link active" href="../blog/index.html" role="menuitem">Blog Home</a>
+<a class="dropdown-link" href="../blog/categories.html" role="menuitem">Categories</a>
+<a class="dropdown-link external" href="https://raphaelshorizon.blogspot.com/" rel="noopener noreferrer" role="menuitem" target="_blank">Legacy Blog</a>
+</div>
+</li>
+<li>
+<a class="nav-link external" href="https://raphaelshorizon.wordpress.com/" rel="noopener noreferrer" target="_blank">WordPress</a>
+</li>
+<!-- DONATE BUTTON - Visible prominently -->
+<li class="nav-donate">
+<a class="btn-donate" href="../../donation.html">
+<i class="fas fa-heart"></i> Donate
+</a>
+</li>
+<!-- Login / Account (visible when NOT authenticated) -->
+<li class="nav-dropdown auth-menu-guest">
+<button aria-controls="account-menu" aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle" type="button">
+                        Account <span class="dropdown-arrow">Ôû╝</span>
+</button>
+<div class="dropdown-menu" id="account-menu" role="menu">
+<button class="dropdown-link" id="show-login-btn" role="menuitem" type="button">Sign in</button>
+<button class="dropdown-link" id="show-register-btn" role="menuitem" type="button">Create account</button>
+<button class="dropdown-link" id="show-subscription-btn" role="menuitem" type="button">Subscription plans</button>
+</div>
+</li>
+<!-- User menu (visible when authenticated) -->
+<li class="user-menu-container" style="display:none;">
+<button type="button" aria-controls="user-menu" aria-expanded="false" aria-haspopup="true" class="user-menu dropdown-toggle">
+<span class="user-avatar">U</span>
+<span class="user-name">User</span>
+<span class="dropdown-arrow">Ôû╝</span>
+</button>
+<div class="user-dropdown dropdown-menu" id="user-menu" role="menu">
+<a href="../profile/index.html" role="menuitem">My Profile</a>
+<a href="../profile/subscription.html" role="menuitem">Subscription</a>
+<a href="../profile/library.html" role="menuitem">My Library</a>
+<div class="dropdown-divider" role="separator"></div>
+<button onclick="logout()" role="menuitem" type="button">Logout</button>
+</div>
+</li>
+</ul>
+<!-- Mobile Menu Toggle -->
+<div class="mobile-menu-toggle">
+<span></span>
+<span></span>
+<span></span>
+</div>
+</nav>
+</div>
+</header>
+<!-- ABOUT HERO SECTION -->
+<section class="about-hero">
+<div class="container">
+<div class="about-hero-content">
+<h1>About Raphael's Horizon</h1>
+<p>Discover the mission, vision, and divine inspiration behind our journey of unveiling God's promises through boundless possibilities.</p>
+<div class="hero-actions">
+<a class="btn btn-primary" href="#our-mission">Our Mission</a>
+<a class="btn btn-secondary" href="assimagbe-albert-raphael.html">Meet Raphael</a>
+</div>
+</div>
+</div>
+</section>
+<!-- ABOUT NAVIGATION -->
+<nav class="about-navigation" aria-label="About navigation">
+<div class="container">
+<div class="about-nav-container">
+<a class="about-nav-link active" href="#our-mission">Our Mission</a>
+<a class="about-nav-link" href="#our-vision">Our Vision</a>
+<a class="about-nav-link" href="#core-values">Core Values</a>
+<a class="about-nav-link" href="assimagbe-albert-raphael.html">Our Founder</a>
+</div>
+</div>
+</nav>
+<!-- ABOUT OVERVIEW -->
+<section class="about-content">
+<div class="container">
+<div class="about-overview">
+<div class="section-header">
+<h2>Unveiling God's Promises Through Boundless Possibilities</h2>
+<p>Raphael's Horizon is a divine initiative dedicated to empowering individuals to discover their God-given purpose and walk in the fullness of their destiny.</p>
+</div>
+<!-- Mission & Vision Grid -->
+<div class="mission-vision-grid">
+<div class="mission-card">
+<span class="card-icon">🎯</span>
+<h3>Our Mission</h3>
+<p>To illuminate the path of spiritual discovery by providing transformative teachings, inspirational books, and practical guidance that help individuals recognize and fulfill their divine purpose through God's unwavering promises.</p>
+</div>
+<div class="vision-card">
+<span class="card-icon">🔭</span>
+<h3>Our Vision</h3>
+<p>To create a global community where every individual experiences the transformative power of God's love, discovers their unique purpose, and embraces the boundless possibilities available through faith and spiritual growth.</p>
+</div>
+</div>
+<!-- Detailed Mission & Vision -->
+<div class="content-section" id="our-mission">
+<h3>Our Divine Mandate</h3>
+<p>At Raphael's Horizon, we believe that every individual is created with a unique purpose and divine destiny. Our mission is rooted in the biblical promise found in Jeremiah 29:11 - "For I know the plans I have for you," declares the Lord, "plans to prosper you and not to harm you, plans to give you hope and a future."</p>
+<p>Through our publications, teachings, and ministry outreach, we strive to:</p>
+<ul>
+<li>Provide spiritual guidance for navigating life's challenges</li>
+<li>Offer practical wisdom for personal and spiritual growth</li>
+<li>Create resources that transform perspectives and renew minds</li>
+<li>Build a supportive community for spiritual development</li>
+<li>Empower individuals to walk in their God-given authority</li>
+</ul>
+</div>
+<div class="content-section" id="our-vision">
+<h3>Our Future Horizon</h3>
+<p>We envision a world where individuals from all walks of life embrace their spiritual identity and operate in the fullness of their divine potential. Our vision extends beyond mere information to transformation - where teachings become lifestyle and faith becomes action.</p>
+<p>Our strategic focus includes:</p>
+<ul>
+<li>Expanding our literary contributions with more transformative books</li>
+<li>Developing digital platforms for global reach and impact</li>
+<li>Establishing mentorship programs for spiritual leadership</li>
+<li>Creating multimedia content for diverse learning styles</li>
+<li>Building partnerships with like-minded ministries and organizations</li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+<!-- CORE VALUES -->
+<section class="core-values" id="core-values">
+<div class="container">
+<div class="section-header">
+<h2>Our Core Values</h2>
+<p>The foundational principles that guide our mission and define our approach to ministry</p>
+</div>
+<div class="values-grid">
+<div class="value-card">
+<div class="value-icon">⛪</div>
+<h4>Faith-Based Foundation</h4>
+<p>Rooted in biblical principles and guided by the Holy Spirit in all our endeavors.</p>
+</div>
+<div class="value-card">
+<div class="value-icon">💝</div>
+<h4>Transformative Impact</h4>
+<p>Committed to creating lasting change in lives through spiritual enlightenment.</p>
+</div>
+<div class="value-card">
+<div class="value-icon">🌍</div>
+<h4>Global Community</h4>
+<p>Building bridges across cultures to create a worldwide network of faith.</p>
+</div>
+<div class="value-card">
+<div class="value-icon">📚</div>
+<h4>Excellence in Teaching</h4>
+<p>Delivering high-quality, well-researched, and spiritually sound content.</p>
+</div>
+<div class="value-card">
+<div class="value-icon">🤝</div>
+<h4>Authentic Relationships</h4>
+<p>Valuing genuine connections and transparent communication with our community.</p>
+</div>
+<div class="value-card">
+<div class="value-icon">🚀</div>
+<h4>Innovative Approach</h4>
+<p>Embracing new methods to effectively spread God's message in the digital age.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- CALL TO ACTION -->
+<section class="about-cta">
+<div class="container">
+<h2>Join Our Journey of Faith</h2>
+<p>Become part of our growing community and discover how God's promises can transform your life and expand your horizons.</p>
+<div class="cta-buttons">
+<a class="btn btn-primary" href="../books/books.html">Explore Our Books</a>
+<a class="btn btn-secondary" href="../contact/index.html">Get In Touch</a>
+<a class="btn btn-outline" href="assimagbe-albert-raphael.html">Meet Our Founder</a>
+</div>
+</div>
+</section>
+<!-- FOOTER -->
+
+<!-- FLOATING DONATE BUTTON (visible on mobile) -->
+<a href="../../donation.html" class="btn-donate floating-donate-btn" aria-label="Donate to Raphael's Horizon">
+  <i class="fas fa-heart"></i> Donate
+</a>
+
+<!-- Main JavaScript file for site functionality -->
+<script src="/js/scripts.js"></script>
+<!-- Configuration for API endpoints -->
+<script src="/js/config.js"></script>
+<!-- Authentication for universal login state -->
+<script src="/js/auth.js"></script>
+
+</body>
+</html>
+

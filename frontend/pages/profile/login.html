@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In - Raphael's Horizon</title>
+    <link href="/css/styles.css" rel="stylesheet">
+    <link href="/css/auth.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f4f7f6;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+        .login-page-container {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 25px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 450px;
+        }
+        .login-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        .login-logo {
+            width: 80px;
+            margin-bottom: 1rem;
+        }
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 1.5rem;
+            color: #666;
+            text-decoration: none;
+        }
+        .back-link:hover {
+            color: var(--primary-color);
+        }
+    </style>
+    <!-- Google Sign-In -->
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <!-- Environment Configuration (must load first) -->
+    <script src="/js/config.js"></script>
+    
+    <!-- Check if user is already logged in -->
+    <script>
+    (function() {
+        const token = localStorage.getItem('authToken') || localStorage.getItem('adminToken');
+        const userStr = localStorage.getItem('user') || localStorage.getItem('adminUser');
+        if (token && userStr) {
+            try {
+                const user = JSON.parse(userStr);
+                // User is already logged in - redirect appropriately
+                const returnTo = sessionStorage.getItem('returnTo');
+                if (returnTo) {
+                    sessionStorage.removeItem('returnTo');
+                    window.location.href = returnTo;
+                } else if (user.role === 'admin') {
+                    window.location.href = '/pages/admin/admin-dashboard.html';
+                } else {
+                    window.location.href = '/homepage.html';
+                }
+            } catch(e) { /* ignore parse errors */ }
+        }
+    })();
+    </script>
+    
+    <!-- Load auth.js early so API_BASE_URL and handlers are available -->
+    <script src="/js/auth.js"></script>
+</head>
+<body>
+
+    <div class="login-page-container">
+        <div class="login-header">
+            <a href="/homepage.html">
+                <img src="/assets/icons/logo-square.png" alt="Raphael's Horizon" class="login-logo">
+            </a>
+            <h2>Welcome Back</h2>
+            <p>Sign in to access your library and subscription</p>
+        </div>
+
+        <!-- Login form -->
+        <form id="page-login-form" onsubmit="handleAuthSubmit(event, 'login'); return false;">
+            <div class="form-group">
+                <label for="login-email">Email Address</label>
+                <input type="email" id="login-email" name="email" class="form-input" placeholder="name@example.com" required>
+            </div>
+            <div class="form-group">
+                <label for="login-password">Password</label>
+                <input type="password" id="login-password" name="password" class="form-input" placeholder="Enter your password" required>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Sign In</button>
+            <div class="auth-footer" style="text-align: right; margin-top: 10px;">
+                <a href="forgot-password.html">Forgot your password?</a>
+            </div>
+        </form>
+
+        <!-- Register form (accessible via #register hash) -->
+        <form id="page-register-form" onsubmit="handleAuthSubmit(event, 'register'); return false;" style="display:none; margin-top:1.5rem;">
+            <div class="form-group">
+                <label for="register-name">Full Name</label>
+                <input type="text" id="register-name" name="name" class="form-input" placeholder="John Doe" required>
+            </div>
+            <div class="form-group">
+                <label for="register-email">Email Address</label>
+                <input type="email" id="register-email" name="email" class="form-input" placeholder="name@example.com" required>
+            </div>
+            <div class="form-group">
+                <label for="register-password">Password</label>
+                <input type="password" id="register-password" name="password" class="form-input" placeholder="Create a password" required>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Create Account</button>
+            <div class="auth-footer" style="text-align: center; margin-top: 15px;">
+                Already have an account? <a href="#login" id="switch-to-login">Sign in</a>
+            </div>
+        </form>
+
+        <!-- Toggle link for login form -->
+        <div id="login-toggle" class="auth-footer" style="text-align: center; margin-top: 15px;">
+            Don't have an account? <a href="#register" id="switch-to-register">Create one</a>
+        </div>
+
+        <div class="auth-divider"><span>OR</span></div>
+
+        <!-- Google Sign In Button Container -->
+        <div id="google-signin-button"></div>
+
+        <a href="/homepage.html" class="back-link">← Back to Home</a>
+
+    <script>
+    // Switch between login and register views
+    (function() {
+      const loginForm = document.getElementById('page-login-form');
+      const registerForm = document.getElementById('page-register-form');
+      const loginToggle = document.getElementById('login-toggle');
+
+      function showLogin() {
+        loginForm.style.display = 'block';
+        registerForm.style.display = 'none';
+        loginToggle.style.display = 'block';
+        document.querySelector('.login-header h2').textContent = 'Welcome Back';
+        document.querySelector('.login-header p').textContent = 'Sign in to access your library and subscription';
+      }
+
+      function showRegister() {
+        loginForm.style.display = 'none';
+        registerForm.style.display = 'block';
+        loginToggle.style.display = 'none';
+        document.querySelector('.login-header h2').textContent = 'Create Account';
+        document.querySelector('.login-header p').textContent = 'Join us to access exclusive content';
+      }
+
+      function handleHash() {
+        const hash = window.location.hash || '';
+        if (hash.toLowerCase().includes('register')) {
+          showRegister();
+        } else {
+          showLogin();
+        }
+      }
+
+      // On load
+      handleHash();
+      
+      // Handle hash changes
+      window.addEventListener('hashchange', handleHash);
+
+      // Handle toggle clicks
+      document.getElementById('switch-to-register')?.addEventListener('click', () => {
+        window.location.hash = 'register';
+      });
+      document.getElementById('switch-to-login')?.addEventListener('click', () => {
+        window.location.hash = 'login';
+      });
+
+      // Render Google button if authManager is available
+      const initGoogleBtn = setInterval(() => {
+        if (window.authManager && typeof window.authManager.renderGoogleButton === 'function') {
+            clearInterval(initGoogleBtn);
+            window.authManager.renderGoogleButton();
+        }
+      }, 100);
+      setTimeout(() => clearInterval(initGoogleBtn), 5000);
+    })();
+    </script>
+    </div>
+
+    <script src="/js/config.js"></script>
+    <script src="/js/auth.js"></script>
+    <script src="/js/scripts.js"></script>
+    <script src="/js/api.js"></script>
+</body>
+</html>

@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<meta content="Invite Raphael to speak at your event, conference, or gathering. Submit your speaking request with detailed event information." name="description">
+<meta content="speaking request, Christian speaker, ministry events, Raphael speaking engagement" name="keywords">
+<title>Speaking Request — Raphael's Horizon</title>
+<link href="/css/styles.css" rel="stylesheet">
+<style>
+        /* Speaking Request Page Specific Styles */
+        .speaking-request-hero {
+            padding: calc(var(--header-height) + 4rem) 0 4rem;
+            background: var(--gradient-primary);
+            color: var(--white);
+            text-align: center;
+        }
+
+        .speaking-request-hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .speaking-request-hero h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            margin-bottom: var(--space-lg);
+            color: var(--white);
+        }
+
+        .speaking-request-hero p {
+            font-size: 1.25rem;
+            opacity: 0.9;
+            line-height: 1.6;
+            margin-bottom: var(--space-xl);
+        }
+
+        .speaking-request-content {
+            padding: var(--space-xxl) 0;
+            background: var(--light-bg);
+        }
+
+        .request-form-container {
+            background: var(--white);
+            padding: var(--space-xl);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .request-form-container h2 {
+            color: var(--primary-color);
+            margin-bottom: var(--space-lg);
+            text-align: center;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-lg);
+            margin-bottom: var(--space-lg);
+        }
+
+        .form-group {
+            margin-bottom: var(--space-lg);
+        }
+
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: var(--space-sm);
+            color: var(--primary-color);
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: var(--space-md);
+            border: 2px solid var(--border-color);
+            border-radius: var(--radius-md);
+            font-size: 1rem;
+            transition: var(--transition-normal);
+            font-family: inherit;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary-light);
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .event-type-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: var(--space-md);
+        }
+
+        .event-type-option {
+            position: relative;
+        }
+
+        .event-type-option input[type="radio"] {
+            display: none;
+        }
+
+        .event-type-option label {
+            display: block;
+            padding: var(--space-md);
+            border: 2px solid var(--border-color);
+            border-radius: var(--radius-md);
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition-normal);
+            background: var(--light-bg);
+        }
+
+        .event-type-option input[type="radio"]:checked + label {
+            border-color: var(--primary-light);
+            background: rgba(52, 152, 219, 0.1);
+            color: var(--primary-light);
+            font-weight: 500;
+        }
+
+        .event-type-option label:hover {
+            border-color: var(--primary-light);
+        }
+
+        .submit-button {
+            width: 100%;
+            padding: var(--space-md);
+            background: var(--primary-light);
+            color: var(--white);
+            border: none;
+            border-radius: var(--radius-md);
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition-normal);
+            margin-top: var(--space-md);
+        }
+
+        .submit-button:hover {
+            background: var(--primary-color);
+            transform: translateY(-2px);
+        }
+
+        #response-message {
+            margin-top: var(--space-md);
+            padding: var(--space-md);
+            border-radius: var(--radius-md);
+            text-align: center;
+            display: none;
+        }
+
+        .success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .speaking-info {
+            background: var(--white);
+            padding: var(--space-xl);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+            max-width: 800px;
+            margin: var(--space-xxl) auto 0;
+        }
+
+        .speaking-info h3 {
+            color: var(--primary-color);
+            margin-bottom: var(--space-lg);
+            text-align: center;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--space-lg);
+        }
+
+        .info-item {
+            text-align: center;
+            padding: var(--space-md);
+        }
+
+        .info-icon {
+            font-size: 2rem;
+            margin-bottom: var(--space-md);
+            display: block;
+        }
+
+        .info-item h4 {
+            color: var(--primary-light);
+            margin-bottom: var(--space-sm);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .speaking-request-hero {
+                padding: calc(var(--header-height) + 2rem) 0 2rem;
+            }
+
+            .request-form-container {
+                padding: var(--space-lg);
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+                gap: 0;
+            }
+
+            .event-type-options {
+                grid-template-columns: 1fr;
+            }
+
+            .speaking-info {
+                padding: var(--space-lg);
+                margin-top: var(--space-xl);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .request-form-container {
+                padding: var(--space-md);
+            }
+
+            .speaking-info {
+                padding: var(--space-md);
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+<style>
+/* INLINE HEADER DONATE OVERRIDE - Hard-coded to bypass cache */
+.nav-donate .btn-donate {
+    background: #ff4444 !important;
+    color: #ffffff !important;
+    font-weight: 800 !important;
+    padding: 10px 22px !important;
+    border-radius: 50px !important;
+    border: 2px solid #ffffff !important;
+    box-shadow: 0 4px 15px rgba(255, 68, 68, 0.4) !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    text-transform: uppercase !important;
+    letter-spacing: 1px !important;
+    transition: all 0.3s ease !important;
+    animation: pulse-red-header 2s infinite !important;
+    margin-left: 15px !important;
+    text-decoration: none !important;
+}
+
+.nav-donate .btn-donate:hover {
+    background: #cc0000 !important;
+    transform: translateY(-2px) scale(1.05) !important;
+    box-shadow: 0 6px 20px rgba(255, 0, 0, 0.6) !important;
+    color: #ffffff !important;
+}
+
+@keyframes pulse-red-header {
+    0% { transform: scale(1); box-shadow: 0 4px 15px rgba(255, 68, 68, 0.4); }
+    50% { transform: scale(1.05); box-shadow: 0 4px 25px rgba(255, 68, 68, 0.7); }
+    100% { transform: scale(1); box-shadow: 0 4px 15px rgba(255, 68, 68, 0.4); }
+}
+</style>
+</head>
+<body><!-- COOKIE CONSENT BANNER -->
+<div class="cookie-banner" id="cookie-banner">
+<div class="cookie-content">
+<div class="cookie-icon">🍪</div>
+<p>
+      This website uses cookies to ensure you get the best experience on our site.
+      <a href="privacy-policy.html">Learn more</a>
+</p>
+<div class="cookie-actions">
+<button type="button" class="btn-cookie-preferences" id="cookie-preferences">Preferences</button>
+<button type="button" class="btn-accept-cookies" id="accept-cookies">Accept All</button>
+</div>
+</div>
+</div>
+<!-- COOKIE PREFERENCES MODAL -->
+<div class="cookie-modal" id="cookie-modal">
+<div class="modal-content">
+<div class="modal-header">
+<div class="modal-title">
+<div class="cookie-icon">🍪</div>
+<h3>Cookie Preferences</h3>
+</div>
+<button type="button" class="modal-close">×</button>
+</div>
+<div class="modal-body">
+<div class="cookie-category">
+<div class="category-header">
+<h4>Essential Cookies</h4>
+<span class="cookie-required">Required</span>
+</div>
+<p>Necessary for the website to function properly. Cannot be disabled.</p>
+</div>
+<div class="cookie-category">
+<div class="category-header">
+<h4>Analytics Cookies</h4>
+<label class="toggle-switch">
+<input checked id="analytics-toggle" type="checkbox">
+<span class="slider"></span>
+</label>
+</div>
+<p>Help us understand how visitors interact with our website.</p>
+</div>
+<div class="cookie-category">
+<div class="category-header">
+<h4>Functional Cookies</h4>
+<label class="toggle-switch">
+<input checked id="functional-toggle" type="checkbox">
+<span class="slider"></span>
+</label>
+</div>
+<p>Enable enhanced features and personalization.</p>
+</div>
+</div>
+<div class="modal-footer">
+<button type="button" class="btn-save-preferences" id="save-preferences">Save Preferences</button>
+</div>
+</div>
+</div>
+<!-- HEADER NAVIGATION -->
+<header class="main-header">
+<div class="container">
+<nav class="main-nav" aria-label="Primary navigation">
+<div class="nav-brand">
+<a class="logo-link" href="../../homepage.html">
+<img alt="Raphael's Horizon" class="nav-logo" src="/assets/icons/logo-square.png">
+<span class="brand-name">Raphael's Horizon</span>
+</a>
+</div>
+<ul class="nav-menu">
+<li><a class="nav-link" href="../../homepage.html">Home</a></li>
+<!-- Books Dropdown -->
+<li class="nav-dropdown">
+<a href="javascript:void(0)" aria-controls="books-menu" aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle" role="button" tabindex="0">
+                        Books <span class="dropdown-arrow">Ôû╝</span>
+</a>
+<div class="dropdown-menu" id="books-menu" role="menu">
+<a class="dropdown-link" href="../books/books.html" role="menuitem">Purchase Books</a>
+<a class="dropdown-link" href="../books/books-online.html" role="menuitem">Read Books Online</a>
+<a class="dropdown-link" href="../books/audio-books.html" role="menuitem">Audio Books Online</a>
+</div>
+</li>
+<!-- About Dropdown -->
+<li class="nav-dropdown">
+<a href="javascript:void(0)" aria-controls="about-menu" aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle" role="button" tabindex="0">
+                        About <span class="dropdown-arrow">Ôû╝</span>
+</a>
+<div class="dropdown-menu" id="about-menu" role="menu">
+<a class="dropdown-link" href="../about/about-us.html" role="menuitem">About Us</a>
+<a class="dropdown-link" href="../about/assimagbe-albert-raphael.html" role="menuitem">Assimagbe Albert Raphael</a>
+</div>
+</li>
+<!-- Contact Dropdown -->
+<li class="nav-dropdown">
+<a href="javascript:void(0)" aria-controls="contact-menu" aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle" role="button" tabindex="0">
+                        Contact <span class="dropdown-arrow">Ôû╝</span>
+</a>
+<div class="dropdown-menu" id="contact-menu" role="menu">
+<a class="dropdown-link" href="index.html" role="menuitem">Contact Us</a>
+<a class="dropdown-link" href="speaking-request.html" role="menuitem">Speaking Request</a>
+<a class="dropdown-link" href="privacy-policy.html" role="menuitem">Privacy Policy</a>
+</div>
+</li>
+<!-- Blog Dropdown -->
+<li class="nav-dropdown">
+<a href="javascript:void(0)" aria-controls="blog-menu" aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle active" role="button" tabindex="0">
+                        Blog <span class="dropdown-arrow">Ôû╝</span>
+</a>
+<div class="dropdown-menu" id="blog-menu" role="menu">
+<a class="dropdown-link active" href="../blog/index.html" role="menuitem">Blog Home</a>
+<a class="dropdown-link" href="../blog/categories.html" role="menuitem">Categories</a>
+<a class="dropdown-link external" href="https://raphaelshorizon.blogspot.com/" rel="noopener noreferrer" role="menuitem" target="_blank">Legacy Blog</a>
+</div>
+</li>
+<li>
+<a class="nav-link external" href="https://raphaelshorizon.wordpress.com/" rel="noopener noreferrer" target="_blank">WordPress</a>
+</li>
+<!-- DONATE BUTTON - Visible prominently -->
+<li class="nav-donate">
+<a class="btn-donate" href="../../donation.html">
+<i class="fas fa-heart"></i> Donate
+</a>
+</li>
+<!-- Login / Account (visible when NOT authenticated) -->
+<li class="nav-dropdown auth-menu-guest">
+<a href="javascript:void(0)" aria-controls="account-menu" aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle" role="button" tabindex="0">
+                        Account <span class="dropdown-arrow">Ôû╝</span>
+</a>
+<div class="dropdown-menu" id="account-menu" role="menu">
+<a class="dropdown-link" href="/pages/profile/login.html" role="menuitem">Sign in</a>
+<a class="dropdown-link" href="/pages/profile/login.html#register" role="menuitem">Create account</a>
+<button class="dropdown-link" onclick="showSubscriptionModal()" role="menuitem" type="button">Subscription plans</button>
+</div>
+</li>
+<!-- User menu (visible when authenticated) -->
+<li class="user-menu-container" style="display:none;">
+
+<button type="button" aria-controls="user-menu" aria-expanded="false" aria-haspopup="true" class="user-menu dropdown-toggle">
+<span class="user-avatar">U</span>
+<span class="user-name">User</span>
+<span class="dropdown-arrow">Ôû╝</span>
+</a>
+<div class="user-dropdown dropdown-menu" id="user-menu" role="menu">
+<a href="../profile/index.html" role="menuitem">My Profile</a>
+<a href="../profile/subscription.html" role="menuitem">Subscription</a>
+<a href="../profile/library.html" role="menuitem">My Library</a>
+<div class="dropdown-divider" role="separator"></div>
+<button onclick="logout()" role="menuitem" type="button">Logout</button>
+</div>
+</li>
+</ul>
+<!-- Mobile Menu Toggle -->
+<button class="mobile-menu-toggle" type="button" aria-label="Toggle navigation">
+<span></span>
+<span></span>
+<span></span>
+</button>
+</nav>
+</div>
+</header>
+<!-- SPEAKING REQUEST HERO SECTION -->
+<section class="speaking-request-hero">
+<div class="container">
+<div class="speaking-request-hero-content">
+<h1>Speaking Request</h1>
+<p>Invite Raphael to speak at your event, conference, or gathering. Please provide detailed information to help us serve you better.</p>
+<div class="hero-actions">
+<a class="btn btn-primary" href="#request-form">Submit Request</a>
+<a class="btn btn-secondary" href="../about/assimagbe-albert-raphael.html">Learn About Raphael</a>
+</div>
+</div>
+</div>
+</section>
+<!-- SPEAKING REQUEST CONTENT -->
+<section class="speaking-request-content">
+<div class="container">
+<div class="request-form-container">
+<h2>Event Information</h2>
+<form action="https://script.google.com/macros/s/AKfycbyeY1Liyrf9zNgmkx6wsJyMOcTN4poakQwEQ6oiP1KdF9egjtsa2sU4vUVFd0kWnyd0pQ/exec" id="speaking-request-form" method="POST">
+<!-- Contact Information -->
+<div class="form-row">
+<div class="form-group">
+<label for="organization">Organization Name *</label>
+<input id="organization" name="organization" placeholder="Your organization name" required type="text">
+</div>
+<div class="form-group">
+<label for="contact-person">Contact Person *</label>
+<input id="contact-person" name="contact_person" placeholder="Full name" required type="text">
+</div>
+</div>
+<div class="form-row">
+<div class="form-group">
+<label for="email">Email Address *</label>
+<input id="email" name="email" placeholder="your.email@example.com" required type="email">
+</div>
+<div class="form-group">
+<label for="phone">Phone Number</label>
+<input id="phone" name="phone" placeholder="+1 (555) 123-4567" type="tel">
+</div>
+</div>
+<!-- Event Details -->
+<div class="form-row">
+<div class="form-group">
+<label for="event-date">Proposed Event Date *</label>
+<input id="event-date" name="event_date" required type="date">
+</div>
+<div class="form-group">
+<label for="event-location">Event Location *</label>
+<input id="event-location" name="event_location" placeholder="City, State/Country" required type="text">
+</div>
+</div>
+<div class="form-group full-width">
+<label>Event Type *</label>
+<div class="event-type-options">
+<div class="event-type-option">
+<input id="in-person" name="event_type" required type="radio" value="in-person">
+<label for="in-person">In-Person</label>
+</div>
+<div class="event-type-option">
+<input id="online" name="event_type" required type="radio" value="online">
+<label for="online">Online/Virtual</label>
+</div>
+<div class="event-type-option">
+<input id="hybrid" name="event_type" required type="radio" value="hybrid">
+<label for="hybrid">Hybrid</label>
+</div>
+</div>
+</div>
+<div class="form-row">
+<div class="form-group">
+<label for="expected-attendance">Expected Attendance *</label>
+<select id="expected-attendance" name="expected_attendance" required>
+<option value="">Select range</option>
+<option value="1-50">1-50 people</option>
+<option value="51-100">51-100 people</option>
+<option value="101-250">101-250 people</option>
+<option value="251-500">251-500 people</option>
+<option value="501-1000">501-1,000 people</option>
+<option value="1000+">1,000+ people</option>
+</select>
+</div>
+<div class="form-group">
+<label for="event-duration">Expected Duration *</label>
+<select id="event-duration" name="event_duration" required>
+<option value="">Select duration</option>
+<option value="30min">30 minutes</option>
+<option value="45min">45 minutes</option>
+<option value="1hour">1 hour</option>
+<option value="1.5hours">1.5 hours</option>
+<option value="2hours">2 hours</option>
+<option value="half-day">Half day</option>
+<option value="full-day">Full day</option>
+<option value="multiple-days">Multiple days</option>
+</select>
+</div>
+</div>
+<!-- Speaking Topics -->
+<div class="form-group full-width">
+<label for="speaking-topic">Preferred Speaking Topic *</label>
+<textarea id="speaking-topic" name="speaking_topic" placeholder="Please describe the topic you'd like Raphael to speak on, including any specific themes or scriptures..." required></textarea>
+</div>
+<div class="form-group full-width">
+<label for="audience-info">Audience Information</label>
+<textarea id="audience-info" name="audience_info" placeholder="Tell us about your audience (age group, background, spiritual maturity, etc.)"></textarea>
+</div>
+<div class="form-group full-width">
+<label for="additional-info">Additional Information</label>
+<textarea id="additional-info" name="additional_info" placeholder="Any other relevant information about the event, special requirements, or expectations..."></textarea>
+</div>
+<button class="submit-button" type="submit">Submit Speaking Request</button>
+<div id="response-message"></div>
+</form>
+</div>
+<!-- Speaking Information -->
+<div class="speaking-info">
+<h3>About Raphael's Speaking Ministry</h3>
+<div class="info-grid">
+<div class="info-item">
+<span class="info-icon">🎯</span>
+<h4>Transformative Messages</h4>
+<p>Biblical teachings that inspire spiritual growth and personal transformation</p>
+</div>
+<div class="info-item">
+<span class="info-icon">💫</span>
+<h4>Dynamic Delivery</h4>
+<p>Engaging presentations that connect with diverse audiences</p>
+</div>
+<div class="info-item">
+<span class="info-icon">🤝</span>
+<h4>Personal Connection</h4>
+<p>Genuine interaction and ministry to individual needs</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- CALL TO ACTION -->
+<section class="about-cta">
+<div class="container">
+<h2>Explore Raphael's Teachings</h2>
+<p>While waiting for your speaking request to be processed, explore Raphael's books and online content to get a taste of his teaching style and spiritual insights.</p>
+<div class="cta-buttons">
+<a class="btn btn-primary" href="../books/books.html">Browse Books</a>
+<a class="btn btn-secondary" href="../about/assimagbe-albert-raphael.html">Learn About Raphael</a>
+<a class="btn btn-outline" href="https://raphaelshorizon.blogspot.com/" rel="noopener noreferrer" target="_blank">Read Blog</a>
+</div>
+</div>
+</section>
+<!-- FOOTER -->
+<script src="/js/scripts.js"></script>
+<script src="/js/auth.js"></script>
+
+<!-- FLOATING DONATE BUTTON (visible on mobile) -->
+<a href="../../donation.html" class="btn-donate floating-donate-btn" aria-label="Donate to Raphael's Horizon">
+  <i class="fas fa-heart"></i> Donate
+</a>
+
+</body>
+</html>
+

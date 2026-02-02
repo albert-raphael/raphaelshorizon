@@ -1,0 +1,5 @@
+2026-01-04T02:17:06.5730000Z Requested labels: ubuntu-latest
+2026-01-04T02:17:06.5730000Z Job defined at: albert-raphael/raphaelshorizon/.github/workflows/release.yml@refs/tags/v0.0.3-test-2
+2026-01-04T02:17:06.5730000Z Waiting for a runner to pick up this job...
+2026-01-04T02:17:07.0740000Z Job is about to start running on the hosted runner: GitHub Actions 1000002977
+2026-01-04T02:17:07.0740000Z Job is waiting for a hosted runner to come online.

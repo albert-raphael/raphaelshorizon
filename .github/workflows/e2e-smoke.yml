@@ -1,0 +1,69 @@
+name: E2E Smoke Tests
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+      - name: Install dependencies for e2e
+        run: |
+          npm --prefix tools/e2e ci
+      - name: Install backend dependencies
+        run: |
+          npm --prefix backend ci
+      - name: Install Playwright browsers
+        run: npx --prefix tools/e2e playwright install --with-deps
+      - name: Start backend server
+        env:
+          NODE_ENV: development
+        run: |
+          nohup node backend/server.js > backend.log 2>&1 &
+          # wait for /api/health to become available
+          for i in $(seq 1 20); do
+            if curl -sSf http://127.0.0.1:5002/api/health >/dev/null 2>&1; then echo 'backend up' && exit 0; fi
+            sleep 1
+          done
+          echo 'backend did not start' && cat backend.log && exit 1
+      - name: Start frontend static server
+        run: |
+          npx http-server frontend -p 5500 -c-1 &
+          for i in $(seq 1 20); do
+            if curl -sSf http://127.0.0.1:5500/frontend/pages/profile/subscription.html >/dev/null 2>&1; then echo 'frontend up' && exit 0; fi
+            sleep 1
+          done
+          echo 'frontend did not start' && exit 1
+      - name: Run smoke script
+        env:
+          PAYPAL_TEST_MODE: simulate
+          PAYPAL_CLIENT_ID: ${{ secrets.PAYPAL_CLIENT_ID }}
+          PAYPAL_SECRET: ${{ secrets.PAYPAL_SECRET }}
+          PAYPAL_MODE: sandbox
+        run: node tools/e2e/run-books-smoke.js
+      - name: Run Playwright tests
+        env:
+          PAYPAL_TEST_MODE: simulate
+          PAYPAL_CLIENT_ID: ${{ secrets.PAYPAL_CLIENT_ID }}
+          PAYPAL_SECRET: ${{ secrets.PAYPAL_SECRET }}
+          PAYPAL_MODE: sandbox
+          BACKEND_BASE_URL: http://127.0.0.1:5002
+          TEST_BASE_URL: http://127.0.0.1:5500/frontend
+          PAYPAL_TEST_BUYER_EMAIL: ${{ secrets.PAYPAL_TEST_BUYER_EMAIL }}
+          PAYPAL_TEST_BUYER_PASS: ${{ secrets.PAYPAL_TEST_BUYER_PASS }}
+        run: npx --prefix tools/e2e playwright test --reporter=list --project=chromium
+      - name: Upload Playwright artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-artifacts
+          path: tools/e2e/test-results/**
+

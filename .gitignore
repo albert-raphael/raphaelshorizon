@@ -1,0 +1,68 @@
+# Copyright © 2024 Raphael's Horizon. All rights reserved.
+# PRIVATE PROPERTY - UNAUTHORIZED USE PROHIBITED
+
+# Dependencies
+node_modules/
+
+# Environment files (SENSITIVE - DO NOT COMMIT)
+.env
+.env.local
+.env.development
+.env.production
+.env*.local
+backend/.env
+*.env
+
+# Secrets and credentials
+oauth20.json
+client_secrets.json
+*.pem
+*.key
+*.p12
+ssl/
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE and editor
+.idea/
+.vscode/
+*.swp
+*.swo
+*.sublime-*
+
+# Logs
+npm-debug.log
+yarn-error.log
+*.log
+logs/
+
+# Build outputs
+dist/
+build/
+.vercel/
+.vercel
+
+# Local packed application artifacts (should not be committed)
+local-dist/
+dist-local/
+local-dist2/
+
+# Electron builds
+electron/binaries/
+win-unpacked/
+*.exe
+*.asar
+
+# Local backup folder
+.build_backups/
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+
+# Embedded data with sensitive info (optional - remove if you want to commit)
+# backend/embedded-data/users.json

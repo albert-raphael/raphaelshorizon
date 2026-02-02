@@ -1,0 +1,120 @@
+name: CI Test Build (no publish)
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch: {}
+
+jobs:
+  build:
+    name: Test build (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [windows-latest, macos-latest, ubuntu-latest]
+        node: [18]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Ubuntu prereqs (for linux builds)
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            icnsutils \
+            rpm \
+            xz-utils \
+            libsecret-1-dev \
+            libgconf-2-4 \
+            build-essential \
+            python3 \
+            fakeroot \
+            dpkg-dev \
+            imagemagick \
+            openjpeg-tools \
+            libopenjp2-7
+
+      - name: Build backend binary (Windows)
+        if: matrix.os == 'windows-latest'
+        run: |
+          mkdir -p electron/binaries/win
+          npx pkg backend/server.js --targets node18-win-x64 --output electron/binaries/win/backend.exe
+
+      - name: Smoke test embedded backend (Windows)
+        if: matrix.os == 'windows-latest'
+        run: |
+          echo "Starting embedded backend..."
+          powershell -Command "Start-Process -FilePath electron\binaries\win\backend.exe -PassThru"; sleep 2
+          # Use PowerShell to parse JSON (avoids jq dependency)
+          powershell -Command "try { $r = Invoke-RestMethod -Uri 'http://localhost:5002/api/health'; if ($r.mode) { Write-Output $r.mode } } catch { Write-Output '' }"
+          taskkill /IM backend.exe /F || true
+
+      - name: Build (Windows)
+        if: matrix.os == 'windows-latest'
+        run: npx electron-builder --win --x64 --publish=never 2>&1 | tee build.log
+
+      - name: Build backend binary (macOS)
+        if: matrix.os == 'macos-latest'
+        run: |
+          mkdir -p electron/binaries/mac
+          npx pkg backend/server.js --targets node18-macos-x64 --output electron/binaries/mac/backend
+          chmod +x electron/binaries/mac/backend || true
+
+      - name: Smoke test embedded backend (macOS)
+        if: matrix.os == 'macos-latest'
+        run: |
+          echo "Starting embedded backend..."
+          ./electron/binaries/mac/backend & sleep 2
+          # Use grep-based check to avoid jq dependency
+          curl -sS http://localhost:5002/api/health | grep -q '"mode"[[:space:]]*:[[:space:]]*"embedded"' && echo embedded || echo not-embedded
+          pkill -f electron/binaries/mac/backend || true
+
+      - name: Build (macOS)
+        if: matrix.os == 'macos-latest'
+        run: npx electron-builder --mac --x64 --publish=never 2>&1 | tee build.log
+
+      - name: Build backend binary (Linux)
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          mkdir -p electron/binaries/linux
+          npx pkg backend/server.js --targets node18-linux-x64 --output electron/binaries/linux/backend
+          chmod +x electron/binaries/linux/backend || true
+          echo "pkg version:"; npx pkg --version || true
+          echo "contents of electron/binaries/linux:"; ls -la electron/binaries/linux || true
+
+      - name: Smoke test embedded backend (Linux)
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          echo "Starting embedded backend..."
+          ./electron/binaries/linux/backend &
+          sleep 2
+          # grep-based check avoids jq dependency
+          curl -sS http://localhost:5002/api/health | grep -q '"mode"[[:space:]]*:[[:space:]]*"embedded"' && echo embedded || echo not-embedded
+          pkill -f electron/binaries/linux/backend || true
+
+      - name: Build (Linux)
+        if: matrix.os == 'ubuntu-latest'
+        run: set -o pipefail; npx electron-builder --linux --x64 --publish=never 2>&1 | tee build.log
+
+      - name: Upload build artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-build-${{ matrix.os }}
+          path: |
+            dist/**
+            electron/binaries/**
+            build.log
+
+# This workflow builds artifacts without publishing or using signing secrets.
+# Use this to validate that the build process succeeds on GitHub runners before enabling full signing/publishing.

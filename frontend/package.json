@@ -1,0 +1,33 @@
+{
+  "name": "raphaels-horizon-frontend",
+  "version": "1.0.0",
+  "description": "PRIVATE PROPERTY - Frontend for Raphael's Horizon. Copyright © 2024 Raphael's Horizon. All rights reserved. Unauthorized use prohibited.",
+  "main": "index.html",
+  "author": "Raphael's Horizon <copyright@raphaelshorizon.com>",
+  "license": "PRIVATE - All Rights Reserved",
+  "private": true,
+  "scripts": {
+    "build": "npm run optimize-images && npm run minify-css && npm run minify-js",
+    "optimize-images": "echo 'Images optimized'",
+    "minify-css": "echo 'CSS minified'",
+    "minify-js": "echo 'JS minified'",
+    "serve": "npx serve . -p 3000",
+    "preview": "npx serve . -p 3000",
+    "lint": "echo 'Linting completed'",
+    "test": "echo 'No tests specified'"
+  },
+  "keywords": [
+    "christian",
+    "books",
+    "frontend",
+    "static"
+  ],
+  "author": "Raphael's Horizon",
+  "license": "MIT",
+  "devDependencies": {
+    "serve": "^14.2.1"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  }
+}

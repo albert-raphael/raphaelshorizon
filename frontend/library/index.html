@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Library - Raphael's Horizon</title>
+    <meta name="description" content="Access your personal library with Calibre-Web e-book collection and Audiobookshelf audio books">
+    
+    <!-- Environment Configuration -->
+    <script src="/js/config.js"></script>
+    
+    <!-- Theme Manager - Load immediately for consistent styling -->
+    <script>
+        (function() {
+            var theme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', theme);
+        })();
+    </script>
+    
+    <link href="/css/styles.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .library-container {
+            padding: calc(var(--header-height) + 2rem) 0 4rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .library-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .library-header h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .library-header p {
+            font-size: 1.25rem;
+            color: var(--text-color);
+            opacity: 0.8;
+        }
+
+        .library-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+
+        @media (min-width: 1024px) {
+            .library-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .library-section {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+            overflow: hidden;
+            height: 80vh;
+            min-height: 600px;
+        }
+
+        .section-header {
+            background: var(--primary-color);
+            color: var(--white);
+            padding: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .section-header i {
+            font-size: 1.5rem;
+        }
+
+        .section-header h2 {
+            margin: 0;
+            font-size: 1.25rem;
+        }
+
+        .section-content {
+            height: calc(100% - 80px);
+            position: relative;
+        }
+
+        .section-iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            background: var(--light-bg);
+        }
+
+        .loading-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 1rem;
+            z-index: 10;
+        }
+
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid var(--border-color);
+            border-top: 4px solid var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .loading-text {
+            color: var(--text-color);
+            font-size: 1.1rem;
+        }
+
+        .error-message {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: var(--accent-color);
+            font-size: 1.1rem;
+        }
+
+        .refresh-btn {
+            background: var(--primary-color);
+            color: var(--white);
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            margin-top: 1rem;
+            font-size: 1rem;
+            transition: background-color 0.3s ease;
+        }
+
+        .refresh-btn:hover {
+            background: var(--primary-dark);
+        }
+    </style>
+</head>
+<body>
+    <!-- HEADER NAVIGATION -->
+    <header class="main-header">
+        <div class="container">
+            <nav class="main-nav" aria-label="Primary navigation">
+                <div class="nav-brand">
+                    <a class="logo-link" href="../index.html">
+                        <img alt="Raphael's Horizon" class="nav-logo" src="../assets/icons/logo-square.png">
+                        <span class="brand-name">Raphael's Horizon</span>
+                    </a>
+                </div>
+                <ul class="nav-menu">
+                    <li><a class="nav-link" href="../index.html">Home</a></li>
+                    <li class="nav-dropdown">
+                        <a aria-controls="books-menu" aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle" href="../pages/books/books.html">
+                            Books <span class="dropdown-arrow">▼</span>
+                        </a>
+                        <div class="dropdown-menu" id="books-menu" role="menu">
+                            <a class="dropdown-link" href="../pages/books/books.html" role="menuitem">Purchase Books</a>
+                            <a class="dropdown-link" href="../pages/books/books-online.html" role="menuitem">Read Books Online</a>
+                            <a class="dropdown-link" href="../pages/books/audio-books.html" role="menuitem">Audio Books Online</a>
+                        </div>
+                    </li>
+                    <li><a class="nav-link" href="../pages/about/index.html">About</a></li>
+                    <li><a class="nav-link" href="../pages/contact/index.html">Contact</a></li>
+                    <li><a class="nav-link active" href="index.html">Library</a></li>
+                </ul>
+                <!-- Mobile Menu Toggle -->
+                <div class="mobile-menu-toggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main class="library-container">
+        <div class="library-header">
+            <h1>My Library</h1>
+            <p>Access your complete collection of e-books and audiobooks</p>
+        </div>
+
+        <div class="library-grid">
+            <!-- Calibre-Web Section -->
+            <div class="library-section">
+                <div class="section-header">
+                    <i class="fas fa-book"></i>
+                    <h2>E-Book Library (Calibre-Web)</h2>
+                </div>
+                <div class="section-content">
+                    <div class="loading-overlay" id="calibre-loading">
+                        <div class="loading-spinner"></div>
+                        <div class="loading-text">Loading Calibre-Web...</div>
+                    </div>
+                    <iframe
+                        id="calibre-iframe"
+                        class="section-iframe"
+                        onload="hideLoading('calibre-loading')"
+                        onerror="showError('calibre-loading', 'calibre-error')"
+                        title="Calibre-Web E-Book Library">
+                    </iframe>
+                    <!-- src set by LibraryAuth for auto-authentication -->
+                    <div class="error-message" id="calibre-error" style="display: none;">
+                        <i class="fas fa-exclamation-triangle" style="font-size: 2rem; margin-bottom: 1rem;"></i>
+                        <p>Unable to load Calibre-Web library</p>
+                        <button class="refresh-btn" onclick="refreshIframe('calibre-iframe')">Try Again</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Audiobookshelf Section -->
+            <div class="library-section">
+                <div class="section-header">
+                    <i class="fas fa-headphones"></i>
+                    <h2>Audiobook Library (Audiobookshelf)</h2>
+                </div>
+                <div class="section-content">
+                    <div class="loading-overlay" id="audiobookshelf-loading">
+                        <div class="loading-spinner"></div>
+                        <div class="loading-text">Loading Audiobookshelf...</div>
+                    </div>
+                    <iframe
+                        id="audiobookshelf-iframe"
+                        class="section-iframe"
+                        onload="hideLoading('audiobookshelf-loading')"
+                        onerror="showError('audiobookshelf-loading', 'audiobookshelf-error')"
+                        title="Audiobookshelf Audio Library">
+                    </iframe>
+                    <!-- src set by LibraryAuth for auto-authentication -->
+                    <div class="error-message" id="audiobookshelf-error" style="display: none;">
+                        <i class="fas fa-exclamation-triangle" style="font-size: 2rem; margin-bottom: 1rem;"></i>
+                        <p>Unable to load Audiobookshelf library</p>
+                        <button class="refresh-btn" onclick="refreshIframe('audiobookshelf-iframe')">Try Again</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="main-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-nav">
+                    <div class="footer-nav-column">
+                        <h4>Raphael's Horizon</h4>
+                        <p>Unveiling God's Promises Through Boundless Possibilities</p>
+                        <p>Explore inspirational books and teachings for spiritual growth.</p>
+                    </div>
+                    <div class="footer-nav-column">
+                        <h4>Quick Links</h4>
+                        <ul>
+                            <li><a href="../index.html">Home</a></li>
+                            <li><a href="../pages/books/books.html">Books</a></li>
+                            <li><a href="../pages/about/index.html">About</a></li>
+                            <li><a href="../pages/contact/index.html">Contact</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-nav-column">
+                        <h4>Resources</h4>
+                        <ul>
+                            <li><a href="https://raphaelshorizon.blogspot.com/" target="_blank" rel="noopener noreferrer">Blog</a></li>
+                            <li><a href="https://raphaelshorizon.wordpress.com/" target="_blank" rel="noopener noreferrer">WordPress</a></li>
+                            <li><a href="../pages/contact/speaking-request.html">Speaking</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-nav-column">
+                        <h4>Legal</h4>
+                        <ul>
+                            <li><a href="../pages/contact/privacy-policy.html">Privacy Policy</a></li>
+                            <li><a href="javascript:void(0)" onclick="showCookiePreferences()">Cookie Preferences</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="footer-bottom">
+                    <p>&copy; 2025 Raphael's Horizon. All Rights Reserved.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="/js/scripts.js"></script>
+    <script src="/js/auth.js"></script>
+    <script src="/js/cookies.js"></script>
+    <script src="/js/library-auth.js"></script>
+    <script>
+        // Library page with auto-authentication for logged-in users
+
+        function hideLoading(loadingId) {
+            const loadingEl = document.getElementById(loadingId);
+            if (loadingEl) {
+                loadingEl.style.display = 'none';
+            }
+        }
+
+        function showError(loadingId, errorId) {
+            const loadingEl = document.getElementById(loadingId);
+            const errorEl = document.getElementById(errorId);
+            if (loadingEl) {
+                loadingEl.style.display = 'none';
+            }
+            if (errorEl) {
+                errorEl.style.display = 'block';
+            }
+        }
+
+        function refreshIframe(iframeId) {
+            const iframe = document.getElementById(iframeId);
+            if (iframe) {
+                // Show loading again
+                const loadingId = iframeId.replace('-iframe', '-loading');
+                const errorId = iframeId.replace('-iframe', '-error');
+                const loadingEl = document.getElementById(loadingId);
+                const errorEl = document.getElementById(errorId);
+
+                if (loadingEl) loadingEl.style.display = 'flex';
+                if (errorEl) errorEl.style.display = 'none';
+
+                // Use LibraryAuth to refresh with authentication
+                if (iframeId === 'audiobookshelf-iframe' && window.LibraryAuth) {
+                    window.LibraryAuth.initAudiobookshelfIframe('audiobookshelf-iframe');
+                } else if (iframeId === 'calibre-iframe' && window.LibraryAuth) {
+                    window.LibraryAuth.initCalibreIframe('calibre-iframe');
+                } else {
+                    iframe.src = iframe.src;
+                }
+            }
+        }
+
+        // Initialize library with auto-auth when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            if (window.LibraryAuth) {
+                // Use auto-authentication
+                window.LibraryAuth.initLibraryPage();
+            }
+        });
+
+        // Auto-hide loading after 15 seconds as fallback
+        setTimeout(() => {
+            hideLoading('calibre-loading');
+            hideLoading('audiobookshelf-loading');
+        }, 15000);
+    </script>
+</body>
+</html>

@@ -1,0 +1,830 @@
+<!DOCTYPE html><html lang="en"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Books Library - Raphael's Horizon</title>
+    <meta name="description" content="Professional online book reader with advanced features and easy navigation">
+
+
+<!-- Base CSS -->
+    <link href="../../../css/styles.css" rel="stylesheet">
+
+<!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<!-- Book Reader Styles -->
+    <link rel="stylesheet" href="book-reader.css">
+    <link rel="stylesheet" href="books-online.css">
+
+
+<!-- PDF.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js"></script>
+    <!-- Add these after the existing scripts in the head -->
+
+    <script src="books-config.js"></script>
+    <script src="books-utils.js"></script>
+    <script src="book-reader.js"></script>
+    <script src="books-search.js"></script>
+    <script src="books-analytics.js"></script>
+    <script src="books-admin.js"></script>
+    <script src="books-online.js"></script>
+<script src="https://accounts.google.com/gsi/client" async="" defer=""></script><style>
+            .analytics-container {
+                background: linear-gradient(135deg, #ffffff, #f8f9fa);
+                border: 1px solid var(--border-color);
+                border-radius: var(--radius-lg);
+                padding: 2rem;
+                margin: 3rem 0;
+                box-shadow: var(--shadow-md);
+            }
+            
+            .analytics-title {
+                color: var(--primary-color);
+                margin-bottom: 1.5rem;
+                font-size: 1.5rem;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+            
+            .analytics-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                gap: 1.5rem;
+                margin-bottom: 2rem;
+            }
+            
+            .stat-card {
+                background: white;
+                border-radius: var(--radius-md);
+                padding: 1.5rem;
+                display: flex;
+                align-items: center;
+                gap: 1rem;
+                box-shadow: var(--shadow-sm);
+                transition: var(--transition);
+            }
+            
+            .stat-card:hover {
+                transform: translateY(-5px);
+                box-shadow: var(--shadow-md);
+            }
+            
+            .stat-icon {
+                width: 50px;
+                height: 50px;
+                background: linear-gradient(135deg, var(--secondary-color), var(--secondary-dark));
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: white;
+                font-size: 1.2rem;
+            }
+            
+            .stat-content h4 {
+                color: var(--primary-color);
+                font-size: 1.8rem;
+                margin: 0;
+                line-height: 1;
+            }
+            
+            .stat-content p {
+                color: var(--text-light);
+                margin: 0.5rem 0 0;
+                font-size: 0.9rem;
+            }
+            
+            .recent-activity, .reading-goals {
+                background: white;
+                border-radius: var(--radius-md);
+                padding: 1.5rem;
+                margin-bottom: 1.5rem;
+                box-shadow: var(--shadow-sm);
+            }
+            
+            .recent-activity h4, .reading-goals h4 {
+                color: var(--primary-color);
+                margin-bottom: 1rem;
+                font-size: 1.2rem;
+            }
+            
+            .activity-list {
+                max-height: 200px;
+                overflow-y: auto;
+            }
+            
+            .empty-activity {
+                text-align: center;
+                padding: 2rem;
+                color: var(--text-light);
+            }
+            
+            .empty-activity i {
+                font-size: 2rem;
+                margin-bottom: 0.5rem;
+                opacity: 0.5;
+            }
+            
+            .activity-item {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 0.75rem;
+                border-bottom: 1px solid var(--border-color);
+            }
+            
+            .activity-item:last-child {
+                border-bottom: none;
+            }
+            
+            .activity-book {
+                font-weight: 600;
+                color: var(--primary-color);
+            }
+            
+            .activity-time {
+                color: var(--text-light);
+                font-size: 0.9rem;
+            }
+            
+            .goal-progress {
+                margin-top: 1rem;
+            }
+            
+            .goal-info {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 0.5rem;
+            }
+            
+            .goal-label {
+                font-weight: 600;
+                color: var(--primary-color);
+            }
+            
+            .goal-value {
+                color: var(--secondary-color);
+                font-weight: 600;
+            }
+            
+            .progress-bar {
+                height: 8px;
+                background: var(--border-color);
+                border-radius: 4px;
+                overflow: hidden;
+                margin-bottom: 1rem;
+            }
+            
+            .progress-fill {
+                height: 100%;
+                background: linear-gradient(90deg, var(--secondary-color), var(--accent-color));
+                border-radius: 4px;
+                transition: width 0.3s ease;
+            }
+            
+            .btn-set-goal {
+                width: 100%;
+                background: transparent;
+                color: var(--secondary-color);
+                border: 1px solid var(--secondary-color);
+            }
+            
+            .btn-set-goal:hover {
+                background: var(--secondary-color);
+                color: white;
+            }
+        </style><style id="googleidentityservice_button_styles">.qJTHM{-moz-user-select:none;-webkit-user-select:none;-ms-user-select:none;color:#202124;direction:ltr;-webkit-touch-callout:none;font-family:"Roboto-Regular",arial,sans-serif;-webkit-font-smoothing:antialiased;font-weight:400;margin:0;overflow:hidden;-webkit-text-size-adjust:100%}.ynRLnc{left:-9999px;position:absolute;top:-9999px}.L6cTce{display:none}.bltWBb{overflow-wrap:break-word;word-break:break-word}.hSRGPd{color:#1a73e8;cursor:pointer;font-weight:500;text-decoration:none}.Bz112c-W3lGp{height:16px;width:16px}.Bz112c-E3DyYd{height:20px;width:20px}.Bz112c-r9oPif{height:24px;width:24px}.Bz112c-u2z5K{height:36px;width:36px}.Bz112c-uaxL4e{border-radius:10px}.LgbsSe-Bz112c{display:block}.S9gUrf-YoZ4jf{border:none;margin:0;padding:0}.S9gUrf-YoZ4jf *{border:none;margin:0;padding:0}.fFW7wc-ibnC6b>.aZ2wEe>div{border-color:#4285f4}.P1ekSe-ZMv3u{-webkit-transition:height linear .2s;transition:height linear .2s}.P1ekSe-ZMv3u>div:nth-child(1){background-color:#1a73e8!important;-webkit-transition:width linear .3s;transition:width linear .3s}.P1ekSe-ZMv3u>div:nth-child(2){background-image:-webkit-gradient(linear,left top,right top,from(rgba(255,255,255,.7)),to(rgba(255,255,255,.7))),-webkit-gradient(linear,left top,right top,from(#1a73e8),to(#1a73e8))!important;background-image:-webkit-linear-gradient(left,rgba(255,255,255,.7),rgba(255,255,255,.7)),-webkit-linear-gradient(left,#1a73e8,#1a73e8)!important;background-image:linear-gradient(to right,rgba(255,255,255,.7),rgba(255,255,255,.7)),linear-gradient(to right,#1a73e8,#1a73e8)!important}.P1ekSe-ZMv3u>div:nth-child(3){background-image:-webkit-gradient(linear,left top,right top,from(rgba(255,255,255,.7)),to(rgba(255,255,255,.7))),-webkit-gradient(linear,left top,right top,from(#1a73e8),to(#1a73e8))!important;background-image:-webkit-linear-gradient(left,rgba(255,255,255,.7),rgba(255,255,255,.7)),-webkit-linear-gradient(left,#1a73e8,#1a73e8)!important;background-image:linear-gradient(to right,rgba(255,255,255,.7),rgba(255,255,255,.7)),linear-gradient(to right,#1a73e8,#1a73e8)!important}.haAclf{display:inline-block}.nsm7Bb-HzV7m-LgbsSe{border-radius:4px;box-sizing:border-box;-webkit-transition:background-color .218s,border-color .218s;transition:background-color .218s,border-color .218s;-moz-user-select:none;-webkit-user-select:none;-ms-user-select:none;-webkit-appearance:none;background-color:#fff;background-image:none;border:1px solid #dadce0;color:#3c4043;cursor:pointer;font-family:"Google Sans",arial,sans-serif;font-size:14px;height:40px;letter-spacing:.25px;outline:none;overflow:hidden;padding:0 12px;position:relative;text-align:center;vertical-align:middle;white-space:nowrap;width:auto}@media screen and (-ms-high-contrast:active){.nsm7Bb-HzV7m-LgbsSe{border:2px solid windowText;color:windowText}}@media screen and (preferes-contrast:more){.nsm7Bb-HzV7m-LgbsSe{color:#000}}.nsm7Bb-HzV7m-LgbsSe.pSzOP-SxQuSe{font-size:14px;height:32px;letter-spacing:.25px;padding:0 10px}.nsm7Bb-HzV7m-LgbsSe.purZT-SxQuSe{font-size:11px;height:20px;letter-spacing:.3px;padding:0 8px}.nsm7Bb-HzV7m-LgbsSe.Bz112c-LgbsSe{padding:0;width:40px}.nsm7Bb-HzV7m-LgbsSe.Bz112c-LgbsSe.pSzOP-SxQuSe{width:32px}.nsm7Bb-HzV7m-LgbsSe.Bz112c-LgbsSe.purZT-SxQuSe{width:20px}.nsm7Bb-HzV7m-LgbsSe.JGcpL-RbRzK{border-radius:20px}.nsm7Bb-HzV7m-LgbsSe.JGcpL-RbRzK.pSzOP-SxQuSe{border-radius:16px}.nsm7Bb-HzV7m-LgbsSe.JGcpL-RbRzK.purZT-SxQuSe{border-radius:10px}.nsm7Bb-HzV7m-LgbsSe.MFS4be-Ia7Qfc{border:none;color:#fff}.nsm7Bb-HzV7m-LgbsSe.MFS4be-v3pZbf-Ia7Qfc{background-color:#1a73e8}.nsm7Bb-HzV7m-LgbsSe.MFS4be-JaPV2b-Ia7Qfc{background-color:#202124;color:#e8eaed}@media screen and (prefers-contrast:more){.nsm7Bb-HzV7m-LgbsSe.MFS4be-JaPV2b-Ia7Qfc{color:#fff}}.nsm7Bb-HzV7m-LgbsSe .nsm7Bb-HzV7m-LgbsSe-Bz112c{height:18px;margin-right:8px;min-width:18px;width:18px}.nsm7Bb-HzV7m-LgbsSe.pSzOP-SxQuSe .nsm7Bb-HzV7m-LgbsSe-Bz112c{height:14px;min-width:14px;width:14px}.nsm7Bb-HzV7m-LgbsSe.purZT-SxQuSe .nsm7Bb-HzV7m-LgbsSe-Bz112c{height:10px;min-width:10px;width:10px}.nsm7Bb-HzV7m-LgbsSe.jVeSEe .nsm7Bb-HzV7m-LgbsSe-Bz112c{margin-left:8px;margin-right:-4px}.nsm7Bb-HzV7m-LgbsSe.Bz112c-LgbsSe .nsm7Bb-HzV7m-LgbsSe-Bz112c{margin:0;padding:10px}.nsm7Bb-HzV7m-LgbsSe.Bz112c-LgbsSe.pSzOP-SxQuSe .nsm7Bb-HzV7m-LgbsSe-Bz112c{padding:8px}.nsm7Bb-HzV7m-LgbsSe.Bz112c-LgbsSe.purZT-SxQuSe .nsm7Bb-HzV7m-LgbsSe-Bz112c{padding:4px}.nsm7Bb-HzV7m-LgbsSe .nsm7Bb-HzV7m-LgbsSe-Bz112c-haAclf{border-top-left-radius:3px;border-bottom-left-radius:3px;display:-webkit-box;display:-webkit-flex;display:flex;-webkit-box-pack:center;-webkit-justify-content:center;justify-content:center;-webkit-box-align:center;-webkit-align-items:center;align-items:center;background-color:#fff;height:36px;margin-left:-10px;margin-right:12px;min-width:36px;width:36px}.nsm7Bb-HzV7m-LgbsSe .nsm7Bb-HzV7m-LgbsSe-Bz112c-haAclf .nsm7Bb-HzV7m-LgbsSe-Bz112c,.nsm7Bb-HzV7m-LgbsSe.Bz112c-LgbsSe .nsm7Bb-HzV7m-LgbsSe-Bz112c-haAclf .nsm7Bb-HzV7m-LgbsSe-Bz112c{margin:0;padding:0}.nsm7Bb-HzV7m-LgbsSe.pSzOP-SxQuSe .nsm7Bb-HzV7m-LgbsSe-Bz112c-haAclf{height:28px;margin-left:-8px;margin-right:10px;min-width:28px;width:28px}.nsm7Bb-HzV7m-LgbsSe.purZT-SxQuSe .nsm7Bb-HzV7m-LgbsSe-Bz112c-haAclf{height:16px;margin-left:-6px;margin-right:8px;min-width:16px;width:16px}.nsm7Bb-HzV7m-LgbsSe.Bz112c-LgbsSe .nsm7Bb-HzV7m-LgbsSe-Bz112c-haAclf{border-radius:3px;margin-left:2px;margin-right:0;padding:0}.nsm7Bb-HzV7m-LgbsSe.JGcpL-RbRzK .nsm7Bb-HzV7m-LgbsSe-Bz112c-haAclf{border-radius:18px}.nsm7Bb-HzV7m-LgbsSe.pSzOP-SxQuSe.JGcpL-RbRzK .nsm7Bb-HzV7m-LgbsSe-Bz112c-haAclf{border-radius:14px}.nsm7Bb-HzV7m-LgbsSe.purZT-SxQuSe.JGcpL-RbRzK .nsm7Bb-HzV7m-LgbsSe-Bz112c-haAclf{border-radius:8px}.nsm7Bb-HzV7m-LgbsSe .nsm7Bb-HzV7m-LgbsSe-bN97Pc-sM5MNb{display:-webkit-box;display:-webkit-flex;display:flex;-webkit-align-items:center;-webkit-box-align:center;align-items:center;-webkit-flex-direction:row;-webkit-box-orient:horizontal;-webkit-box-direction:normal;flex-direction:row;-webkit-box-pack:justify;-webkit-justify-content:space-between;justify-content:space-between;-webkit-flex-wrap:nowrap;flex-wrap:nowrap;height:100%;position:relative;width:100%}.nsm7Bb-HzV7m-LgbsSe .oXtfBe-l4eHX{-webkit-box-pack:center;-webkit-justify-content:center;justify-content:center}.nsm7Bb-HzV7m-LgbsSe .nsm7Bb-HzV7m-LgbsSe-BPrWId{-webkit-flex-grow:1;-webkit-box-flex:1;flex-grow:1;font-family:"Google Sans",arial,sans-serif;font-weight:500;overflow:hidden;text-overflow:ellipsis;vertical-align:top}.nsm7Bb-HzV7m-LgbsSe.purZT-SxQuSe .nsm7Bb-HzV7m-LgbsSe-BPrWId{font-weight:300}.nsm7Bb-HzV7m-LgbsSe .oXtfBe-l4eHX .nsm7Bb-HzV7m-LgbsSe-BPrWId{-webkit-flex-grow:0;-webkit-box-flex:0;flex-grow:0}.nsm7Bb-HzV7m-LgbsSe .nsm7Bb-HzV7m-LgbsSe-MJoBVe{-webkit-transition:background-color .218s;transition:background-color .218s;bottom:0;left:0;position:absolute;right:0;top:0}.nsm7Bb-HzV7m-LgbsSe:hover,.nsm7Bb-HzV7m-LgbsSe:focus{box-shadow:none;border-color:rgb(210,227,252);outline:none}.nsm7Bb-HzV7m-LgbsSe:focus-within{outline:2px solid #00639b;border-color:transparent}.nsm7Bb-HzV7m-LgbsSe:hover .nsm7Bb-HzV7m-LgbsSe-MJoBVe{background:rgba(66,133,244,.08)}.nsm7Bb-HzV7m-LgbsSe:active .nsm7Bb-HzV7m-LgbsSe-MJoBVe,.nsm7Bb-HzV7m-LgbsSe:focus .nsm7Bb-HzV7m-LgbsSe-MJoBVe{background:rgba(66,133,244,.1)}.nsm7Bb-HzV7m-LgbsSe.MFS4be-Ia7Qfc:hover .nsm7Bb-HzV7m-LgbsSe-MJoBVe{background:rgba(255,255,255,.24)}.nsm7Bb-HzV7m-LgbsSe.MFS4be-Ia7Qfc:active .nsm7Bb-HzV7m-LgbsSe-MJoBVe,.nsm7Bb-HzV7m-LgbsSe.MFS4be-Ia7Qfc:focus .nsm7Bb-HzV7m-LgbsSe-MJoBVe{background:rgba(255,255,255,.32)}.nsm7Bb-HzV7m-LgbsSe .n1UuX-DkfjY{border-radius:50%;display:-webkit-box;display:-webkit-flex;display:flex;height:20px;margin-left:-4px;margin-right:8px;min-width:20px;width:20px}.nsm7Bb-HzV7m-LgbsSe.jVeSEe .nsm7Bb-HzV7m-LgbsSe-BPrWId{font-family:"Roboto";font-size:12px;text-align:left}.nsm7Bb-HzV7m-LgbsSe.jVeSEe .nsm7Bb-HzV7m-LgbsSe-BPrWId .ssJRIf,.nsm7Bb-HzV7m-LgbsSe.jVeSEe .nsm7Bb-HzV7m-LgbsSe-BPrWId .K4efff .fmcmS{overflow:hidden;text-overflow:ellipsis}.nsm7Bb-HzV7m-LgbsSe.jVeSEe .nsm7Bb-HzV7m-LgbsSe-BPrWId .K4efff{display:-webkit-box;display:-webkit-flex;display:flex;-webkit-align-items:center;-webkit-box-align:center;align-items:center;color:#5f6368;fill:#5f6368;font-size:11px;font-weight:400}.nsm7Bb-HzV7m-LgbsSe.jVeSEe.MFS4be-Ia7Qfc .nsm7Bb-HzV7m-LgbsSe-BPrWId .K4efff{color:#e8eaed;fill:#e8eaed}@media screen and (prefers-contrast:more){.nsm7Bb-HzV7m-LgbsSe.jVeSEe .nsm7Bb-HzV7m-LgbsSe-BPrWId .K4efff,.nsm7Bb-HzV7m-LgbsSe.jVeSEe.MFS4be-Ia7Qfc .nsm7Bb-HzV7m-LgbsSe-BPrWId .K4efff{color:#000;fill:#000}}.nsm7Bb-HzV7m-LgbsSe.jVeSEe .nsm7Bb-HzV7m-LgbsSe-BPrWId .K4efff .Bz112c{height:18px;margin:-3px -3px -3px 2px;min-width:18px;width:18px}.nsm7Bb-HzV7m-LgbsSe.jVeSEe .nsm7Bb-HzV7m-LgbsSe-Bz112c-haAclf{border-top-left-radius:0;border-bottom-left-radius:0;border-top-right-radius:3px;border-bottom-right-radius:3px;margin-left:12px;margin-right:-10px}.nsm7Bb-HzV7m-LgbsSe.jVeSEe.JGcpL-RbRzK .nsm7Bb-HzV7m-LgbsSe-Bz112c-haAclf{border-radius:18px}.L5Fo6c-sM5MNb{border:0;display:block;left:0;position:relative;top:0}.L5Fo6c-bF1uUb{border-radius:4px;bottom:0;cursor:pointer;left:0;position:absolute;right:0;top:0}.L5Fo6c-bF1uUb:focus{border:none;outline:none}sentinel{}</style></head>
+<body>
+    <!-- HEADER -->
+    <header class="main-header">
+        <div class="container">
+            <nav class="main-nav" aria-label="Primary navigation">
+                <div class="nav-brand">
+                    <a class="logo-link" href="../../../index.html">
+                        <img alt="Raphael's Horizon" class="nav-logo" src="../../../assets/icons/logo-square.png">
+                        <span class="brand-name">Raphael's Horizon</span>
+                    </a>
+                </div>
+                <ul class="nav-menu">
+                    <li><a class="nav-link" href="../../../index.html">Home</a></li>
+
+                    <!-- Books Dropdown -->
+                    <li class="nav-dropdown">
+                        <a aria-controls="books-menu" aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle active" href="../books.html">
+                            Books <span class="dropdown-arrow">▼</span>
+                        </a>
+                        <div class="dropdown-menu" id="books-menu" role="menu">
+                            <a class="dropdown-link" href="../books.html" role="menuitem">Purchase Books</a>
+                            <a class="dropdown-link active" href="books-online.html" role="menuitem">Read Books Online</a>
+                            <a class="dropdown-link" href="../audio-books/audio-books.html" role="menuitem">Audio Books Online</a>
+                        </div>
+                    </li>
+
+                    <!-- About Dropdown -->
+                    <li class="nav-dropdown">
+                        <button aria-controls="about-menu" aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle" type="button">
+                            About <span class="dropdown-arrow">▼</span>
+                        </button>
+                        <div class="dropdown-menu" id="about-menu" role="menu">
+                            <a class="dropdown-link" href="../../about/about-us.html" role="menuitem">About Us</a>
+                            <a class="dropdown-link" href="../../about/assimagbe-albert-raphael.html" role="menuitem">Assimagbe Albert Raphael</a>
+                        </div>
+                    </li>
+
+                    <!-- Contact Dropdown -->
+                    <li class="nav-dropdown">
+                        <button aria-controls="contact-menu" aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle" type="button">
+                            Contact <span class="dropdown-arrow">▼</span>
+                        </button>
+                        <div class="dropdown-menu" id="contact-menu" role="menu">
+                            <a class="dropdown-link" href="../../contact/index.html" role="menuitem">Contact Us</a>
+                            <a class="dropdown-link" href="../../contact/speaking-request.html" role="menuitem">Speaking Request</a>
+                            <a class="dropdown-link" href="../../contact/privacy-policy.html" role="menuitem">Privacy Policy</a>
+                        </div>
+                    </li>
+
+                    <!-- Blog Dropdown -->
+                    <li class="nav-dropdown">
+                        <a aria-controls="blog-menu" aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle" href="../../blog/index.html">
+                            Blog <span class="dropdown-arrow">▼</span>
+                        </a>
+                        <div class="dropdown-menu" id="blog-menu" role="menu">
+                            <a class="dropdown-link" href="../../blog/index.html" role="menuitem">Blog Home</a>
+                            <a class="dropdown-link" href="../../blog/categories.html" role="menuitem">Categories</a>
+                            <a class="dropdown-link external" href="https://raphaelshorizon.blogspot.com/" rel="noopener noreferrer" role="menuitem" target="_blank">Legacy Blog</a>
+                        </div>
+                    </li>
+
+                    <li>
+                        <a class="nav-link external" href="https://raphaelshorizon.wordpress.com/" rel="noopener noreferrer" target="_blank">WordPress</a>
+                    </li>
+
+                    <!-- Account Links -->
+                    <li class="nav-dropdown auth-menu-guest" style="display: block;">
+                        <button aria-controls="account-menu" aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle" type="button">
+                            Account <span class="dropdown-arrow">▼</span>
+                        </button>
+                        <div class="dropdown-menu" id="account-menu" role="menu">
+                            <button class="dropdown-link" onclick="showLoginModal()" role="menuitem" type="button">Sign in</button>
+                            <button class="dropdown-link" onclick="showLoginModal('register')" role="menuitem" type="button">Create account</button>
+                            <button class="dropdown-link" onclick="showSubscriptionModal()" role="menuitem" type="button">Subscription plans</button>
+                        </div>
+                    </li>
+                </ul>
+
+                <div class="mobile-menu-toggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="online-books-hero">
+        <div class="container">
+            <div class="section-header">
+                <h1>Professional Online Book Reader</h1>
+                <p>Experience our transformative books with professional-grade reading tools and easy navigation</p>
+                <div class="secure-badge">
+                    <i class="fas fa-book-reader"></i>
+                    <span>Professional Reader • Easy Navigation • Bookmark Support</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Books Library -->
+    <section class="books-library-container">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Available Books</h2>
+                <p class="section-subtitle">Click on any book to start reading with our professional reader</p>
+            </div>
+            <div class="search-container" id="book-search-container">
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="book-search-input" placeholder="Search books by title, author, or topic..." aria-label="Search books">
+                    <button class="btn btn-clear-search" id="clear-search" style="display: none;">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                
+                <div class="filter-controls">
+                    <div class="filter-group">
+                        <label for="language-filter">
+                            <i class="fas fa-language"></i> Language
+                        </label>
+                        <select id="language-filter" class="filter-select">
+                            <option value="">All Languages</option>
+                            <option value="English">English</option>
+                            <option value="German">German</option>
+                            <option value="French">French</option>
+                            <option value="Spanish">Spanish</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label for="category-filter">
+                            <i class="fas fa-tag"></i> Category
+                        </label>
+                        <select id="category-filter" class="filter-select">
+                            <option value="">All Categories</option>
+                            <option value="Inspirational">Inspirational</option>
+                            <option value="Christian Living">Christian Living</option>
+                            <option value="Personal Growth">Personal Growth</option>
+                            <option value="Spiritual Growth">Spiritual Growth</option>
+                            <option value="Biblical Study">Biblical Study</option>
+                            <option value="Women's Spirituality">Women's Spirituality</option>
+                            <option value="German Books">German Books</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label for="sort-by">
+                            <i class="fas fa-sort"></i> Sort By
+                        </label>
+                        <select id="sort-by" class="filter-select">
+                            <option value="title">Title (A-Z)</option>
+                            <option value="title-desc">Title (Z-A)</option>
+                            <option value="language">Language</option>
+                            <option value="pages">Page Count</option>
+                            <option value="recent">Recently Added</option>
+                        </select>
+                    </div>
+                    
+                    <button class="btn btn-reset-filters" id="reset-filters">
+                        <i class="fas fa-redo"></i> Reset
+                    </button>
+                </div>
+                
+                <div class="search-results-info" id="search-results-info" style="display: none;">
+                    <span id="results-count">0</span> books found
+                    <button class="btn btn-show-all" id="show-all-books">
+                        Show All Books
+                    </button>
+                </div>
+            </div>
+        
+
+            <div id="books-container" class="library-grid"><div class="library-book-card" data-book-id="light-after-tunnel">
+            <img src="../../../library/books/books_cover/light-after-the-tunnel-english.jpg" alt="The Light After the Tunnel" class="book-cover-library" onerror="this.src='https://via.placeholder.com/200x280/2d6a4f/ffffff?text=The%20Light%20After%20the%20Tunnel'">
+            <div class="book-badge">Bestseller</div>
+            <h3>The Light After the Tunnel</h3>
+            <p class="book-subtitle">Discovering Your True Purpose In Hard Times</p>
+            <p class="book-excerpt">Transformative guidance for finding purpose in adversity through biblical wisdom. Learn how to navigate challenges and discover your divine destiny.</p>
+            <div class="book-meta">
+                <span class="page-count" data-book-id="light-after-tunnel"><i class="fas fa-file-alt"></i> 171 pages</span>
+                <span class="bookmark-count" data-book-id="light-after-tunnel">
+                    <i class="fas fa-bookmark"></i> 0 bookmarks
+                </span>
+            </div>
+            <button class="btn btn-primary read-online-btn" onclick="(function(){ try{ if(!localStorage.getItem('authToken')){ const returnPath = window.location.pathname + window.location.search + '#book=light-after-tunnel'; sessionStorage.setItem('returnTo', returnPath); const adminPath = window.location.pathname.startsWith('/frontend') ? '/frontend/pages/admin/login.html' : '/pages/admin/login.html'; window.location.href = adminPath + '?from=books'; return; } }catch(e){}; openBookReader('light-after-tunnel'); })()">
+                <i class="fas fa-book-reader"></i> Read Online
+            </button>
+        </div><div class="library-book-card" data-book-id="light-tunnel-german">
+            <img src="../../../library/books/books_cover/light-after-the-tunnel-german.jpg" alt="Das Licht nach dem Tunnel" class="book-cover-library" onerror="this.src='https://via.placeholder.com/200x280/2d6a4f/ffffff?text=Das%20Licht%20nach%20dem%20Tunnel'">
+            <div class="book-badge">German Edition</div>
+            <h3>Das Licht nach dem Tunnel</h3>
+            <p class="book-subtitle">Entdecken Sie Ihren wahren Zweck in schweren Zeiten</p>
+            <p class="book-excerpt">Deutsche Ausgabe - Transformative Anleitung zur Sinnfindung in schwierigen Zeiten durch biblische Weisheit.</p>
+            <div class="book-meta">
+                <span class="page-count" data-book-id="light-tunnel-german"><i class="fas fa-file-alt"></i> 191 pages</span>
+                <span class="bookmark-count" data-book-id="light-tunnel-german">
+                    <i class="fas fa-bookmark"></i> 0 bookmarks
+                </span>
+            </div>
+            <button class="btn btn-primary read-online-btn" onclick="(function(){ try{ if(!localStorage.getItem('authToken')){ const returnPath = window.location.pathname + window.location.search + '#book=light-tunnel-german'; sessionStorage.setItem('returnTo', returnPath); const adminPath = window.location.pathname.startsWith('/frontend') ? '/frontend/pages/admin/login.html' : '/pages/admin/login.html'; window.location.href = adminPath + '?from=books'; return; } }catch(e){}; openBookReader('light-tunnel-german'); })()">
+                <i class="fas fa-book-reader"></i> Read Online
+            </button>
+        </div><div class="library-book-card" data-book-id="divine-jurisprudence">
+            <img src="../../../library/books/books_cover/divine-jurisprudence-english.jpg" alt="Divine Jurisprudence" class="book-cover-library" onerror="this.src='https://via.placeholder.com/200x280/2d6a4f/ffffff?text=Divine%20Jurisprudence'">
+            <div class="book-badge">Featured</div>
+            <h3>Divine Jurisprudence</h3>
+            <p class="book-subtitle">The Covenant Code for a Flourishing Life</p>
+            <p class="book-excerpt">Unlock divine principles for abundant living through covenant understanding. Discover the spiritual laws that govern success and fulfillment.</p>
+            <div class="book-meta">
+                <span class="page-count" data-book-id="divine-jurisprudence"><i class="fas fa-file-alt"></i> 123 pages</span>
+                <span class="bookmark-count" data-book-id="divine-jurisprudence">
+                    <i class="fas fa-bookmark"></i> 0 bookmarks
+                </span>
+            </div>
+            <button class="btn btn-primary read-online-btn" onclick="(function(){ try{ if(!localStorage.getItem('authToken')){ const returnPath = window.location.pathname + window.location.search + '#book=divine-jurisprudence'; sessionStorage.setItem('returnTo', returnPath); const adminPath = window.location.pathname.startsWith('/frontend') ? '/frontend/pages/admin/login.html' : '/pages/admin/login.html'; window.location.href = adminPath + '?from=books'; return; } }catch(e){}; openBookReader('divine-jurisprudence'); })()">
+                <i class="fas fa-book-reader"></i> Read Online
+            </button>
+        </div><div class="library-book-card" data-book-id="divine-jurisprudence-german">
+            <img src="../../../library/books/books_cover/divine-jurisprudence-german.jpg" alt="Göttliche Rechtsprechung" class="book-cover-library" onerror="this.src='https://via.placeholder.com/200x280/2d6a4f/ffffff?text=G%C3%B6ttliche%20Rechtsprechung'">
+            <div class="book-badge">German Edition</div>
+            <h3>Göttliche Rechtsprechung</h3>
+            <p class="book-subtitle">Der Bundeskodex für ein blühendes Leben</p>
+            <p class="book-excerpt">Deutsche Ausgabe - Göttliche Prinzipien für ein erfülltes Leben entdecken und verstehen.</p>
+            <div class="book-meta">
+                <span class="page-count" data-book-id="divine-jurisprudence-german"><i class="fas fa-file-alt"></i> 135 pages</span>
+                <span class="bookmark-count" data-book-id="divine-jurisprudence-german">
+                    <i class="fas fa-bookmark"></i> 0 bookmarks
+                </span>
+            </div>
+            <button class="btn btn-primary read-online-btn" onclick="(function(){ try{ if(!localStorage.getItem('authToken')){ const returnPath = window.location.pathname + window.location.search + '#book=divine-jurisprudence-german'; sessionStorage.setItem('returnTo', returnPath); const adminPath = window.location.pathname.startsWith('/frontend') ? '/frontend/pages/admin/login.html' : '/pages/admin/login.html'; window.location.href = adminPath + '?from=books'; return; } }catch(e){}; openBookReader('divine-jurisprudence-german'); })()">
+                <i class="fas fa-book-reader"></i> Read Online
+            </button>
+        </div><div class="library-book-card" data-book-id="embracing-elegance">
+            <img src="../../../library/books/books_cover/embracing-elegance.jpg" alt="Embracing Elegance" class="book-cover-library" onerror="this.src='https://via.placeholder.com/200x280/2d6a4f/ffffff?text=Embracing%20Elegance'">
+            <div class="book-badge">New Release</div>
+            <h3>Embracing Elegance</h3>
+            <p class="book-subtitle">A Gentle Guide for Women on Cultivating the Best Version of Themselves</p>
+            <p class="book-excerpt">Cultivate your best self through God's grace and spiritual refinement. A transformative journey toward inner beauty and spiritual elegance.</p>
+            <div class="book-meta">
+                <span class="page-count" data-book-id="embracing-elegance"><i class="fas fa-file-alt"></i> 62 pages</span>
+                <span class="bookmark-count" data-book-id="embracing-elegance">
+                    <i class="fas fa-bookmark"></i> 0 bookmarks
+                </span>
+            </div>
+            <button class="btn btn-primary read-online-btn" onclick="(function(){ try{ if(!localStorage.getItem('authToken')){ const returnPath = window.location.pathname + window.location.search + '#book=embracing-elegance'; sessionStorage.setItem('returnTo', returnPath); const adminPath = window.location.pathname.startsWith('/frontend') ? '/frontend/pages/admin/login.html' : '/pages/admin/login.html'; window.location.href = adminPath + '?from=books'; return; } }catch(e){}; openBookReader('embracing-elegance'); })()">
+                <i class="fas fa-book-reader"></i> Read Online
+            </button>
+        </div></div>
+
+            
+            <div class="analytics-container" id="reading-analytics">
+                <h3 class="analytics-title">
+                    <i class="fas fa-chart-line"></i> Your Reading Journey
+                </h3>
+                
+                <div class="analytics-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-book-open"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h4 id="total-books-read">0</h4>
+                            <p>Books Read</p>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-bookmark"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h4 id="total-bookmarks">0</h4>
+                            <p>Bookmarks</p>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h4 id="total-reading-time">0h</h4>
+                            <p>Reading Time</p>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-trophy"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h4 id="completion-rate">0%</h4>
+                            <p>Average Completion</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="recent-activity" id="recent-activity">
+                    <h4>Recent Activity</h4>
+                    <div class="activity-list" id="activity-list">
+                        <div class="empty-activity">
+                            <i class="fas fa-history"></i>
+                            <p>No recent activity</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="reading-goals" id="reading-goals">
+                    <h4>Reading Goals</h4>
+                    <div class="goal-progress">
+                        <div class="goal-info">
+                            <span class="goal-label">Monthly Reading Goal</span>
+                            <span class="goal-value">0/5 books</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="goal-progress" style="width: 0%"></div>
+                        </div>
+                        <button class="btn btn-set-goal" onclick="BookAnalytics.setReadingGoal()">
+                            <i class="fas fa-bullseye"></i> Set Goal
+                        </button>
+                    </div>
+                </div>
+            </div>
+        <div class="library-info">
+                <div class="info-card">
+                    <i class="fas fa-info-circle"></i>
+                    <h4>Reader Features</h4>
+                    <ul>
+                        <li>Professional page navigation</li>
+                        <li>Bookmark and note taking</li>
+                        <li>Table of Contents</li>
+                        <li>Reading progress tracking</li>
+                        <li>Multiple themes and font sizes</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Enhanced Book Reader -->
+    <div class="reader-container" id="book-reader">
+        <!-- Reader Header -->
+        <div class="reader-header">
+            <div class="reader-title">
+                <button type="button" class="btn btn-nav-toggle" onclick="BookReader.toggleNavigationPanel()">
+                    <i class="fas fa-bars"></i> Menu
+                </button>
+                <h3 id="reader-book-title">Professional Book Reader</h3>
+                <div class="bookmark-indicator" id="bookmark-indicator">
+                    <i class="fas fa-bookmark"></i>
+                    <span id="current-bookmarks">0 bookmarks</span>
+                </div>
+            </div>
+            <div class="reader-controls">
+                <button type="button" class="btn btn-nav-jump" onclick="BookReader.quickPageNavigation()">
+                    <i class="fas fa-bolt"></i> Jump to Page
+                </button>
+                <button type="button" class="btn btn-bookmark" onclick="BookReader.addBookmark()">
+                    <i class="fas fa-bookmark"></i> Bookmark
+                </button>
+                <button type="button" class="btn btn-exit" onclick="BookReader.close()">
+                    <i class="fas fa-times"></i> Exit Reader
+                </button>
+            </div>
+        </div>
+
+        <!-- Navigation Panel -->
+        <div class="navigation-panel" id="navigation-panel">
+            <div class="nav-panel-header">
+                <h4>Reading Tools</h4>
+                <button type="button" class="close-nav-btn" aria-label="Toggle navigation" onclick="BookReader.toggleNavigationPanel()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <!-- Table of Contents -->
+            <div class="toc-container">
+                <div class="toc-title">Table of Contents</div>
+                <ul class="toc-list" id="toc-list">
+                    <li class="toc-item">
+                        <a href="#" class="toc-link active" data-page="1">
+                            <i class="fas fa-play"></i> Loading chapters...
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <!-- Bookmarks -->
+            <div class="bookmarks-container">
+                <div class="toc-title">Your Bookmarks</div>
+                <div class="bookmarks-list" id="bookmarks-list">
+                    <div class="empty-bookmarks">
+                        <i class="far fa-bookmark"></i>
+                        <p>No bookmarks yet</p>
+                    </div>
+                </div>
+            </div>
+            <!-- Reading Settings -->
+            <div class="settings-container">
+                <div class="toc-title">Reading Settings</div>
+                <div class="settings-content">
+                    <div class="setting-item">
+                        <label>
+                            <i class="fas fa-text-height"></i> Font Size
+                        </label>
+                        <input type="range" min="80" max="200" value="100" class="setting-slider" id="font-size-slider" oninput="BookReader.adjustFontSize(this.value)">
+                    </div>
+                    <div class="setting-item">
+                        <label>
+                            <i class="fas fa-moon"></i> Theme
+                        </label>
+                        <div class="theme-buttons">
+                            <button type="button" class="btn btn-theme" onclick="BookReader.setTheme('light')">
+                                Light
+                            </button>
+                            <button type="button" class="btn btn-theme active" onclick="BookReader.setTheme('dark')">
+                                Dark
+                            </button>
+                            <button type="button" class="btn btn-theme" onclick="BookReader.setTheme('sepia')">
+                                Sepia
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Reader Content -->
+        <div class="reader-content" id="reader-content">
+            <div class="reader-loading" id="reader-loading">
+                <div class="loading-spinner"></div>
+                <h3>Loading Professional Reader</h3>
+                <p>Please wait while we prepare your book...</p>
+            </div>
+            <!-- Page will be rendered here -->
+        </div>
+
+        <!-- Reader Footer -->
+        <div class="reader-footer">
+            <div class="page-navigation">
+                <button type="button" class="btn btn-nav" id="first-page" onclick="BookReader.goToPage(1)">
+                    <i class="fas fa-step-backward"></i> First
+                </button>
+                <button type="button" class="btn btn-nav" id="prev-page" onclick="BookReader.prevPage()">
+                    <i class="fas fa-chevron-left"></i> Previous
+                </button>
+                <div class="page-input-container">
+                    <input type="number" class="page-input" id="page-input" min="1" value="1" onchange="BookReader.goToPage(parseInt(this.value))">
+                    <span class="page-total">of <span id="total-pages">1</span></span>
+                </div>
+                <button type="button" class="btn btn-nav" id="next-page" onclick="BookReader.nextPage()">
+                    Next <i class="fas fa-chevron-right"></i>
+                </button>
+                <button type="button" class="btn btn-nav" id="last-page" onclick="BookReader.goToPage(999)">
+                    Last <i class="fas fa-step-forward"></i>
+                </button>
+            </div>
+            <div class="progress-indicator" onclick="BookReader.seekToPosition(event)">
+                <div class="progress-bar" id="progress-bar"></div>
+            </div>
+            <div class="reader-status">
+                <span>
+                    Page: <span id="current-page">1</span>/<span id="total-pages-display">1</span>
+                </span>
+                <button type="button" class="btn btn-fullscreen" aria-label="Toggle fullscreen" onclick="BookReader.toggleFullscreen()">
+                    <i class="fas fa-expand"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Navigation Overlay -->
+    <div class="quick-nav-overlay" id="quick-nav-overlay">
+        <div class="quick-nav-content">
+            <div class="quick-nav-header">
+                <h4>Quick Page Navigation</h4>
+                <button type="button" class="close-nav-btn" aria-label="Close quick navigation" onclick="BookReader.closeQuickNav()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="quick-input-container">
+                <input type="number" class="quick-input" id="quick-page-input" placeholder="Enter page number" min="1">
+                <button type="button" class="btn btn-primary" onclick="BookReader.goToQuickPage()">
+                    <i class="fas fa-arrow-right"></i> Go
+                </button>
+            </div>
+            <div class="quick-nav-hint">
+                Press Enter to navigate, Esc to cancel
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-brand">
+            <img src="../../../assets/icons/logo-square.png" alt="Raphael's Horizon" class="footer-logo">
+            <div class="footer-mission">
+              <h3>Raphael's Horizon</h3>
+              <p>Unveiling God's Promises through Boundless Possibilities</p>
+            </div>
+          </div>
+
+          <nav class="footer-nav" aria-label="Footer navigation">
+            <div class="footer-nav-column">
+              <h4>Navigation</h4>
+              <ul>
+                <li><a href="../../../index.html">Home</a></li>
+                <li><a href="../books.html">Books</a></li>
+                <li><a href="../../about/about-us.html">About</a></li>
+                <li><a href="../../contact/index.html">Contact</a></li>
+              </ul>
+            </div>
+
+
+
+            <div class="footer-bottom">
+                <p>© 2025 Raphael's Horizon. All Rights Reserved. | Unveiling God's Promises Through Boundless Possibilities</p>
+
+            <div class="footer-nav-column">
+              <h4>Resources</h4>
+              <ul>
+                <li><a href="https://raphaelshorizon.blogspot.com/" target="_blank" rel="noopener noreferrer">Blog</a></li>
+                <li><a href="https://raphaelshorizon.wordpress.com/" target="_blank" rel="noopener noreferrer">WordPress</a></li>
+                <li><a href="../../contact/speaking-request.html">Speaking</a></li>
+              </ul>
+
+
+            </div>
+
+            <div class="footer-columns-group">
+              <div class="footer-nav-column">
+                <h4>Legal</h4>
+                <ul>
+                  <li><a href="../../contact/privacy-policy.html">Privacy Policy</a></li>
+                  <li><a href="javascript:void(0)" onclick="showCookiePreferences()">Cookie Preferences</a></li>
+                </ul>
+              </div>
+
+              <div class="footer-nav-column">
+                <h4>Newsletter</h4>
+                <p>Stay updated with our latest books and teachings.</p>
+                <form class="newsletter-form">
+                  <input type="email" placeholder="Your email address" aria-label="Email for newsletter" required="">
+                  <button type="submit" class="btn btn-primary">Subscribe</button>
+                </form>
+              </div>
+            </div>
+
+            <nav class="footer-social" aria-label="Social links">
+              <a href="https://www.facebook.com/raphaelshorizon" target="_blank" rel="noopener noreferrer" aria-label="Facebook">FB</a>
+              <a href="https://www.instagram.com/raphaelshorizon" target="_blank" rel="noopener noreferrer" aria-label="Instagram">IG</a>
+              <a href="https://www.twitter.com/raphaelshorizon" target="_blank" rel="noopener noreferrer" aria-label="Twitter">TW</a>
+              <a href="https://t.me/raphaelshorizon" target="_blank" rel="noopener noreferrer" aria-label="Telegram">TG</a>
+              <a href="https://www.youtube.com/@raphaelshorizon" target="_blank" rel="noopener noreferrer" aria-label="YouTube">YT</a>
+            </nav>
+
+          </div></nav>
+        </div>
+
+        <div class="footer-bottom">
+          <p>© 2026 Raphael's Horizon. All Rights Reserved. | Unveiling God's Promises Through Boundless Possibilities</p>
+        </div>
+      </div>
+    </footer>
+
+    <!-- JavaScript Files -->
+    <script src="books-config.js"></script>
+    <script src="book-reader.js"></script>
+    <script src="books-online.js"></script>
+
+<script>
+        // Initialize the book library when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            BookLibrary.init();
+            BookReader.init();
+        });
+        
+        // Show cookie preferences (from main site)
+        function showCookiePreferences() {
+            alert('Cookie preferences will be implemented in the final version.');
+        }
+    </script>
+
+    <script src="../../../js/auth.js"></script>
+    <script src="../../../js/cookies.js"></script>
+
+    <!-- PWA Install Script -->
+    <script src="../../../js/pwa-install.js"></script>
+
+
+<!-- Code injected by live-server -->
+<script>
+	// <![CDATA[  <-- For SVG support
+	if ('WebSocket' in window) {
+		(function () {
+			function refreshCSS() {
+				var sheets = [].slice.call(document.getElementsByTagName("link"));
+				var head = document.getElementsByTagName("head")[0];
+				for (var i = 0; i < sheets.length; ++i) {
+					var elem = sheets[i];
+					var parent = elem.parentElement || head;
+					parent.removeChild(elem);
+					var rel = elem.rel;
+					if (elem.href && typeof rel != "string" || rel.length == 0 || rel.toLowerCase() == "stylesheet") {
+						var url = elem.href.replace(/(&|\?)_cacheOverride=\d+/, '');
+						elem.href = url + (url.indexOf('?') >= 0 ? '&' : '?') + '_cacheOverride=' + (new Date().valueOf());
+					}
+					parent.appendChild(elem);
+				}
+			}
+			var protocol = window.location.protocol === 'http:' ? 'ws://' : 'wss://';
+			var address = protocol + window.location.host + window.location.pathname + '/ws';
+			var socket = new WebSocket(address);
+			socket.onmessage = function (msg) {
+				if (msg.data == 'reload') window.location.reload();
+				else if (msg.data == 'refreshcss') refreshCSS();
+			};
+			if (sessionStorage && !sessionStorage.getItem('IsThisFirstTime_Log_From_LiveServer')) {
+				console.log('Live reload enabled.');
+				sessionStorage.setItem('IsThisFirstTime_Log_From_LiveServer', true);
+			}
+		})();
+	}
+	else {
+		console.error('Upgrade your browser. This Browser is NOT supported WebSocket for Live-Reloading.');
+	}
+	// ]]>
+</script>
+
+</body></html>

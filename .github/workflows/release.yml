@@ -1,0 +1,133 @@
+name: "Release: Build and Publish Electron App"
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch: {}
+
+jobs:
+  build:
+    name: Build and publish (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [windows-latest, macos-latest, ubuntu-latest]
+        node: [18]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Prepare Windows code signing certificate
+        if: matrix.os == 'windows-latest'
+        run: |
+          node -e "require('fs').writeFileSync('windows.p12', Buffer.from(process.env.WINDOWS_PFX_BASE64, 'base64'))"
+          echo "CSC_LINK=$PWD/windows.p12" >> $GITHUB_ENV
+          echo "CSC_KEY_PASSWORD=$WINDOWS_PFX_PASSWORD" >> $GITHUB_ENV
+        env:
+          WINDOWS_PFX_BASE64: ${{ secrets.WINDOWS_PFX_BASE64 }}
+          WINDOWS_PFX_PASSWORD: ${{ secrets.WINDOWS_PFX_PASSWORD }}
+
+      - name: Prepare macOS code signing certificate
+        if: matrix.os == 'macos-latest'
+        run: |
+          node -e "require('fs').writeFileSync('mac_cert.p12', Buffer.from(process.env.MAC_CERT_BASE64, 'base64'))"
+          echo "CSC_LINK=$PWD/mac_cert.p12" >> $GITHUB_ENV
+          echo "CSC_KEY_PASSWORD=$MAC_CERT_PASSWORD" >> $GITHUB_ENV
+        env:
+          MAC_CERT_BASE64: ${{ secrets.MAC_CERT_BASE64 }}
+          MAC_CERT_PASSWORD: ${{ secrets.MAC_CERT_PASSWORD }}
+
+      - name: Determine signing availability
+        id: signinfo
+        shell: bash
+        run: |
+          if [[ -n "${{ secrets.WINDOWS_PFX_BASE64 }}" ]]; then echo "windows_sign=true" >> $GITHUB_OUTPUT; else echo "windows_sign=false" >> $GITHUB_OUTPUT; fi
+          if [[ -n "${{ secrets.MAC_CERT_BASE64 }}" ]]; then echo "mac_sign=true" >> $GITHUB_OUTPUT; else echo "mac_sign=false" >> $GITHUB_OUTPUT; fi
+
+      - name: Build backend binary (Windows)
+        if: matrix.os == 'windows-latest'
+        run: |
+          mkdir -p electron/binaries/win
+          npx pkg backend/server.js --targets node18-win-x64 --output electron/binaries/win/backend.exe
+
+      - name: Build and publish (Windows) — signed
+        if: ${{ matrix.os == 'windows-latest' && steps.signinfo.outputs.windows_sign == 'true' }}
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        run: |
+          echo "Building signed Windows installer"
+          npx electron-builder --win --x64 --publish=always --x64 || (echo "build failed"; exit 1)
+
+      - name: Build and publish (Windows) — unsigned
+        if: ${{ matrix.os == 'windows-latest' && steps.signinfo.outputs.windows_sign == 'false' }}
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        run: |
+          echo "No Windows signing cert provided; building unsigned Windows installer"
+          npx electron-builder --win --x64 --publish=always --config.win.sign=false --x64 || (echo "build failed"; exit 1)
+
+      - name: Build backend binary (macOS)
+        if: matrix.os == 'macos-latest'
+        run: |
+          mkdir -p electron/binaries/mac
+          npx pkg backend/server.js --targets node18-macos-x64 --output electron/binaries/mac/backend
+          chmod +x electron/binaries/mac/backend || true
+
+      - name: Build and publish (macOS) — signed
+        if: ${{ matrix.os == 'macos-latest' && steps.signinfo.outputs.mac_sign == 'true' }}
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        run: |
+          echo "Building signed macOS installer"
+          npx electron-builder --mac --x64 --publish=always || (echo "build failed"; exit 1)
+
+      - name: Build and publish (macOS) — unsigned
+        if: ${{ matrix.os == 'macos-latest' && steps.signinfo.outputs.mac_sign == 'false' }}
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        run: |
+          echo "No macOS signing cert provided; building unsigned macOS installer"
+          npx electron-builder --mac --x64 --publish=always --config.mac.sign=false || (echo "build failed"; exit 1)
+
+      - name: Build backend binary (Linux)
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          mkdir -p electron/binaries/linux
+          npx pkg backend/server.js --targets node18-linux-x64 --output electron/binaries/linux/backend
+          chmod +x electron/binaries/linux/backend || true
+
+      - name: Build and publish (Linux)
+        if: matrix.os == 'ubuntu-latest'
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        run: npx electron-builder --linux --x64 --publish=always
+
+      - name: Upload build artifacts (fallback)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: electron-build-${{ matrix.os }}
+          path: dist/**
+
+# Secrets required for full signing and publishing
+# - GH_TOKEN: GitHub token with repo:write to create releases (required for publish=always)
+# - WINDOWS_PFX_BASE64: Base64-encoded PFX file for Windows code-signing (optional for signed builds)
+# - WINDOWS_PFX_PASSWORD: Password for the Windows PFX
+# - MAC_CERT_BASE64: Base64-encoded P12 file for macOS code-signing (optional for signed builds)
+# - MAC_CERT_PASSWORD: Password for the macOS certificate
+
+# Notes:
+# - For macOS signing and notarization you may also need APPLE_ID and APP_SPECIFIC_PASSWORD secrets (not included here).
+# - For environments where you prefer to provide a remote URL for CSC_LINK (pointing to an authenticated storage), set the CSC_LINK secret instead of base64-ed certificates.
+# - electron-builder uses CSC_LINK and CSC_KEY_PASSWORD to locate signing certificates; the workflow writes local files and sets CSC_LINK accordingly.
+# - The workflow is triggered by tags like `v1.2.3` and will publish to GitHub Releases automatically when GH_TOKEN is present.

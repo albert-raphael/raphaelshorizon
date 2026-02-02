@@ -1,0 +1,63 @@
+# Node modules
+node_modules
+frontend/node_modules
+backend/node_modules
+
+# Audiobooks and media (large files)
+audiobooks/
+audiobooks-config/
+audiobooks-metadata/
+
+# Build outputs
+dist-local/
+local-dist/
+local-dist2/
+electron/binaries/
+
+# Git
+.git
+.gitignore
+
+# Logs and temp files
+*.log
+*.err
+*.tmp
+tmp/
+backend.err
+ci-logs/
+
+# Development files
+*.md
+*.txt
+LICENSE*
+COPYRIGHT*
+
+# Test files
+*.test.js
+test-*.js
+**/test-results/
+
+# IDE and OS files
+.vscode/
+.idea/
+*.swp
+Thumbs.db
+.DS_Store
+
+# Calibre and book metadata
+calibre-config/
+books/
+
+# SSL certificates (use Docker secrets instead)
+ssl/
+
+# Backup files
+*.bak
+*.backup
+
+# PDF.js (can be added if needed)
+pdfjs/
+
+# Tools
+tools/
+scripts/

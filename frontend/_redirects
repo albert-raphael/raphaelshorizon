@@ -1,0 +1,32 @@
+# Netlify redirects for Raphael's Horizon
+# https://docs.netlify.com/routing/redirects/
+
+# API routes (redirect to external backend if needed)
+/api/*  https://raphaelshorizon-backend.onrender.com/api/:splat  200
+
+# Admin routes
+/admin  /pages/admin/login_admin.html  200
+/admin/*  /pages/admin/:splat  200
+
+# Main page routes
+/login  /pages/login/login.html  200
+/login/*  /pages/login/:splat  200
+/books  /pages/books/books.html  200
+/books/*  /pages/books/:splat  200
+/audiobooks  /audiobookshelf/  200
+/audiobooks/*  /audiobookshelf/:splat  200
+/about  /pages/about/index.html  200
+/about/*  /pages/about/:splat  200
+/contact  /pages/contact/index.html  200
+/contact/*  /pages/contact/:splat  200
+/blog  /pages/blog/index.html  200
+/blog/*  /pages/blog/:splat  200
+/library  /library/  200
+/library/*  /library/:splat  200
+
+# Profile routes
+/profile  /pages/profile/  200
+/profile/*  /pages/profile/:splat  200
+
+# SPA fallback - serve index.html for any unmatched routes
+/*  /index.html  200

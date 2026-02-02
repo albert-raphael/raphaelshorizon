@@ -1,0 +1,297 @@
+<!-- Save as: pages/blog/posts-list.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Posts — Raphael's Horizon</title>
+    <link href="/css/styles.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .posts-manager {
+            padding: calc(var(--header-height) + 2rem) 0;
+            background: var(--light-bg);
+            min-height: 100vh;
+        }
+        
+        .manager-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--space-xl);
+        }
+        
+        .posts-table {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+        }
+        
+        .table-header {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+            padding: var(--space-lg);
+            background: var(--light-bg);
+            font-weight: 600;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .table-row {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+            padding: var(--space-lg);
+            border-bottom: 1px solid var(--border-color);
+            align-items: center;
+        }
+        
+        .table-row:hover {
+            background: var(--light-bg);
+        }
+        
+        .post-title-cell {
+            display: flex;
+            align-items: center;
+            gap: var(--space-md);
+        }
+        
+        .post-thumbnail {
+            width: 60px;
+            height: 40px;
+            border-radius: var(--radius-sm);
+            object-fit: cover;
+        }
+        
+        .status-badge {
+            padding: 0.25rem 0.5rem;
+            border-radius: var(--radius-sm);
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        
+        .status-published { background: #e8f5e9; color: #2e7d32; }
+        .status-draft { background: #e3f2fd; color: #1565c0; }
+        .status-scheduled { background: #fff3e0; color: #f57c00; }
+        
+        .action-buttons {
+            display: flex;
+            gap: var(--space-sm);
+        }
+        
+        .action-btn {
+            background: none;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            padding: 0.5rem;
+            cursor: pointer;
+            color: var(--text-light);
+            transition: var(--transition-normal);
+        }
+        
+        .action-btn:hover {
+            background: var(--light-bg);
+            color: var(--primary-light);
+        }
+        
+        .filters-bar {
+            display: flex;
+            gap: var(--space-md);
+            margin-bottom: var(--space-lg);
+            flex-wrap: wrap;
+        }
+        
+        .filter-select {
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            background: var(--white);
+        }
+        
+        .search-box {
+            flex: 1;
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+        }
+        
+        @media (max-width: 968px) {
+            .table-header,
+            .table-row {
+                grid-template-columns: 1fr;
+                gap: var(--space-sm);
+            }
+            
+            .action-buttons {
+                justify-content: flex-end;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Use your existing header -->
+    
+    <div class="posts-manager">
+        <div class="container">
+            <div class="manager-header">
+                <div>
+                    <h1>Manage Blog Posts</h1>
+                    <p>Create, edit, and manage your inspirational content</p>
+                </div>
+                <a href="publish.html" class="btn btn-primary">
+                    <i class="fas fa-plus"></i> New Post
+                </a>
+            </div>
+            
+            <div class="filters-bar">
+                <select class="filter-select" id="statusFilter">
+                    <option value="">All Status</option>
+                    <option value="published">Published</option>
+                    <option value="draft">Draft</option>
+                    <option value="scheduled">Scheduled</option>
+                </select>
+                
+                <select class="filter-select" id="categoryFilter">
+                    <option value="">All Categories</option>
+                    <option value="faith">Faith & Belief</option>
+                    <option value="guidance">Divine Guidance</option>
+                    <option value="growth">Spiritual Growth</option>
+                    <option value="promises">God's Promises</option>
+                    <option value="purpose">Life Purpose</option>
+                    <option value="mission">Our Mission</option>
+                </select>
+                
+                <input type="text" class="search-box" id="searchBox" placeholder="Search posts...">
+                
+                <button class="btn btn-secondary" id="applyFilters">Apply Filters</button>
+            </div>
+            
+            <div class="posts-table">
+                <div class="table-header">
+                    <div>Post Title</div>
+                    <div>Category</div>
+                    <div>Status</div>
+                    <div>Date</div>
+                    <div>Actions</div>
+                </div>
+                
+                <div id="postsList">
+                    <!-- Posts will be loaded here -->
+                    <div class="table-row">
+                        <div class="post-title-cell">
+                            <img src="/assets/images/blog-post-1.png" alt="" class="post-thumbnail">
+                            <div>
+                                <strong>About Raphael's Horizon</strong>
+                                <div style="font-size: 0.875rem; color: var(--text-light);">
+                                    Discover our mission and vision
+                                </div>
+                            </div>
+                        </div>
+                        <div>Our Mission</div>
+                        <div><span class="status-badge status-published">Published</span></div>
+                        <div>Jan 15, 2025</div>
+                        <div class="action-buttons">
+                            <button class="action-btn" title="Edit"><i class="fas fa-edit"></i></button>
+                            <button class="action-btn" title="View"><i class="fas fa-eye"></i></button>
+                            <button class="action-btn" title="Delete"><i class="fas fa-trash"></i></button>
+                        </div>
+                    </div>
+                    
+                    <!-- More posts will be dynamically added -->
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="/js/blog-manager.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async function() {
+            await blogManager.loadPosts();
+            renderPosts();
+            
+            // Filter functionality
+            document.getElementById('applyFilters').addEventListener('click', renderPosts);
+            document.getElementById('searchBox').addEventListener('input', renderPosts);
+            
+            function renderPosts() {
+                const statusFilter = document.getElementById('statusFilter').value;
+                const categoryFilter = document.getElementById('categoryFilter').value;
+                const searchQuery = document.getElementById('searchBox').value.toLowerCase();
+                
+                let posts = blogManager.getPosts();
+                
+                if (statusFilter) {
+                    posts = posts.filter(post => post.status === statusFilter);
+                }
+                
+                if (categoryFilter) {
+                    posts = posts.filter(post => 
+                        post.category.toLowerCase().includes(categoryFilter.toLowerCase())
+                    );
+                }
+                
+                if (searchQuery) {
+                    posts = posts.filter(post => 
+                        post.title.toLowerCase().includes(searchQuery) ||
+                        post.excerpt.toLowerCase().includes(searchQuery) ||
+                        post.content.toLowerCase().includes(searchQuery)
+                    );
+                }
+                
+                const postsList = document.getElementById('postsList');
+                postsList.innerHTML = '';
+                
+                posts.forEach(post => {
+                    const row = document.createElement('div');
+                    row.className = 'table-row';
+                    row.innerHTML = `
+                        <div class="post-title-cell">
+                            <img src="${post.featuredImage}" alt="${post.title}" class="post-thumbnail">
+                            <div>
+                                <strong>${post.title}</strong>
+                                <div style="font-size: 0.875rem; color: var(--text-light);">
+                                    ${post.excerpt.substring(0, 60)}...
+                                </div>
+                            </div>
+                        </div>
+                        <div>${post.category}</div>
+                        <div>
+                            <span class="status-badge status-${post.status}">
+                                ${post.status.charAt(0).toUpperCase() + post.status.slice(1)}
+                            </span>
+                        </div>
+                        <div>${new Date(post.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</div>
+                        <div class="action-buttons">
+                            <button class="action-btn" title="Edit" onclick="editPost(${post.id})">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="action-btn" title="View" onclick="viewPost('${post.slug}')">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                            <button class="action-btn" title="Delete" onclick="deletePost(${post.id})">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    `;
+                    postsList.appendChild(row);
+                });
+            }
+        });
+        
+        function editPost(id) {
+            // In real implementation, redirect to edit page
+            window.location.href = `publish.html?edit=${id}`;
+        }
+        
+        function viewPost(slug) {
+            window.location.href = `post-${slug}.html`;
+        }
+        
+        async function deletePost(id) {
+            if (confirm('Are you sure you want to delete this post?')) {
+                await blogManager.deletePost(id);
+                location.reload();
+            }
+        }
+    </script>
+</body>
+</html>
