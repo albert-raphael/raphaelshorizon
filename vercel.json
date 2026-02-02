@@ -1,6 +1,5 @@
 {
-  "buildCommand": "cp -r frontend .vercel/output",
-  "outputDirectory": ".vercel/output",
+  "outputDirectory": "frontend",
   "installCommand": "echo 'No dependencies to install'",
   "framework": null,
   "rewrites": [
