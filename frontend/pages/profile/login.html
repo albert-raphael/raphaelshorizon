@@ -646,8 +646,10 @@
 
             async fetchGoogleClientId() {
                 try {
-                    // Always use /api prefix for the backend API
-                    const url = '/api/config/google-client-id';
+                    console.log('[AuthManager] window.APP_CONFIG:', window.APP_CONFIG);
+                    const apiBaseUrl = window.APP_CONFIG ? window.APP_CONFIG.apiBaseUrl : '/api';
+                    console.log('[AuthManager] apiBaseUrl:', apiBaseUrl);
+                    const url = apiBaseUrl ? `${apiBaseUrl}/config/google-client-id` : '/config/google-client-id';
                     
                     console.log('[AuthManager] Fetching Google Client ID from:', url);
                     
