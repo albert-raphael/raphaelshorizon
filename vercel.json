@@ -1,72 +1,33 @@
 {
-    "cleanUrls":  true,
-    "version":  2,
-    "outputDirectory":  "frontend",
-    "redirects":  [
-                      {
-                          "destination":  "/pages/admin/login_admin.html",
-                          "permanent":  true,
-                          "source":  "/login_admin"
-                      },
-                      {
-                          "destination":  "/pages/admin/login_admin.html",
-                          "permanent":  false,
-                          "source":  "/admin"
-                      },
-                      {
-                          "destination":  "/pages/admin/login_admin.html",
-                          "permanent":  false,
-                          "source":  "/admin-login"
-                      }
-                  ],
-    "rewrites":  [
-                     {
-                         "destination":  "https://api.raphaelshorizon.com/api/:path*",
-                         "source":  "/api/:path*"
-                     },
-                     {
-                         "destination":  "https://api.raphaelshorizon.com/uploads/:path*",
-                         "source":  "/uploads/:path*"
-                     },
-                     {
-                         "destination":  "https://api.raphaelshorizon.com/audiobookshelf/",
-                         "source":  "/audiobookshelf"
-                     },
-                     {
-                         "destination":  "https://api.raphaelshorizon.com/audiobookshelf/:path*",
-                         "source":  "/audiobookshelf/:path*"
-                     },
-                     {
-                         "destination":  "https://api.raphaelshorizon.com/calibre/",
-                         "source":  "/calibre"
-                     },
-                     {
-                         "destination":  "https://api.raphaelshorizon.com/calibre/:path*",
-                         "source":  "/calibre/:path*"
-                     },
-                     {
-                         "destination":  "/homepage.html",
-                         "source":  "/"
-                     }
-                 ],
-    "headers":  [
-                    {
-                        "headers":  [
-                                        {
-                                            "key":  "X-Content-Type-Options",
-                                            "value":  "nosniff"
-                                        }
-                                    ],
-                        "source":  "/(.*)"
-                    },
-                    {
-                        "headers":  [
-                                        {
-                                            "key":  "Cache-Control",
-                                            "value":  "no-cache, no-store, must-revalidate"
-                                        }
-                                    ],
-                        "source":  "/js/config.js"
-                    }
-                ]
+  "version": 2,
+  "outputDirectory": "frontend",
+  "cleanUrls": true,
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        { "key": "X-Content-Type-Options", "value": "nosniff" }
+      ]
+    },
+    {
+      "source": "/js/config.js",
+      "headers": [
+        { "key": "Cache-Control", "value": "no-cache, no-store, must-revalidate" }
+      ]
+    }
+  ],
+  "redirects": [
+    { "source": "/login_admin", "destination": "/pages/admin/login_admin.html", "permanent": true },
+    { "source": "/admin", "destination": "/pages/admin/login_admin.html", "permanent": false },
+    { "source": "/admin-login", "destination": "/pages/admin/login_admin.html", "permanent": false }
+  ],
+  "rewrites": [
+    { "source": "/api/:path*", "destination": "https://api.raphaelshorizon.com/api/:path*" },
+    { "source": "/uploads/:path*", "destination": "https://api.raphaelshorizon.com/uploads/:path*" },
+    { "source": "/audiobookshelf", "destination": "https://api.raphaelshorizon.com/audiobookshelf/" },
+    { "source": "/audiobookshelf/:path*", "destination": "https://api.raphaelshorizon.com/audiobookshelf/:path*" },
+    { "source": "/calibre", "destination": "https://api.raphaelshorizon.com/calibre/" },
+    { "source": "/calibre/:path*", "destination": "https://api.raphaelshorizon.com/calibre/:path*" },
+    { "source": "/", "destination": "/homepage.html" }
+  ]
 }
