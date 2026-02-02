@@ -16,8 +16,9 @@ const ENV_CONFIG = {
     
     // Production (Vercel frontend + DigitalOcean backend)
     production: {
-        // DigitalOcean Droplet - use IP until SSL is set up, then switch to api.raphaelshorizon.com
-        API_BASE_URL: 'http://159.223.27.101',
+        // Use relative path /api so requests go through Vercel Rewrite -> DigitalOcean
+        // This avoids mixed content (HTTPS -> HTTP) issues since Vercel handles the SSL
+        API_BASE_URL: '/api',
         // Use same-origin paths - Vercel rewrites will proxy to DigitalOcean
         // This avoids mixed content (HTTPS -> HTTP) issues with iframes
         AUDIOBOOKSHELF_URL: '/audiobookshelf',

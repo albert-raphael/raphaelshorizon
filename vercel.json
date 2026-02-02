@@ -1,46 +1,16 @@
 {
-  "outputDirectory": "frontend",
-  "framework": null,
-  "headers": [
+  "rewrites": [
     {
-      "source": "/(.*)",
-      "headers": [
-        {
-          "key": "X-Content-Type-Options",
-          "value": "nosniff"
-        }
-      ]
+      "source": "/api/:path*",
+      "destination": "http://159.223.27.101/api/:path*"
     },
     {
-      "source": "/js/config.js",
-      "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "no-cache, no-store, must-revalidate"
-        }
-      ]
+      "source": "/audiobookshelf/:path*",
+      "destination": "http://159.223.27.101/audiobookshelf/:path*"
+    },
+    {
+      "source": "/calibre/:path*",
+      "destination": "http://159.223.27.101/calibre/:path*"
     }
-  ],
-  "rewrites": [
-    { "source": "/api/:path*", "destination": "http://159.223.27.101/api/:path*" },
-    { "source": "/uploads/:path*", "destination": "http://159.223.27.101/uploads/:path*" }
-  ],
-  "routes": [
-    { "src": "^/admin$", "dest": "/pages/admin/login_admin.html" },
-    { "src": "^/admin/(.*)$", "dest": "/pages/admin/$1" },
-    { "src": "^/books$", "dest": "/pages/books/books.html" },
-    { "src": "^/books/(.*)$", "dest": "/pages/books/$1" },
-    { "src": "^/about$", "dest": "/pages/about/index.html" },
-    { "src": "^/about/(.*)$", "dest": "/pages/about/$1" },
-    { "src": "^/contact$", "dest": "/pages/contact/index.html" },
-    { "src": "^/contact/(.*)$", "dest": "/pages/contact/$1" },
-    { "src": "^/blog$", "dest": "/pages/blog/index.html" },
-    { "src": "^/blog/(.*)$", "dest": "/pages/blog/$1" },
-    { "src": "^/library$", "dest": "/library/" },
-    { "src": "^/library/(.*)$", "dest": "/library/$1" },
-    { "src": "^/profile$", "dest": "/pages/profile/" },
-    { "src": "^/profile/(.*)$", "dest": "/pages/profile/$1" },
-    { "handle": "filesystem" },
-    { "src": "^/.*$", "dest": "/homepage.html" }
   ]
 }
