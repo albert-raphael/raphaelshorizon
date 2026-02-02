@@ -14,6 +14,10 @@
     {
       "source": "/calibre/:path*",
       "destination": "https://api.raphaelshorizon.com/calibre/:path*"
+    },
+    {
+      "source": "/",
+      "destination": "/homepage.html"
     }
   ]
 }
