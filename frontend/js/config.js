@@ -10,11 +10,11 @@ if (typeof ENV_CONFIG === 'undefined') {
     window.ENV_CONFIG = {
         // Development (localhost)
         development: {
-            API_BASE_URL: '',  // Same origin
+            API_BASE_URL: 'http://localhost:5002/api',
             AUDIOBOOKSHELF_URL: '/audiobookshelf/',
             CALIBRE_URL: '/calibre/',
             ASSETS_URL: '',
-            GOOGLE_CLIENT_ID: ''  // Optional: Add your Google Client ID for development
+            GOOGLE_CLIENT_ID: '890457459901-tpah6030evi6btmtsq9q8s7f3mr19uor.apps.googleusercontent.com'
         },
         
         // Production (Vercel frontend + DigitalOcean backend)
@@ -27,7 +27,7 @@ if (typeof ENV_CONFIG === 'undefined') {
             AUDIOBOOKSHELF_URL: '/audiobookshelf/',
             CALIBRE_URL: '/calibre/',
             ASSETS_URL: '',
-            GOOGLE_CLIENT_ID: ''  // Optional: Add your Google Client ID for production
+            GOOGLE_CLIENT_ID: '890457459901-tpah6030evi6btmtsq9q8s7f3mr19uor.apps.googleusercontent.com'
         }
     };
 }

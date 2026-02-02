@@ -40,9 +40,16 @@ app.use('/api/audiobooks', (req, res, next) => {
     next();
 });
 
-// Force embedded mode for testing
-const EMBEDDED_MODE = true;
-const embeddedStore = require('./embeddedStore');
+// Force embedded mode for testing (can be overridden by environment variable)
+const MONGO_URI = process.env.MONGO_URI;
+const EMBEDDED_MODE = process.env.EMBEDDED_MODE === 'true' || !MONGO_URI;
+
+if (!EMBEDDED_MODE && MONGO_URI) {
+  const connectDB = require('./config/database');
+  connectDB();
+}
+
+const embeddedStore = EMBEDDED_MODE ? require('./embeddedStore') : null;
 
 // Static files
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
