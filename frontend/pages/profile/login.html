@@ -4,18 +4,39 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign In - Raphael's Horizon</title>
-    <link href="/css/styles.css" rel="stylesheet">
-    <link href="/css/auth.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    
     <style>
+        /* ===== RESET & BASE STYLES ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
         body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
             background-color: #f4f7f6;
             display: flex;
             align-items: center;
             justify-content: center;
             min-height: 100vh;
             margin: 0;
+            color: #333;
+            line-height: 1.6;
         }
+        
+        a {
+            color: #3498db;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        a:hover {
+            color: #2980b9;
+        }
+        
+        /* ===== LOGIN PAGE CONTAINER ===== */
         .login-page-container {
             background: white;
             padding: 2rem;
@@ -23,30 +44,127 @@
             box-shadow: 0 4px 25px rgba(0,0,0,0.1);
             width: 100%;
             max-width: 450px;
+            animation: fadeIn 0.5s ease-out;
         }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* ===== HEADER ===== */
         .login-header {
             text-align: center;
             margin-bottom: 2rem;
         }
+        
         .login-logo {
             width: 80px;
+            height: 80px;
             margin-bottom: 1rem;
-        }
-        .back-link {
-            display: block;
-            text-align: center;
-            margin-top: 1.5rem;
-            color: #666;
-            text-decoration: none;
-        }
-        .back-link:hover {
-            color: var(--primary-color);
+            border-radius: 50%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
         }
         
-        /* Google Sign-In Button Styling */
+        .login-logo:hover {
+            transform: scale(1.05);
+        }
+        
+        .login-header h2 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+        }
+        
+        .login-header p {
+            color: #7f8c8d;
+            font-size: 0.95rem;
+        }
+        
+        /* ===== FORM STYLES ===== */
+        .auth-form {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #2c3e50;
+            font-size: 0.9rem;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 0.875rem 1rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: #fff;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+        }
+        
+        .form-input::placeholder {
+            color: #95a5a6;
+        }
+        
+        /* ===== BUTTON STYLES ===== */
+        .btn {
+            display: inline-block;
+            padding: 0.875rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+            color: white;
+        }
+        
+        .btn-primary:hover:not(:disabled) {
+            background: linear-gradient(135deg, #2980b9 0%, #2471a3 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
+        }
+        
+        .btn-primary:active:not(:disabled) {
+            transform: translateY(0);
+        }
+        
+        .btn-block {
+            width: 100%;
+            display: block;
+        }
+        
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+        
+        /* ===== GOOGLE SIGN-IN STYLES ===== */
         .google-signin-container {
             width: 100%;
-            margin: 1rem 0;
+            margin: 1.5rem 0;
             min-height: 44px;
             display: flex;
             justify-content: center;
@@ -56,38 +174,166 @@
         #google-signin-button {
             width: 100% !important;
             min-height: 44px !important;
+            opacity: 1 !important;
+            visibility: visible !important;
+            display: block !important;
+            border-radius: 8px !important;
+            overflow: hidden !important;
         }
         
         .google-loading-placeholder {
             width: 100%;
             height: 44px;
-            background: #f8f9fa;
-            border: 1px solid #ddd;
-            border-radius: 4px;
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
             color: #666;
             font-size: 14px;
+            font-weight: 500;
+            gap: 10px;
+            transition: all 0.3s ease;
         }
         
+        .google-loading-placeholder:hover {
+            border-color: #ddd;
+            background: #f9f9f9;
+        }
+        
+        .google-fallback-button {
+            width: 100%;
+            height: 44px;
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-weight: 500;
+            font-size: 14px;
+            color: #3c4043;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .google-fallback-button:hover {
+            border-color: #dadce0;
+            background: #f8f9fa;
+            box-shadow: 0 1px 3px rgba(60, 64, 67, 0.1);
+        }
+        
+        .google-fallback-button img {
+            width: 18px;
+            height: 18px;
+        }
+        
+        /* ===== DIVIDER ===== */
         .auth-divider {
             display: flex;
             align-items: center;
             margin: 1.5rem 0;
-            color: #666;
+            color: #95a5a6;
         }
         
         .auth-divider::before,
         .auth-divider::after {
             content: "";
             flex: 1;
-            border-bottom: 1px solid #ddd;
+            border-bottom: 1px solid #e0e0e0;
         }
         
         .auth-divider span {
             padding: 0 15px;
             font-size: 14px;
+            font-weight: 500;
+        }
+        
+        /* ===== FOOTER & LINKS ===== */
+        .auth-footer {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 0.9rem;
+            color: #7f8c8d;
+        }
+        
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 1.5rem;
+            color: #666;
+            text-decoration: none;
+            font-size: 0.9rem;
+            padding: 0.5rem;
+        }
+        
+        .back-link:hover {
+            color: #3498db;
+        }
+        
+        /* ===== RESPONSIVE DESIGN ===== */
+        @media (max-width: 480px) {
+            .login-page-container {
+                padding: 1.5rem;
+                margin: 1rem;
+            }
+            
+            .login-logo {
+                width: 70px;
+                height: 70px;
+            }
+            
+            .login-header h2 {
+                font-size: 1.5rem;
+            }
+            
+            .form-input,
+            .btn {
+                padding: 0.75rem 1rem;
+            }
+        }
+        
+        /* ===== UTILITY CLASSES ===== */
+        .text-center { text-align: center; }
+        .text-error { color: #e74c3c; }
+        .text-success { color: #27ae60; }
+        .hidden { display: none !important; }
+        
+        /* ===== LOADING ANIMATION ===== */
+        .shimmer-loader {
+            width: 50%;
+            height: 2px;
+            background: #f0f0f0;
+            position: relative;
+            overflow: hidden;
+            margin-top: 5px;
+            border-radius: 1px;
+        }
+        
+        .shimmer-loader::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, #4285f4, transparent);
+            animation: shimmer 1.5s infinite;
+        }
+        
+        @keyframes shimmer {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+        
+        /* ===== FOCUS STATES FOR ACCESSIBILITY ===== */
+        .form-input:focus-visible,
+        .btn:focus-visible,
+        .google-fallback-button:focus-visible {
+            outline: 2px solid #3498db;
+            outline-offset: 2px;
         }
     </style>
     
@@ -151,117 +397,511 @@
         <!-- Google Sign In Button Container -->
         <div class="google-signin-container">
             <div id="google-signin-button" class="google-loading-placeholder">
-                Loading Google Sign-In...
+                <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" width="18" height="18" alt="">
+                <span>Sign in with Google</span>
             </div>
         </div>
 
         <a href="/homepage.html" class="back-link">← Back to Home</a>
     </div>
 
-    <!-- Configuration -->
-    <script src="/js/config.js"></script>
-    
-    <!-- Main Application Scripts -->
-    <script src="/js/api.js"></script>
-    <script src="/js/auth.js"></script>
-    <script src="/js/scripts.js"></script>
-
+    <!-- ALL JAVASCRIPT EMBEDDED HERE -->
     <script>
-    (function() {
-        // Check if user is already logged in
-        const token = localStorage.getItem('authToken') || localStorage.getItem('adminToken');
-        const userStr = localStorage.getItem('user') || localStorage.getItem('adminUser');
-        if (token && userStr) {
-            try {
-                const user = JSON.parse(userStr);
-                const returnTo = sessionStorage.getItem('returnTo');
+        // ===== CONFIGURATION =====
+        (function() {
+            // Environment configurations
+            window.ENV_CONFIG = {
+                // Development (localhost)
+                development: {
+                    API_BASE_URL: '',  // Same origin
+                    AUDIOBOOKSHELF_URL: '/audiobookshelf/',
+                    CALIBRE_URL: '/calibre/',
+                    ASSETS_URL: '',
+                    GOOGLE_CLIENT_ID: ''
+                },
+                
+                // Production (Vercel frontend + DigitalOcean backend)
+                production: {
+                    API_BASE_URL: '/api',
+                    AUDIOBOOKSHELF_URL: '/audiobookshelf',
+                    CALIBRE_URL: '/calibre',
+                    ASSETS_URL: '',
+                    GOOGLE_CLIENT_ID: '890457459901-tpah6030evi6btmtsq9q8s7f3mr19uor.apps.googleusercontent.com'
+                }
+            };
+
+            // Auto-detect environment based on hostname
+            function getEnvironment() {
+                const hostname = window.location.hostname;
+                
+                // Local development
+                if (hostname === 'localhost' || hostname === '127.0.0.1' || hostname === '0.0.0.0') {
+                    return 'development';
+                }
+                
+                // Production (Vercel or custom domain)
+                return 'production';
+            }
+
+            // Get current config
+            const currentEnv = getEnvironment();
+            const config = window.ENV_CONFIG[currentEnv];
+
+            // Export configuration
+            window.APP_CONFIG = {
+                env: currentEnv,
+                apiBaseUrl: config.API_BASE_URL,
+                audiobookshelfUrl: config.AUDIOBOOKSHELF_URL,
+                calibreUrl: config.CALIBRE_URL,
+                assetsUrl: config.ASSETS_URL,
+                googleClientId: config.GOOGLE_CLIENT_ID,
+                
+                // Helper to build API URLs
+                apiUrl: function(path) {
+                    // Ensure path starts with slash
+                    const normalizedPath = path.startsWith('/') ? path : '/' + path;
+                    return this.apiBaseUrl + normalizedPath;
+                },
+                
+                // Check if we're in production
+                isProduction: function() {
+                    return this.env === 'production';
+                },
+                
+                // Check if we're in development
+                isDevelopment: function() {
+                    return this.env === 'development';
+                }
+            };
+
+            console.log(`[Config] Environment: ${currentEnv}`);
+            console.log(`[Config] API Base: ${config.API_BASE_URL || '(same origin)'}`);
+        })();
+
+        // ===== AUTHENTICATION MANAGER =====
+        class AuthManager {
+            constructor() {
+                this.googleClientId = null;
+                this.googleButtonRendered = false;
+                this.googleScriptLoaded = false;
+                
+                // Initialize immediately
+                this.init();
+            }
+
+            init() {
+                console.log('[AuthManager] Initializing...');
+                
+                // Check if user is already logged in
+                this.checkExistingLogin();
+                
+                // Setup form toggling
+                this.setupFormToggling();
+                
+                // Setup form submission handlers
+                this.setupFormHandlers();
+                
+                // Start Google Sign-In initialization
+                this.initGoogleSignIn();
+                
+                // Setup DOM listeners
+                this.setupDOMListeners();
+            }
+
+            checkExistingLogin() {
+                const token = localStorage.getItem('authToken') || localStorage.getItem('adminToken');
+                const userStr = localStorage.getItem('user') || localStorage.getItem('adminUser');
+                
+                if (token && userStr) {
+                    try {
+                        const user = JSON.parse(userStr);
+                        const returnTo = sessionStorage.getItem('returnTo');
+                        
+                        if (returnTo) {
+                            sessionStorage.removeItem('returnTo');
+                            window.location.href = returnTo;
+                            return;
+                        }
+                        
+                        if (user.role === 'admin') {
+                            window.location.href = '/pages/admin/admin-dashboard.html';
+                        } else {
+                            window.location.href = '/homepage.html';
+                        }
+                    } catch(e) {
+                        console.error('Error parsing user data:', e);
+                    }
+                }
+            }
+
+            setupFormToggling() {
+                const loginForm = document.getElementById('page-login-form');
+                const registerForm = document.getElementById('page-register-form');
+                const loginToggle = document.getElementById('login-toggle');
+                const loginHeader = document.querySelector('.login-header h2');
+                const loginSubheader = document.querySelector('.login-header p');
+
+                const showLogin = () => {
+                    loginForm.style.display = 'block';
+                    registerForm.style.display = 'none';
+                    if (loginToggle) loginToggle.style.display = 'block';
+                    loginHeader.textContent = 'Welcome Back';
+                    loginSubheader.textContent = 'Sign in to access your library and subscription';
+                };
+
+                const showRegister = () => {
+                    loginForm.style.display = 'none';
+                    registerForm.style.display = 'block';
+                    if (loginToggle) loginToggle.style.display = 'none';
+                    loginHeader.textContent = 'Create Account';
+                    loginSubheader.textContent = 'Join us to access exclusive content';
+                };
+
+                const handleHash = () => {
+                    const hash = window.location.hash || '';
+                    if (hash.toLowerCase().includes('register')) {
+                        showRegister();
+                    } else {
+                        showLogin();
+                    }
+                };
+
+                // Initialize form toggle
+                handleHash();
+                window.addEventListener('hashchange', handleHash);
+
+                // Toggle click handlers
+                const switchToRegister = document.getElementById('switch-to-register');
+                const switchToLogin = document.getElementById('switch-to-login');
+                
+                if (switchToRegister) {
+                    switchToRegister.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        window.location.hash = 'register';
+                    });
+                }
+                
+                if (switchToLogin) {
+                    switchToLogin.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        window.location.hash = 'login';
+                    });
+                }
+            }
+
+            setupFormHandlers() {
+                const loginForm = document.getElementById('page-login-form');
+                const registerForm = document.getElementById('page-register-form');
+
+                if (loginForm) {
+                    loginForm.addEventListener('submit', (e) => this.handleAuthSubmit(e, 'login'));
+                }
+
+                if (registerForm) {
+                    registerForm.addEventListener('submit', (e) => this.handleAuthSubmit(e, 'register'));
+                }
+            }
+
+            setupDOMListeners() {
+                // Add any additional DOM listeners here if needed
+            }
+
+            // ===== GOOGLE SIGN-IN =====
+            async initGoogleSignIn() {
+                console.log('[AuthManager] Initializing Google Sign-In...');
+                
+                // Show Google button immediately
+                this.showGoogleButtonImmediately();
+                
+                // Load Google Client ID in background
+                this.fetchGoogleClientId().then(clientId => {
+                    if (clientId) {
+                        console.log('[AuthManager] Google Client ID loaded:', clientId.substring(0, 20) + '...');
+                        this.googleClientId = clientId;
+                        this.initializeGoogleButton();
+                    }
+                }).catch(error => {
+                    console.error('[AuthManager] Failed to load Google Client ID:', error);
+                    this.showGoogleFallback();
+                });
+                
+                // Also try to initialize after Google script loads
+                this.waitForGoogleScript();
+            }
+
+            showGoogleButtonImmediately() {
+                const container = document.getElementById('google-signin-button');
+                if (!container) return;
+                
+                // Show a clean, ready-to-use button immediately
+                container.innerHTML = `
+                    <div class="google-loading-placeholder">
+                        <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" width="18" height="18" alt="">
+                        <span>Sign in with Google</span>
+                        <div class="shimmer-loader"></div>
+                    </div>
+                `;
+            }
+
+            async fetchGoogleClientId() {
+                try {
+                    const apiBaseUrl = window.APP_CONFIG ? window.APP_CONFIG.apiBaseUrl : '/api';
+                    const url = apiBaseUrl ? `${apiBaseUrl}/config/google-client-id` : '/config/google-client-id';
+                    
+                    console.log('[AuthManager] Fetching Google Client ID from:', url);
+                    
+                    const response = await fetch(url);
+                    
+                    if (!response.ok) {
+                        throw new Error(`HTTP ${response.status}: Could not fetch Google Client ID`);
+                    }
+                    
+                    const data = await response.json();
+                    return data.clientId;
+                } catch (error) {
+                    console.error('[AuthManager] Error fetching Google Client ID:', error.message);
+                    throw error;
+                }
+            }
+
+            waitForGoogleScript() {
+                let attempts = 0;
+                const maxAttempts = 50; // 5 seconds
+                
+                const checkGoogle = () => {
+                    attempts++;
+                    
+                    if (window.google && window.google.accounts && window.google.accounts.id) {
+                        console.log('[AuthManager] Google script loaded');
+                        this.googleScriptLoaded = true;
+                        
+                        // If we have the client ID, initialize the button
+                        if (this.googleClientId) {
+                            this.initializeGoogleButton();
+                        }
+                        return;
+                    }
+                    
+                    if (attempts < maxAttempts) {
+                        setTimeout(checkGoogle, 100);
+                    } else {
+                        console.warn('[AuthManager] Google script not loaded after 5 seconds');
+                        this.showGoogleFallback();
+                    }
+                };
+                
+                // Start checking
+                checkGoogle();
+            }
+
+            initializeGoogleButton() {
+                if (this.googleButtonRendered) {
+                    console.log('[AuthManager] Google button already rendered');
+                    return;
+                }
+                
+                if (!this.googleClientId) {
+                    console.warn('[AuthManager] No Google Client ID available');
+                    this.showGoogleFallback();
+                    return;
+                }
+                
+                if (!window.google || !window.google.accounts || !window.google.accounts.id) {
+                    console.warn('[AuthManager] Google script not loaded yet');
+                    // Keep waiting, the waitForGoogleScript will call this again
+                    return;
+                }
+                
+                const container = document.getElementById('google-signin-button');
+                if (!container) {
+                    console.error('[AuthManager] Google button container not found');
+                    return;
+                }
+                
+                try {
+                    console.log('[AuthManager] Rendering Google button with client ID');
+                    
+                    // Clear container
+                    container.innerHTML = '';
+                    
+                    // Initialize Google Identity Services
+                    window.google.accounts.id.initialize({
+                        client_id: this.googleClientId,
+                        callback: (response) => this.handleGoogleResponse(response),
+                        auto_select: false,
+                        cancel_on_tap_outside: true,
+                        ux_mode: 'popup',
+                        context: 'signin'
+                    });
+                    
+                    // Render the button
+                    window.google.accounts.id.renderButton(
+                        container,
+                        {
+                            theme: 'outline',
+                            size: 'large',
+                            width: container.offsetWidth,
+                            text: 'signin_with',
+                            shape: 'rectangular',
+                            logo_alignment: 'left',
+                            locale: 'en'
+                        }
+                    );
+                    
+                    this.googleButtonRendered = true;
+                    console.log('[AuthManager] Google button rendered successfully');
+                    
+                } catch (error) {
+                    console.error('[AuthManager] Error rendering Google button:', error);
+                    this.showGoogleFallback();
+                }
+            }
+
+            showGoogleFallback() {
+                const container = document.getElementById('google-signin-button');
+                if (!container) return;
+                
+                console.log('[AuthManager] Showing Google fallback button');
+                
+                container.innerHTML = `
+                    <button class="google-fallback-button" id="google-fallback-btn">
+                        <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google">
+                        <span>Sign in with Google</span>
+                    </button>
+                `;
+                
+                // Add click handler for fallback button
+                const fallbackBtn = document.getElementById('google-fallback-btn');
+                if (fallbackBtn) {
+                    fallbackBtn.addEventListener('click', () => {
+                        alert('Google Sign-In is not available at the moment. Please use email/password login.');
+                    });
+                }
+            }
+
+            async handleGoogleResponse(response) {
+                try {
+                    console.log('[AuthManager] Google Sign-In response received');
+                    
+                    if (!response.credential) {
+                        throw new Error('No credential received from Google');
+                    }
+                    
+                    const apiBaseUrl = window.APP_CONFIG ? window.APP_CONFIG.apiBaseUrl : '/api';
+                    const url = apiBaseUrl ? `${apiBaseUrl}/auth/google` : '/auth/google';
+                    
+                    const res = await fetch(url, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ token: response.credential })
+                    });
+                    
+                    const result = await res.json();
+                    
+                    if (!res.ok) {
+                        throw new Error(result.message || 'Google authentication failed');
+                    }
+                    
+                    await this.handleLoginSuccess(result);
+                    
+                } catch (error) {
+                    console.error('[AuthManager] Google Sign-In Error:', error);
+                    alert('Google Sign-In failed: ' + error.message);
+                }
+            }
+
+            // ===== EMAIL/PASSWORD AUTH =====
+            async handleAuthSubmit(event, type) {
+                event.preventDefault();
+                const form = event.target;
+                const formData = new FormData(form);
+                const data = Object.fromEntries(formData.entries());
+                const submitBtn = form.querySelector('button[type="submit"]');
+                
+                const originalText = submitBtn.textContent;
+                submitBtn.textContent = type === 'login' ? 'Signing In...' : 'Creating Account...';
+                submitBtn.disabled = true;
+                
+                const endpoint = type === 'login' ? '/auth/login' : '/auth/register';
+                const apiBaseUrl = window.APP_CONFIG ? window.APP_CONFIG.apiBaseUrl : '/api';
+                const url = apiBaseUrl ? `${apiBaseUrl}${endpoint}` : endpoint;
+                
+                try {
+                    console.log(`[AuthManager] Sending ${type} request to:`, url);
+                    
+                    const response = await fetch(url, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(data)
+                    });
+                    
+                    const result = await response.json();
+                    
+                    if (!response.ok) {
+                        // Handle admin redirect
+                        if (result.redirectTo) {
+                            alert(result.message);
+                            window.location.href = result.redirectTo;
+                            return;
+                        }
+                        throw new Error(result.message || `${type === 'login' ? 'Login' : 'Registration'} failed`);
+                    }
+                    
+                    await this.handleLoginSuccess(result);
+                    
+                } catch (error) {
+                    console.error(`[AuthManager] ${type === 'login' ? 'Login' : 'Registration'} error:`, error);
+                    alert(error.message);
+                } finally {
+                    submitBtn.textContent = originalText;
+                    submitBtn.disabled = false;
+                }
+            }
+
+            handleLoginSuccess(result) {
+                localStorage.setItem('authToken', result.token);
+                localStorage.setItem('user', JSON.stringify(result.user));
+                
+                // If a return path was saved, redirect back
+                const returnTo = sessionStorage.getItem('returnTo') || new URLSearchParams(window.location.search).get('returnTo');
                 if (returnTo) {
-                    sessionStorage.removeItem('returnTo');
+                    try { sessionStorage.removeItem('returnTo'); } catch(e) {}
                     window.location.href = returnTo;
-                } else if (user.role === 'admin') {
+                    return;
+                }
+
+                // Redirect based on role
+                if (result.user.role === 'admin') {
                     window.location.href = '/pages/admin/admin-dashboard.html';
                 } else {
                     window.location.href = '/homepage.html';
                 }
-                return; // Stop further execution if redirecting
-            } catch(e) {
-                console.error('Error parsing user data:', e);
             }
         }
 
-        // Form toggle functionality
-        const loginForm = document.getElementById('page-login-form');
-        const registerForm = document.getElementById('page-register-form');
-        const loginToggle = document.getElementById('login-toggle');
-        const loginHeader = document.querySelector('.login-header h2');
-        const loginSubheader = document.querySelector('.login-header p');
+        // ===== INITIALIZE EVERYTHING WHEN DOM IS READY =====
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('[Login Page] DOM loaded, initializing...');
+            
+            // Initialize Auth Manager
+            window.authManager = new AuthManager();
+            
+            // Expose handleAuthSubmit globally for backward compatibility
+            window.handleAuthSubmit = (e, type) => {
+                if (window.authManager) {
+                    window.authManager.handleAuthSubmit(e, type);
+                }
+            };
+            
+            console.log('[Login Page] Initialization complete');
+        });
 
-        function showLogin() {
-            loginForm.style.display = 'block';
-            registerForm.style.display = 'none';
-            loginToggle.style.display = 'block';
-            loginHeader.textContent = 'Welcome Back';
-            loginSubheader.textContent = 'Sign in to access your library and subscription';
+        // ===== FALLBACK FOR OLD BROWSERS =====
+        if (!window.Promise) {
+            document.getElementById('google-signin-button').innerHTML = `
+                <p class="text-error">Your browser does not support modern features. Please update your browser.</p>
+            `;
         }
-
-        function showRegister() {
-            loginForm.style.display = 'none';
-            registerForm.style.display = 'block';
-            loginToggle.style.display = 'none';
-            loginHeader.textContent = 'Create Account';
-            loginSubheader.textContent = 'Join us to access exclusive content';
-        }
-
-        function handleHash() {
-            const hash = window.location.hash || '';
-            if (hash.toLowerCase().includes('register')) {
-                showRegister();
-            } else {
-                showLogin();
-            }
-        }
-
-        // Initialize form toggle
-        handleHash();
-        window.addEventListener('hashchange', handleHash);
-
-        // Toggle click handlers
-        document.getElementById('switch-to-register')?.addEventListener('click', (e) => {
-            e.preventDefault();
-            window.location.hash = 'register';
-        });
-        
-        document.getElementById('switch-to-login')?.addEventListener('click', (e) => {
-            e.preventDefault();
-            window.location.hash = 'login';
-        });
-
-        // Form submission handlers
-        loginForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            if (typeof handleAuthSubmit === 'function') {
-                handleAuthSubmit(e, 'login');
-            } else {
-                console.error('handleAuthSubmit function not found');
-                alert('Authentication system is not ready. Please try again.');
-            }
-        });
-
-        registerForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            if (typeof handleAuthSubmit === 'function') {
-                handleAuthSubmit(e, 'register');
-            } else {
-                console.error('handleAuthSubmit function not found');
-                alert('Authentication system is not ready. Please try again.');
-            }
-        });
-
-        // Google Sign-In will be initialized by auth.js when it's ready
-        console.log('Login page ready - Google Sign-In will be initialized by auth.js');
-
-    })();
-
     </script>
 </body>
 </html>
