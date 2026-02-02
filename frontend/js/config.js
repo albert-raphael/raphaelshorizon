@@ -24,8 +24,8 @@ if (typeof ENV_CONFIG === 'undefined') {
             API_BASE_URL: '/api',
             // Use same-origin paths - Vercel rewrites will proxy to DigitalOcean
             // This avoids mixed content (HTTPS -> HTTP) issues with iframes
-            AUDIOBOOKSHELF_URL: '/audiobookshelf',
-            CALIBRE_URL: '/calibre',
+            AUDIOBOOKSHELF_URL: '/audiobookshelf/',
+            CALIBRE_URL: '/calibre/',
             ASSETS_URL: '',
             GOOGLE_CLIENT_ID: ''  // Optional: Add your Google Client ID for production
         }
