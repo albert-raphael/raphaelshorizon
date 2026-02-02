@@ -8,15 +8,13 @@ WORKDIR /app
 COPY backend/package*.json ./backend/
 COPY package*.json ./
 
-# Install backend dependencies
-WORKDIR /app/backend
-RUN npm install && ls -la node_modules | head -5
+# Install backend dependencies FIRST
+RUN cd backend && npm install
 
 # Install root dependencies
-WORKDIR /app
 RUN npm install
 
-# Copy source code
+# Copy source code (excluding node_modules via .dockerignore)
 COPY . .
 
 # Build frontend
