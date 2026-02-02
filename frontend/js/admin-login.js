@@ -1,6 +1,6 @@
 // API configuration - Use config.js or fallback to relative path
 const API_BASE_URL = (window.APP_CONFIG && window.APP_CONFIG.apiBaseUrl) 
-    ? window.APP_CONFIG.apiBaseUrl + '/api' 
+    ? window.APP_CONFIG.apiUrl('')  // Use the helper method (no extra /api)
     : '/api';
 
 document.addEventListener('DOMContentLoaded', () => {

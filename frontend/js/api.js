@@ -1,6 +1,10 @@
 class APIClient {
   constructor(baseURL) {
-    if (!baseURL) {
+    // Use APP_CONFIG if available, otherwise fallback to the old logic
+    if (window.APP_CONFIG && window.APP_CONFIG.apiBaseUrl) {
+      this.baseURL = window.APP_CONFIG.apiUrl(''); // Use the helper method
+    } else if (!baseURL) {
+      // Fallback to old logic if config not available
       if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
         this.baseURL = 'http://localhost:5002/api';
       } else {
@@ -10,6 +14,7 @@ class APIClient {
       this.baseURL = baseURL;
     }
     this.token = localStorage.getItem('authToken');
+    console.log('[APIClient] Base URL:', this.baseURL);
   }
 
   setToken(token) {
@@ -41,6 +46,7 @@ class APIClient {
     };
 
     try {
+      console.log('[APIClient] Request:', url, config.method || 'GET');
       const response = await fetch(url, config);
       
       if (response.status === 401) {

@@ -7,7 +7,7 @@
 // Only declare if not already declared
 if (typeof API_BASE_URL === 'undefined') {
     const API_BASE_URL = (window.APP_CONFIG && window.APP_CONFIG.apiBaseUrl) 
-        ? window.APP_CONFIG.apiBaseUrl + '/api' 
+        ? window.APP_CONFIG.apiUrl('')  // Use the helper method
         : '/api';
     window.API_BASE_URL = API_BASE_URL;
 }
@@ -36,6 +36,7 @@ class AuthManager {
         window.handleForgotPassword = (e) => this.handleForgotPassword(e);
         window.handleResetPassword = (e) => this.handleResetPassword(e);
         window.switchAuthTab = (tab) => this.switchTab(tab);
+        window.handleGoogleSignIn = (credential) => this.handleGoogleResponse({ credential });
     }
 
     async init() {
@@ -59,8 +60,8 @@ class AuthManager {
             // First render with loading state
             this.renderGoogleButton();
             
-            console.log('Fetching Google Client ID from:', `${API_BASE_URL}/config/google-client-id`);
-            const response = await fetch(`${API_BASE_URL}/config/google-client-id`);
+            console.log('Fetching Google Client ID from:', `${this.API_BASE_URL}/config/google-client-id`);
+            const response = await fetch(`${this.API_BASE_URL}/config/google-client-id`);
             console.log('Google Client ID response status:', response.status);
             
             if (!response.ok) throw new Error(`HTTP ${response.status}: Could not fetch Google Client ID`);
@@ -208,7 +209,7 @@ class AuthManager {
 
     async fetchUserProfile(token) {
         try {
-            const response = await fetch(`${API_BASE_URL}/auth/me`, {
+            const response = await fetch(`${this.API_BASE_URL}/auth/me`, {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
             if (response.ok) {
@@ -328,30 +329,6 @@ class AuthManager {
             `;
             return;
         }
-                    <div style="display: flex; align-items: center; gap: 10px;">
-                        <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" style="width: 18px; height: 18px;">
-                        <span style="color: #757575; font-family: system-ui, -apple-system, sans-serif; font-weight: 500; font-size: 14px;">
-                            ${msg}
-                        </span>
-                    </div>
-                    ${isInitial ? `
-                    <div class="shimmer-loader" style="
-                        width: 50%; height: 2px; background: #f0f0f0; position: relative; overflow: hidden; margin-top: 5px;
-                    ">
-                        <div style="
-                            position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
-                            background: linear-gradient(90deg, transparent, #4285f4, transparent);
-                            animation: shimmer 1.5s infinite;
-                        "></div>
-                    </div>
-                    <style>
-                        @keyframes shimmer { 0% { left: -100%; } 100% { left: 100%; } }
-                    </style>
-                    ` : ''}
-                </div>
-            `;
-            return;
-        }
 
         if (window.google && window.google.accounts) {
             try {
@@ -392,7 +369,7 @@ class AuthManager {
 
     async handleGoogleResponse(response) {
         try {
-            const res = await fetch(`${API_BASE_URL}/auth/google`, {
+            const res = await fetch(`${this.API_BASE_URL}/auth/google`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ token: response.credential })
@@ -427,7 +404,7 @@ class AuthManager {
         const endpoint = type === 'login' ? '/auth/login' : '/auth/register';
         
         try {
-            const response = await fetch(`${API_BASE_URL}${endpoint}`, {
+            const response = await fetch(`${this.API_BASE_URL}${endpoint}`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data)
@@ -467,7 +444,7 @@ class AuthManager {
         messageDiv.style.display = 'none';
 
         try {
-            const response = await fetch(`${API_BASE_URL}/auth/forgot-password`, {
+            const response = await fetch(`${this.API_BASE_URL}/auth/forgot-password`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ email })
@@ -520,7 +497,7 @@ class AuthManager {
         messageDiv.style.display = 'none';
 
         try {
-            const response = await fetch(`${API_BASE_URL}/auth/reset-password`, {
+            const response = await fetch(`${this.API_BASE_URL}/auth/reset-password`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ token, password })
