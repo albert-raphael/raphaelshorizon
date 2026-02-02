@@ -7,7 +7,7 @@
 // Only declare if not already declared
 if (typeof API_BASE_URL === 'undefined') {
     const API_BASE_URL = (window.APP_CONFIG && window.APP_CONFIG.apiBaseUrl) 
-        ? window.APP_CONFIG.apiUrl('')  // Use the helper method
+        ? window.APP_CONFIG.apiBaseUrl  // Just use the base URL directly
         : '/api';
     window.API_BASE_URL = API_BASE_URL;
 }
@@ -15,7 +15,11 @@ if (typeof API_BASE_URL === 'undefined') {
 class AuthManager {
     constructor() {
         this.googleClientId = null;
-        this.API_BASE_URL = API_BASE_URL;
+        // Use APP_CONFIG directly to build URLs properly
+        this.API_BASE_URL = (window.APP_CONFIG && window.APP_CONFIG.apiBaseUrl) 
+            ? window.APP_CONFIG.apiBaseUrl 
+            : '/api';
+        
         // Wait for DOM to be ready before initializing
         if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', () => this.init());
@@ -40,6 +44,9 @@ class AuthManager {
     }
 
     async init() {
+        console.log('[AuthManager] Initializing...');
+        console.log('[AuthManager] API Base URL:', this.API_BASE_URL);
+        
         // Start loading script immediately
         this.loadGoogleScript();
         
@@ -60,29 +67,50 @@ class AuthManager {
             // First render with loading state
             this.renderGoogleButton();
             
-            console.log('Fetching Google Client ID from:', `${this.API_BASE_URL}/config/google-client-id`);
-            const response = await fetch(`${this.API_BASE_URL}/config/google-client-id`);
-            console.log('Google Client ID response status:', response.status);
+            // Build the URL properly
+            const url = this.buildApiUrl('/config/google-client-id');
+            console.log('[AuthManager] Fetching Google Client ID from:', url);
+            
+            const response = await fetch(url);
+            console.log('[AuthManager] Google Client ID response status:', response.status);
             
             if (!response.ok) throw new Error(`HTTP ${response.status}: Could not fetch Google Client ID`);
+            
             const data = await response.json();
-            console.log('Google Client ID received:', data.clientId ? 'Yes' : 'No');
+            console.log('[AuthManager] Google Client ID received:', data.clientId ? 'Yes' : 'No');
             
             this.googleClientId = data.clientId;
             
             // Re-render now that we have the ID
             this.renderGoogleButton();
         } catch (error) {
-            console.error('Error fetching Google Client ID:', error.message);
+            console.error('[AuthManager] Error fetching Google Client ID:', error.message);
             this.googleClientId = null;
             this.renderGoogleButton();
             
             // Retry after 2 seconds if initial fetch failed
             if (this.googleClientId === null) {
-                console.log('Retrying Google Client ID fetch in 2 seconds...');
+                console.log('[AuthManager] Retrying Google Client ID fetch in 2 seconds...');
                 setTimeout(() => this.fetchGoogleClientId(), 2000);
             }
         }
+    }
+
+    // Helper method to build proper API URLs
+    buildApiUrl(endpoint) {
+        // Ensure endpoint starts with slash
+        const normalizedEndpoint = endpoint.startsWith('/') ? endpoint : '/' + endpoint;
+        
+        // If base URL is empty (development), just return endpoint
+        if (!this.API_BASE_URL) {
+            return normalizedEndpoint;
+        }
+        
+        // If base URL ends with slash and endpoint starts with slash, remove duplicate slash
+        const base = this.API_BASE_URL.endsWith('/') ? this.API_BASE_URL.slice(0, -1) : this.API_BASE_URL;
+        const endpointPath = normalizedEndpoint.startsWith('/') ? normalizedEndpoint : '/' + normalizedEndpoint;
+        
+        return base + endpointPath;
     }
 
     setupDOMListeners() {
@@ -124,8 +152,12 @@ class AuthManager {
             script.async = true;
             script.defer = true;
             script.onload = () => {
-                console.log("Google script loaded via injection");
+                console.log("[AuthManager] Google script loaded via injection");
                 this.renderGoogleButton();
+            };
+            script.onerror = () => {
+                console.error("[AuthManager] Failed to load Google script");
+                this.renderGoogleFallback(document.getElementById("google-signin-button"));
             };
             document.head.appendChild(script);
         } else {
@@ -147,7 +179,8 @@ class AuthManager {
                 this.renderGoogleButton();
             } else if (attempts > 50) { // 5 seconds
                 clearInterval(checkGoogle);
-                console.warn("Google GSI script failed to initialize after 5s");
+                console.warn("[AuthManager] Google GSI script failed to initialize after 5s");
+                this.renderGoogleFallback(document.getElementById("google-signin-button"));
             }
         }, 100);
     }
@@ -184,7 +217,7 @@ class AuthManager {
                     }
                 });
             } catch (e) {
-                console.error('Error parsing user data:', e);
+                console.error('[AuthManager] Error parsing user data:', e);
                 this.logout();
             }
         } else {
@@ -209,7 +242,8 @@ class AuthManager {
 
     async fetchUserProfile(token) {
         try {
-            const response = await fetch(`${this.API_BASE_URL}/auth/me`, {
+            const url = this.buildApiUrl('/auth/me');
+            const response = await fetch(url, {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
             if (response.ok) {
@@ -224,7 +258,7 @@ class AuthManager {
                 this.logout();
             }
         } catch (error) {
-            console.error('Failed to fetch profile', error);
+            console.error('[AuthManager] Failed to fetch profile', error);
             this.logout();
         }
     }
@@ -276,7 +310,7 @@ class AuthManager {
     renderGoogleButton() {
         const container = document.getElementById("google-signin-button");
         if (!container) {
-            console.warn("Google sign-in button container not found");
+            console.warn("[AuthManager] Google sign-in button container not found");
             return;
         }
 
@@ -338,7 +372,8 @@ class AuthManager {
                 google.accounts.id.initialize({
                     client_id: this.googleClientId,
                     callback: this.handleGoogleResponse.bind(this),
-                    cancel_on_tap_outside: false
+                    cancel_on_tap_outside: false,
+                    ux_mode: 'popup'
                 });
                 
                 google.accounts.id.renderButton(
@@ -348,28 +383,39 @@ class AuthManager {
                         size: "large", 
                         width: container.offsetWidth || 400,
                         text: "signin_with",
-                        shape: "rectangular"
+                        shape: "rectangular",
+                        logo_alignment: "left"
                     }
                 );
-                console.log("Google button rendered successfully");
+                console.log("[AuthManager] Google button rendered successfully");
             } catch (e) {
-                console.error("Google Sign-In Render Error:", e);
+                console.error("[AuthManager] Google Sign-In Render Error:", e);
                 this.renderGoogleFallback(container);
             }
         } else {
             // Keep the loading state if window.google isn't ready yet
             // waitForGoogle will call this again once ready
-            console.log("Waiting for window.google to render button...");
+            console.log("[AuthManager] Waiting for window.google to render button...");
         }
     }
 
     renderGoogleFallback(container) {
-        container.innerHTML = `<p style="color: var(--danger-red, #e74c3c); font-size: 0.8rem; text-align: center;">Google Sign-In failed to load.</p>`;
+        if (!container) return;
+        container.innerHTML = `
+            <button onclick="window.location.href='${this.buildApiUrl('/auth/google/init')}'" 
+                    style="width:100%; height:44px; background:#fff; border:1px solid #ddd; border-radius:4px; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:10px;">
+                <img src="https://www.google.com/favicon.ico" alt="Google" width="18" height="18">
+                <span>Sign in with Google</span>
+            </button>
+        `;
     }
 
     async handleGoogleResponse(response) {
         try {
-            const res = await fetch(`${this.API_BASE_URL}/auth/google`, {
+            const url = this.buildApiUrl('/auth/google');
+            console.log('[AuthManager] Sending Google token to:', url);
+            
+            const res = await fetch(url, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ token: response.credential })
@@ -381,8 +427,8 @@ class AuthManager {
             
             await this.handleLoginSuccess(result);
         } catch (error) {
-            console.error('Google Sign-In Error:', error);
-            alert(error.message);
+            console.error('[AuthManager] Google Sign-In Error:', error);
+            alert('Google Sign-In failed: ' + error.message);
         }
     }
 
@@ -404,7 +450,10 @@ class AuthManager {
         const endpoint = type === 'login' ? '/auth/login' : '/auth/register';
         
         try {
-            const response = await fetch(`${this.API_BASE_URL}${endpoint}`, {
+            const url = this.buildApiUrl(endpoint);
+            console.log('[AuthManager] Sending auth request to:', url);
+            
+            const response = await fetch(url, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data)
@@ -425,6 +474,7 @@ class AuthManager {
             await this.handleLoginSuccess(result);
             
         } catch (error) {
+            console.error('[AuthManager] Auth error:', error);
             alert(error.message);
         } finally {
             submitBtn.textContent = originalText;
@@ -444,7 +494,8 @@ class AuthManager {
         messageDiv.style.display = 'none';
 
         try {
-            const response = await fetch(`${this.API_BASE_URL}/auth/forgot-password`, {
+            const url = this.buildApiUrl('/auth/forgot-password');
+            const response = await fetch(url, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ email })
@@ -497,7 +548,8 @@ class AuthManager {
         messageDiv.style.display = 'none';
 
         try {
-            const response = await fetch(`${this.API_BASE_URL}/auth/reset-password`, {
+            const url = this.buildApiUrl('/auth/reset-password');
+            const response = await fetch(url, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ token, password })
