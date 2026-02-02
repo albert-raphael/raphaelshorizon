@@ -614,17 +614,24 @@
                 // Show Google button immediately
                 this.showGoogleButtonImmediately();
                 
-                // Load Google Client ID in background
-                this.fetchGoogleClientId().then(clientId => {
-                    if (clientId) {
-                        console.log('[AuthManager] Google Client ID loaded:', clientId.substring(0, 20) + '...');
-                        this.googleClientId = clientId;
-                        this.initializeGoogleButton();
-                    }
-                }).catch(error => {
-                    console.error('[AuthManager] Failed to load Google Client ID:', error);
-                    this.showGoogleFallback();
-                });
+                // In development, use hardcoded client ID to avoid CORS issues
+                if (window.APP_CONFIG && window.APP_CONFIG.env === 'development') {
+                    console.log('[AuthManager] Development mode: using hardcoded Google Client ID');
+                    this.googleClientId = window.APP_CONFIG.googleClientId;
+                    this.initializeGoogleButton();
+                } else {
+                    // In production, fetch from backend
+                    this.fetchGoogleClientId().then(clientId => {
+                        if (clientId) {
+                            console.log('[AuthManager] Google Client ID loaded:', clientId.substring(0, 20) + '...');
+                            this.googleClientId = clientId;
+                            this.initializeGoogleButton();
+                        }
+                    }).catch(error => {
+                        console.error('[AuthManager] Failed to load Google Client ID:', error);
+                        this.showGoogleFallback();
+                    });
+                }
                 
                 // Also try to initialize after Google script loads
                 this.waitForGoogleScript();
@@ -790,6 +797,27 @@
                         throw new Error('No credential received from Google');
                     }
                     
+                    // In development, show a message since we can't make cross-origin requests to production
+                    if (window.APP_CONFIG && window.APP_CONFIG.env === 'development') {
+                        console.log('[AuthManager] Development mode: simulating successful login');
+                        alert('Google Sign-In successful! In development mode, this would normally authenticate with the backend. Redirecting to homepage...');
+                        
+                        // Simulate successful login
+                        const mockResult = {
+                            token: 'dev-mock-jwt-token',
+                            user: {
+                                id: 'dev-user',
+                                email: 'dev@example.com',
+                                name: 'Development User',
+                                role: 'user'
+                            }
+                        };
+                        
+                        await this.handleLoginSuccess(mockResult);
+                        return;
+                    }
+                    
+                    // Production: call the backend
                     const apiBaseUrl = window.APP_CONFIG ? window.APP_CONFIG.apiBaseUrl : '/api';
                     const url = apiBaseUrl ? `${apiBaseUrl}/auth/google` : '/auth/google';
                     
