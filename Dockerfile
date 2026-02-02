@@ -6,13 +6,14 @@ WORKDIR /app
 
 # Copy package files
 COPY backend/package*.json ./backend/
-COPY frontend/package*.json ./frontend/
 COPY package*.json ./
 
-# Install backend dependencies first
-RUN cd backend && npm install
+# Install backend dependencies
+WORKDIR /app/backend
+RUN npm install && ls -la node_modules | head -5
 
 # Install root dependencies
+WORKDIR /app
 RUN npm install
 
 # Copy source code
