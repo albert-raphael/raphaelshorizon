@@ -4,6 +4,9 @@ FROM node:18-alpine
 # Set working directory
 WORKDIR /app
 
+# Install system dependencies (curl for healthcheck, openssl for SSL)
+RUN apk add --no-cache curl openssl
+
 # Copy package files
 COPY backend/package*.json ./backend/
 COPY package*.json ./

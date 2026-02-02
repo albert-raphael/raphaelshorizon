@@ -150,11 +150,23 @@ router.post('/admin-login', async (req, res) => {
 router.post('/google', async (req, res) => {
     try {
         const { token } = req.body;
+        
+        if (!token) {
+            return res.status(400).json({ success: false, message: 'Google token is required' });
+        }
+
+        if (!GOOGLE_CLIENT_ID) {
+            console.error('[Google Auth] GOOGLE_CLIENT_ID is not configured in the backend');
+            return res.status(500).json({ success: false, message: 'Google Auth is not configured on the server' });
+        }
+
+        console.log('[Google Auth] Verifying token...');
         const ticket = await googleClient.verifyIdToken({
             idToken: token,
             audience: GOOGLE_CLIENT_ID,
         });
         const { email, name, picture } = ticket.getPayload();
+        console.log(`[Google Auth] Token verified for: ${email}`);
 
         let user = findUser(email);
         

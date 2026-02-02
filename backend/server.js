@@ -64,9 +64,23 @@ app.get('/api/health', (req, res) => {
   });
 });
 
+// Root Health check (for Nginx/Proxy debugging)
+app.get('/health', (req, res) => {
+  res.status(200).send('alive');
+});
+
 // Config route for frontend
 app.get('/api/config/google-client-id', (req, res) => {
-  res.json({ clientId: process.env.GOOGLE_CLIENT_ID });
+  try {
+    const clientId = process.env.GOOGLE_CLIENT_ID;
+    if (!clientId) {
+      console.warn('[Config] GOOGLE_CLIENT_ID is missing from environment');
+    }
+    res.json({ clientId: clientId });
+  } catch (error) {
+    console.error('[Config] Error returning Google Client ID:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
 });
 
 // Auth routes

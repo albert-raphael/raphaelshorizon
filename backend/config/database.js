@@ -9,9 +9,13 @@ const connectDB = async () => {
 
     console.log(`MongoDB Connected: ${conn.connection.host}`);
   } catch (error) {
-    console.error('Database connection error:', error.message);
+    console.error('CRITICAL: Database connection error:', error.message);
+    console.error('Make sure MONGO_URI is correct and reachable from the server.');
+    
     if (process.env.NODE_ENV === 'production') {
-      process.exit(1);
+      console.warn('Production mode: Application will attempt to stay alive but DB features will fail.');
+      // Don't exit immediately, let the health check routes respond so we can see the server is up
+      // process.exit(1); 
     } else {
       console.log('Continuing in development mode without database...');
     }
