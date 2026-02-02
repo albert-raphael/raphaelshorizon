@@ -7,13 +7,18 @@ const nodemailer = require('nodemailer');
 const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
+const User = require('../models/User');
 
 // Configuration
 const JWT_SECRET = process.env.JWT_SECRET || 'dev-secret-key';
 const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
 const googleClient = new OAuth2Client(GOOGLE_CLIENT_ID);
 
-// File-based storage paths
+// Mode logic
+const MONGO_URI = process.env.MONGO_URI;
+const EMBEDDED_MODE = process.env.EMBEDDED_MODE === 'true' || !MONGO_URI;
+
+// File-based storage paths (for fallback/embedded mode)
 const DATA_DIR = path.join(__dirname, '../embedded-data');
 const USERS_FILE = path.join(DATA_DIR, 'users.json');
 const TOKENS_FILE = path.join(DATA_DIR, 'reset-tokens.json');
@@ -39,18 +44,37 @@ const writeData = (file, data) => {
 };
 
 // Helper: Find user
-const findUser = (email) => {
+const findUser = async (email) => {
+    if (!EMBEDDED_MODE) {
+        try {
+            return await User.findOne({ email }).select('+password');
+        } catch (e) {
+            console.error('DB Find User Error:', e);
+            // Fallback to file for safety or during transition
+        }
+    }
     const users = readData(USERS_FILE);
     return users.find(u => u.email === email);
 };
 
 // Helper: Create user
-const createUser = (userData) => {
+const createUser = async (userData) => {
+    if (!EMBEDDED_MODE) {
+        try {
+            const newUser = new User(userData);
+            await newUser.save();
+            return newUser;
+        } catch (e) {
+            console.error('DB Create User Error:', e);
+        }
+    }
+    
+    // File fallback
     const users = readData(USERS_FILE);
     const newUser = {
         id: Date.now().toString(),
         createdAt: new Date().toISOString(),
-        role: 'user',
+        role: 'subscriber',
         ...userData
     };
     users.push(newUser);
@@ -65,18 +89,28 @@ router.post('/register', async (req, res) => {
     try {
         const { name, email, password } = req.body;
         
-        if (findUser(email)) {
+        const existingUser = await findUser(email);
+        if (existingUser) {
             return res.status(400).json({ success: false, message: 'User already exists' });
         }
 
         const hashedPassword = await bcrypt.hash(password, 10);
-        const user = createUser({ name, email, password: hashedPassword, avatar: 'default-avatar.jpg' });
+        const user = await createUser({ 
+            name, 
+            email, 
+            password: hashedPassword, 
+            avatar: 'default-avatar.jpg',
+            authProvider: 'local'
+        });
 
         const token = jwt.sign({ id: user._id || user.id, email: user.email, role: user.role }, JWT_SECRET, { expiresIn: '24h' });
         
-        const { password: _, ...userWithoutPassword } = user;
-        res.json({ success: true, token, user: { ...userWithoutPassword, id: user._id || user.id } });
+        const userJson = user.toObject ? user.toObject() : { ...user };
+        delete userJson.password;
+        
+        res.json({ success: true, token, user: { ...userJson, id: user._id || user.id } });
     } catch (error) {
+        console.error('Registration Error:', error);
         res.status(500).json({ success: false, message: error.message });
     }
 });
@@ -85,10 +119,18 @@ router.post('/register', async (req, res) => {
 router.post('/login', async (req, res) => {
     try {
         const { email, password } = req.body;
-        const user = findUser(email);
+        const user = await findUser(email);
 
-        if (!user || !user.password) {
+        if (!user || (!user.password && user.authProvider === 'local')) {
             return res.status(400).json({ success: false, message: 'Invalid credentials' });
+        }
+
+        // Check if this is a Google-only account
+        if (!user.password && user.authProvider === 'google') {
+            return res.status(400).json({ 
+                success: false, 
+                message: 'This account uses Google Sign-In. Please use the "Sign in with Google" button.'
+            });
         }
 
         // Block admin login through regular login page
@@ -107,9 +149,12 @@ router.post('/login', async (req, res) => {
 
         const token = jwt.sign({ id: user._id || user.id, email: user.email, role: user.role }, JWT_SECRET, { expiresIn: '24h' });
         
-        const { password: _, ...userWithoutPassword } = user;
-        res.json({ success: true, token, user: { ...userWithoutPassword, id: user._id || user.id } });
+        const userJson = user.toObject ? user.toObject() : { ...user };
+        delete userJson.password;
+
+        res.json({ success: true, token, user: { ...userJson, id: user._id || user.id } });
     } catch (error) {
+        console.error('Login Error:', error);
         res.status(500).json({ success: false, message: error.message });
     }
 });
@@ -118,7 +163,7 @@ router.post('/login', async (req, res) => {
 router.post('/admin-login', async (req, res) => {
     try {
         const { email, password } = req.body;
-        const user = findUser(email);
+        const user = await findUser(email);
 
         if (!user || !user.password) {
             return res.status(400).json({ success: false, message: 'Invalid credentials' });
@@ -139,9 +184,12 @@ router.post('/admin-login', async (req, res) => {
 
         const token = jwt.sign({ id: user._id || user.id, email: user.email, role: user.role }, JWT_SECRET, { expiresIn: '24h' });
         
-        const { password: _, ...userWithoutPassword } = user;
-        res.json({ success: true, token, user: { ...userWithoutPassword, id: user._id || user.id } });
+        const userJson = user.toObject ? user.toObject() : { ...user };
+        delete userJson.password;
+        
+        res.json({ success: true, token, user: { ...userJson, id: user._id || user.id } });
     } catch (error) {
+        console.error('Admin Login Error:', error);
         res.status(500).json({ success: false, message: error.message });
     }
 });
@@ -168,29 +216,40 @@ router.post('/google', async (req, res) => {
         const { email, name, picture } = ticket.getPayload();
         console.log(`[Google Auth] Token verified for: ${email}`);
 
-        let user = findUser(email);
+        let user = await findUser(email);
         
         if (!user) {
-            user = createUser({ 
+            user = await createUser({ 
                 name, 
                 email, 
                 avatar: picture, 
-                googleId: ticket.getUserId() 
+                googleId: ticket.getUserId(),
+                authProvider: 'google'
             });
         } else if (!user.googleId) {
             // Link existing account
-            const users = readData(USERS_FILE);
-            const index = users.findIndex(u => u.email === email);
-            users[index].googleId = ticket.getUserId();
-            users[index].avatar = picture || users[index].avatar;
-            writeData(USERS_FILE, users);
-            user = users[index];
+            if (!EMBEDDED_MODE) {
+                user.googleId = ticket.getUserId();
+                user.avatar = picture || user.avatar;
+                user.authProvider = 'google'; // Mark as google as well
+                await user.save();
+            } else {
+                const users = readData(USERS_FILE);
+                const index = users.findIndex(u => u.email === email);
+                users[index].googleId = ticket.getUserId();
+                users[index].avatar = picture || users[index].avatar;
+                users[index].authProvider = 'google';
+                writeData(USERS_FILE, users);
+                user = users[index];
+            }
         }
 
         const authToken = jwt.sign({ id: user._id || user.id, email: user.email, role: user.role }, JWT_SECRET, { expiresIn: '24h' });
         
-        const { password: _, ...userWithoutPassword } = user;
-        res.json({ success: true, token: authToken, user: { ...userWithoutPassword, id: user._id || user.id } });
+        const userJson = user.toObject ? user.toObject() : { ...user };
+        delete userJson.password;
+        
+        res.json({ success: true, token: authToken, user: { ...userJson, id: user._id || user.id } });
     } catch (error) {
         console.error('Google Auth Error:', error);
         res.status(401).json({ success: false, message: 'Invalid Google Token' });
@@ -198,17 +257,18 @@ router.post('/google', async (req, res) => {
 });
 
 // Get Current User
-router.get('/me', (req, res) => {
+router.get('/me', async (req, res) => {
     const token = req.headers.authorization?.split(' ')[1];
     if (!token) return res.status(401).json({ success: false, message: 'No token provided' });
 
     try {
         const decoded = jwt.verify(token, JWT_SECRET);
-        const user = findUser(decoded.email);
+        const user = await findUser(decoded.email);
         if (!user) return res.status(404).json({ success: false, message: 'User not found' });
 
-        const { password: _, ...userWithoutPassword } = user;
-        res.json({ success: true, data: userWithoutPassword });
+        const userJson = user.toObject ? user.toObject() : { ...user };
+        delete userJson.password;
+        res.json({ success: true, user: { ...userJson, id: user._id || user.id } });
     } catch (error) {
         res.status(401).json({ success: false, message: 'Invalid token' });
     }
@@ -217,7 +277,7 @@ router.get('/me', (req, res) => {
 // Forgot Password
 router.post('/forgot-password', async (req, res) => {
     const { email } = req.body;
-    const user = findUser(email);
+    const user = await findUser(email);
 
     if (!user) {
         // Always return success to prevent email enumeration
@@ -275,15 +335,26 @@ router.post('/reset-password', async (req, res) => {
     }
 
     // Update user password
+    if (!EMBEDDED_MODE) {
+        try {
+            const user = await User.findOne({ email: tokenRecord.email });
+            if (user) {
+                user.password = await bcrypt.hash(password, 10);
+                await user.save();
+            }
+        } catch (e) {
+            console.error('DB Reset Password Error:', e);
+        }
+    }
+
+    // Always update file as fallback or if in embedded mode
     const users = readData(USERS_FILE);
     const userIndex = users.findIndex(u => u.email === tokenRecord.email);
     
-    if (userIndex === -1) {
-        return res.status(400).json({ success: false, message: 'User not found' });
+    if (userIndex !== -1) {
+        users[userIndex].password = await bcrypt.hash(password, 10);
+        writeData(USERS_FILE, users);
     }
-
-    users[userIndex].password = await bcrypt.hash(password, 10);
-    writeData(USERS_FILE, users);
 
     // Remove used token
     tokens = tokens.filter(t => t.token !== token);

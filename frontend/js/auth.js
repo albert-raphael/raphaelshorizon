@@ -74,9 +74,21 @@ class AuthManager {
             const response = await fetch(url);
             console.log('[AuthManager] Google Client ID response status:', response.status);
             
-            if (!response.ok) throw new Error(`HTTP ${response.status}: Could not fetch Google Client ID`);
+            if (!response.ok) {
+                const text = await response.text();
+                console.error('[AuthManager] Error response body:', text.substring(0, 200));
+                throw new Error(`HTTP ${response.status}: Could not fetch Google Client ID`);
+            }
             
-            const data = await response.json();
+            let data;
+            const responseText = await response.text();
+            try {
+                data = JSON.parse(responseText);
+            } catch (e) {
+                console.error('[AuthManager] JSON Parse Error. Response was:', responseText.substring(0, 500));
+                throw new Error('Server returned invalid configuration data (not JSON). Please check your backend.');
+            }
+            
             console.log('[AuthManager] Google Client ID received:', data.clientId ? 'Yes' : 'No');
             
             this.googleClientId = data.clientId;
@@ -421,7 +433,14 @@ class AuthManager {
                 body: JSON.stringify({ token: response.credential })
             });
             
-            const result = await res.json();
+            const responseText = await res.text();
+            let result;
+            try {
+                result = JSON.parse(responseText);
+            } catch (e) {
+                console.error('[AuthManager] Google Auth JSON Parse Error. Body:', responseText.substring(0, 500));
+                throw new Error('Server returned invalid JSON during Google Sign-In.');
+            }
             
             if (!res.ok) throw new Error(result.message || 'Google authentication failed');
             
@@ -459,7 +478,14 @@ class AuthManager {
                 body: JSON.stringify(data)
             });
             
-            const result = await response.json();
+            const responseText = await response.text();
+            let result;
+            try {
+                result = JSON.parse(responseText);
+            } catch (e) {
+                console.error('[AuthManager] Auth JSON Parse Error. Body:', responseText.substring(0, 500));
+                throw new Error('Server returned invalid JSON during Authentication.');
+            }
             
             if (!response.ok) {
                 // Handle admin redirect
