@@ -20,7 +20,6 @@ services:
       - STRIPE_PUBLIC_KEY=pk_test_51SpRqDFyeKaZeFqI5143tzaue8iJ9ZuZvbo6uFwaAvH3LmxT0wg0e3JNDfMBTmUWQmJ2OYVzHk5zT3Rk6gFBHG2400YoAmFuIn
       - STRIPE_SECRET_KEY=sk_test_51SpRqDFyeKaZeFqIef96gU55mTusKbR7anUMDCmaBrDknikDYkBgEmXaAXWxVg5UPTXxOnpNIfvWHTCO4hnjAAiH00Zu06s2ts
     volumes:
-      - ./backend:/app/backend
       - ./backend/uploads:/app/backend/uploads
       - ./backend/embedded-data:/app/backend/embedded-data
       - ./audiobooks:/app/audiobooks:ro

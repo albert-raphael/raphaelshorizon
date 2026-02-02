@@ -20,7 +20,6 @@ services:
       - STRIPE_PUBLIC_KEY=${STRIPE_PUBLIC_KEY}
       - STRIPE_SECRET_KEY=${STRIPE_SECRET_KEY}
     volumes:
-      - ./backend:/app/backend
       - ./backend/uploads:/app/backend/uploads
       - ./backend/embedded-data:/app/backend/embedded-data
       - ./audiobooks:/app/audiobooks:ro
