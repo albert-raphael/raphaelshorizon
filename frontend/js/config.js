@@ -5,7 +5,9 @@
  * The frontend on Vercel will use the production API on DigitalOcean.
  */
 
-const ENV_CONFIG = {
+// Only declare if not already declared
+if (typeof ENV_CONFIG === 'undefined') {
+    const ENV_CONFIG = {
     // Development (localhost)
     development: {
         API_BASE_URL: '',  // Same origin
@@ -65,3 +67,4 @@ window.APP_CONFIG = {
 
 console.log(`[Config] Environment: ${currentEnv}`);
 console.log(`[Config] API Base: ${config.API_BASE_URL || '(same origin)'}`);
+}

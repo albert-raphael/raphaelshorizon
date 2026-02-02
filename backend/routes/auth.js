@@ -280,4 +280,12 @@ router.post('/reset-password', async (req, res) => {
     res.json({ success: true, message: 'Password reset successfully' });
 });
 
+// GET Google Client ID for frontend
+router.get('/config/google-client-id', (req, res) => {
+    if (!GOOGLE_CLIENT_ID) {
+        return res.status(500).json({ success: false, message: 'Google Client ID not configured' });
+    }
+    res.json({ success: true, clientId: GOOGLE_CLIENT_ID });
+});
+
 module.exports = router;

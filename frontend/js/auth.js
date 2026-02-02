@@ -4,11 +4,13 @@
  */
 
 // API configuration - Use config.js or fallback to relative path
-// Exposed globally for use in HTML pages
-const API_BASE_URL = (window.APP_CONFIG && window.APP_CONFIG.apiBaseUrl) 
-    ? window.APP_CONFIG.apiBaseUrl + '/api' 
-    : '/api';
-window.API_BASE_URL = API_BASE_URL;
+// Only declare if not already declared
+if (typeof API_BASE_URL === 'undefined') {
+    const API_BASE_URL = (window.APP_CONFIG && window.APP_CONFIG.apiBaseUrl) 
+        ? window.APP_CONFIG.apiBaseUrl + '/api' 
+        : '/api';
+    window.API_BASE_URL = API_BASE_URL;
+}
 
 class AuthManager {
     constructor() {
