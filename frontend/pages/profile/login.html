@@ -42,6 +42,26 @@
         .back-link:hover {
             color: var(--primary-color);
         }
+        
+        /* Google Sign-In Button Specific Styles */
+        #google-signin-button {
+            display: block !important;
+            min-height: 44px !important;
+            margin: 1rem 0;
+            opacity: 1 !important;
+            visibility: visible !important;
+            width: 100% !important;
+        }
+        
+        #google-signin-button .google-loading-placeholder {
+            width: 100% !important;
+            min-height: 44px !important;
+            opacity: 1 !important;
+        }
+        
+        #google-signin-button > div {
+            width: 100% !important;
+        }
     </style>
     <!-- Google Sign-In -->
     <script src="https://accounts.google.com/gsi/client" async defer></script>
@@ -129,12 +149,23 @@
         <div class="auth-divider"><span>OR</span></div>
 
         <!-- Google Sign In Button Container -->
-        <div id="google-signin-button"></div>
+        <div id="google-signin-button" style="display: block; min-height: 44px; opacity: 1; visibility: visible;"></div>
 
         <a href="/homepage.html" class="back-link">← Back to Home</a>
 
     <script>
-    // Switch between login and register views
+    // Ensure Google button is visible immediately
+    document.addEventListener('DOMContentLoaded', function() {
+        const googleBtn = document.getElementById('google-signin-button');
+        if (googleBtn) {
+            googleBtn.style.display = 'block';
+            googleBtn.style.minHeight = '44px';
+            googleBtn.style.opacity = '1';
+            googleBtn.style.visibility = 'visible';
+            console.log('Google button container made visible');
+        }
+    });
+    </script>
     (function() {
       const loginForm = document.getElementById('page-login-form');
       const registerForm = document.getElementById('page-register-form');
