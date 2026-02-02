@@ -1,5 +1,7 @@
 {
   "version": 2,
+  "outputDirectory": "frontend",
+  "cleanUrls": true,
   "rewrites": [
     {
       "source": "/api/:path*",
@@ -12,14 +14,6 @@
     {
       "source": "/calibre/:path*",
       "destination": "https://api.raphaelshorizon.com/calibre/:path*"
-    },
-    {
-      "source": "/",
-      "destination": "/frontend/index.html"
-    },
-    {
-      "source": "/(.*)",
-      "destination": "/frontend/$1"
     }
   ]
 }
