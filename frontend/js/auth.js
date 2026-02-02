@@ -59,9 +59,14 @@ class AuthManager {
             // First render with loading state
             this.renderGoogleButton();
             
+            console.log('Fetching Google Client ID from:', `${API_BASE_URL}/config/google-client-id`);
             const response = await fetch(`${API_BASE_URL}/config/google-client-id`);
-            if (!response.ok) throw new Error('Could not fetch Google Client ID');
+            console.log('Google Client ID response status:', response.status);
+            
+            if (!response.ok) throw new Error(`HTTP ${response.status}: Could not fetch Google Client ID`);
             const data = await response.json();
+            console.log('Google Client ID received:', data.clientId ? 'Yes' : 'No');
+            
             this.googleClientId = data.clientId;
             
             // Re-render now that we have the ID
@@ -70,6 +75,12 @@ class AuthManager {
             console.error('Error fetching Google Client ID:', error.message);
             this.googleClientId = null;
             this.renderGoogleButton();
+            
+            // Retry after 2 seconds if initial fetch failed
+            if (this.googleClientId === null) {
+                console.log('Retrying Google Client ID fetch in 2 seconds...');
+                setTimeout(() => this.fetchGoogleClientId(), 2000);
+            }
         }
     }
 
@@ -263,15 +274,20 @@ class AuthManager {
 
     renderGoogleButton() {
         const container = document.getElementById("google-signin-button");
-        if (!container) return;
+        if (!container) {
+            console.warn("Google sign-in button container not found");
+            return;
+        }
 
-        // Ensure container is visible
+        // Ensure container is always visible
         container.style.display = 'block';
-        container.style.minHeight = '40px';
+        container.style.minHeight = '44px';
+        container.style.opacity = '1';
+        container.style.visibility = 'visible';
 
         if (!this.googleClientId) {
             const isInitial = this.googleClientId === null;
-            const msg = isInitial ? "Loading Google Sign-In..." : "Google Sign-In configuration error";
+            const msg = isInitial ? "Loading Google Sign-In..." : "Google Sign-In temporarily unavailable. Please refresh the page.";
             
             container.innerHTML = `
                 <div class="google-loading-placeholder" style="
@@ -284,9 +300,34 @@ class AuthManager {
                     background: white; 
                     border: 1px solid #dadce0; 
                     border-radius: 4px; 
-                    padding: 10px;
-                    opacity: ${isInitial ? '0.7' : '1'};
+                    padding: 12px;
+                    opacity: 1;
+                    min-height: 40px;
                 ">
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" style="width: 18px; height: 18px;">
+                        <span style="color: #757575; font-family: system-ui, -apple-system, sans-serif; font-weight: 500; font-size: 14px;">
+                            ${msg}
+                        </span>
+                    </div>
+                    ${isInitial ? `
+                    <div class="shimmer-loader" style="
+                        width: 50%; height: 2px; background: #f0f0f0; position: relative; overflow: hidden; margin-top: 5px;
+                    ">
+                        <div style="
+                            position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
+                            background: linear-gradient(90deg, transparent, #4285f4, transparent);
+                            animation: shimmer 1.5s infinite;
+                        "></div>
+                    </div>
+                    <style>
+                        @keyframes shimmer { 0% { left: -100%; } 100% { left: 100%; } }
+                    </style>
+                    ` : ''}
+                </div>
+            `;
+            return;
+        }
                     <div style="display: flex; align-items: center; gap: 10px;">
                         <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" style="width: 18px; height: 18px;">
                         <span style="color: #757575; font-family: system-ui, -apple-system, sans-serif; font-weight: 500; font-size: 14px;">

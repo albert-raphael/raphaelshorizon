@@ -53,6 +53,14 @@
 
 .google-signin-section {
     margin-bottom: 1.5rem;
+    min-height: 50px; /* Ensure space is always reserved */
+}
+
+.google-signin-section #google-signin-button {
+    display: block !important;
+    min-height: 40px !important;
+    opacity: 1 !important;
+    visibility: visible !important;
 }
 
 .google-btn {
