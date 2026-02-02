@@ -38,12 +38,17 @@ npm-debug.log
 yarn-error.log
 *.log
 logs/
+backend.err
 
 # Build outputs
 dist/
 build/
 .vercel/
 .vercel
+
+# Database files
+*.sqlite
+*.db
 
 # Local packed application artifacts (should not be committed)
 local-dist/
