@@ -413,7 +413,7 @@
             window.ENV_CONFIG = {
                 // Development (localhost)
                 development: {
-                    API_BASE_URL: 'https://raphaelshorizon.vercel.app/api',  // Use production backend for testing
+                    API_BASE_URL: 'http://localhost:5000/api',  // Local backend
                     AUDIOBOOKSHELF_URL: '/audiobookshelf/',
                     CALIBRE_URL: '/calibre/',
                     ASSETS_URL: '',
@@ -614,8 +614,8 @@
                 // Show Google button immediately
                 this.showGoogleButtonImmediately();
                 
-                // In development, use hardcoded client ID to avoid CORS issues
-                if (window.APP_CONFIG && window.APP_CONFIG.env === 'development') {
+                // In development, use hardcoded client ID from config (no fetch needed)
+                if (window.APP_CONFIG && window.APP_CONFIG.isDevelopment()) {
                     console.log('[AuthManager] Development mode: using hardcoded Google Client ID');
                     this.googleClientId = window.APP_CONFIG.googleClientId;
                     this.initializeGoogleButton();
@@ -629,7 +629,14 @@
                         }
                     }).catch(error => {
                         console.error('[AuthManager] Failed to load Google Client ID:', error);
-                        this.showGoogleFallback();
+                        // Fallback to hardcoded client ID for production
+                        if (window.APP_CONFIG && window.APP_CONFIG.googleClientId) {
+                            console.log('[AuthManager] Using hardcoded Google Client ID as fallback');
+                            this.googleClientId = window.APP_CONFIG.googleClientId;
+                            this.initializeGoogleButton();
+                        } else {
+                            this.showGoogleFallback();
+                        }
                     });
                 }
                 
@@ -653,11 +660,11 @@
 
             async fetchGoogleClientId() {
                 try {
-                    console.log('[AuthManager] window.APP_CONFIG:', window.APP_CONFIG);
-                    const apiBaseUrl = window.APP_CONFIG ? window.APP_CONFIG.apiBaseUrl : '/api';
-                    console.log('[AuthManager] apiBaseUrl:', apiBaseUrl);
-                    const url = apiBaseUrl ? `${apiBaseUrl}/config/google-client-id` : '/config/google-client-id';
+                    if (!window.APP_CONFIG) {
+                        throw new Error('APP_CONFIG not available');
+                    }
                     
+                    const url = window.APP_CONFIG.apiUrl('/config/google-client-id');
                     console.log('[AuthManager] Fetching Google Client ID from:', url);
                     
                     const response = await fetch(url);
@@ -797,29 +804,11 @@
                         throw new Error('No credential received from Google');
                     }
                     
-                    // In development, show a message since we can't make cross-origin requests to production
-                    if (window.APP_CONFIG && window.APP_CONFIG.env === 'development') {
-                        console.log('[AuthManager] Development mode: simulating successful login');
-                        alert('Google Sign-In successful! In development mode, this would normally authenticate with the backend. Redirecting to homepage...');
-                        
-                        // Simulate successful login
-                        const mockResult = {
-                            token: 'dev-mock-jwt-token',
-                            user: {
-                                id: 'dev-user',
-                                email: 'dev@example.com',
-                                name: 'Development User',
-                                role: 'user'
-                            }
-                        };
-                        
-                        await this.handleLoginSuccess(mockResult);
-                        return;
-                    }
-                    
-                    // Production: call the backend
+                    // In development, use local backend
                     const apiBaseUrl = window.APP_CONFIG ? window.APP_CONFIG.apiBaseUrl : '/api';
                     const url = apiBaseUrl ? `${apiBaseUrl}/auth/google` : '/auth/google';
+                    
+                    console.log('[AuthManager] Sending Google token to:', url);
                     
                     const res = await fetch(url, {
                         method: 'POST',
@@ -830,6 +819,12 @@
                     const result = await res.json();
                     
                     if (!res.ok) {
+                        // Handle specific error cases
+                        if (result.message && result.message.includes('localhost')) {
+                            // In development with production backend, show helpful message
+                            alert('Google Sign-In requires a production backend. Please run the backend locally or use email/password login for testing.');
+                            return;
+                        }
                         throw new Error(result.message || 'Google authentication failed');
                     }
                     
@@ -854,8 +849,7 @@
                 submitBtn.disabled = true;
                 
                 const endpoint = type === 'login' ? '/auth/login' : '/auth/register';
-                const apiBaseUrl = window.APP_CONFIG ? window.APP_CONFIG.apiBaseUrl : '/api';
-                const url = apiBaseUrl ? `${apiBaseUrl}${endpoint}` : endpoint;
+                const url = window.APP_CONFIG ? window.APP_CONFIG.apiUrl(endpoint) : endpoint;
                 
                 try {
                     console.log(`[AuthManager] Sending ${type} request to:`, url);
