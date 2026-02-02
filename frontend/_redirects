@@ -2,11 +2,11 @@
 # https://docs.netlify.com/routing/redirects/
 
 # API routes (redirect to external backend if needed)
-/api/*  http://159.223.27.101/api/:splat  200
+/api/*  https://api.raphaelshorizon.com/api/:splat  200
 
 # Audiobookshelf and Calibre Proxy (matching vercel.json)
-/audiobookshelf/*  http://159.223.27.101/audiobookshelf/:splat  200
-/calibre/*  http://159.223.27.101/calibre/:splat  200
+/audiobookshelf/*  https://api.raphaelshorizon.com/audiobookshelf/:splat  200
+/calibre/*  https://api.raphaelshorizon.com/calibre/:splat  200
 
 # Admin routes
 /admin  /pages/admin/login_admin.html  200
