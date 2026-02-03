@@ -118,6 +118,7 @@ router.post('/calibre-token', async (req, res) => {
         }
 
         // Login to Calibre-Web as guest
+        console.log(`[LibraryAuth] Attempting Calibre login at: ${LIBRARY_CONFIG.calibre.url}/login`);
         const loginResponse = await axios.post(
             `${LIBRARY_CONFIG.calibre.url}/login`,
             new URLSearchParams({
@@ -133,7 +134,10 @@ router.post('/calibre-token', async (req, res) => {
                 maxRedirects: 0,
                 validateStatus: (status) => status >= 200 && status < 400
             }
-        );
+        ).catch(err => {
+            console.error(`[LibraryAuth] Calibre login error: ${err.message}`);
+            throw err;
+        });
 
         // Extract session cookie from response
         const cookies = loginResponse.headers['set-cookie'];

@@ -322,7 +322,10 @@ class AuthManager {
     renderGoogleButton() {
         const container = document.getElementById("google-signin-button");
         if (!container) {
-            console.warn("[AuthManager] Google sign-in button container not found");
+            // Only log if we are specifically on the login page
+            if (window.location.pathname.includes('login.html')) {
+                console.warn("[AuthManager] Google sign-in button container not found");
+            }
             return;
         }
 
