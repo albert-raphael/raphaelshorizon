@@ -12,6 +12,8 @@ services:
       - FRONTEND_URL=${FRONTEND_URL}
       - AUDIOBOOKSHELF_URL=${AUDIOBOOKSHELF_URL}
       - CALIBRE_WEB_URL=${CALIBRE_WEB_URL}
+      - AUDIOBOOKSHELF_INTERNAL_URL=http://audiobookshelf:80
+      - CALIBRE_INTERNAL_URL=http://calibre-web:8083
       - PAYPAL_CLIENT_ID=${PAYPAL_CLIENT_ID}
       - PAYPAL_SECRET=${PAYPAL_SECRET}
       - PAYPAL_MODE=${PAYPAL_MODE}
@@ -96,7 +98,7 @@ services:
     deploy:
       resources:
         limits:
-          memory: 320M
+          memory: 384M
     healthcheck:
       test: ["CMD-SHELL", "(curl -f http://localhost:8083 || wget --no-verbose --tries=1 --spider http://localhost:8083) || exit 1"]
       interval: 60s

@@ -56,7 +56,7 @@ router.post('/audiobookshelf-token', async (req, res) => {
             },
             {
                 headers: { 'Content-Type': 'application/json' },
-                timeout: 10000
+                timeout: 15000
             }
         );
 
@@ -130,12 +130,15 @@ router.post('/calibre-token', async (req, res) => {
                 headers: { 
                     'Content-Type': 'application/x-www-form-urlencoded'
                 },
-                timeout: 10000,
+                timeout: 15000, 
                 maxRedirects: 0,
                 validateStatus: (status) => status >= 200 && status < 400
             }
         ).catch(err => {
             console.error(`[LibraryAuth] Calibre login error: ${err.message}`);
+            if (err.code === 'ECONNREFUSED' || err.code === 'ENOTFOUND') {
+              throw new Error(`Connection refused or host not found at ${LIBRARY_CONFIG.calibre.url}`);
+            }
             throw err;
         });
 
