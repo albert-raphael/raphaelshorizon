@@ -112,6 +112,10 @@ app.use('/api/admin', adminRoutes);
 const libraryAuthRoutes = require('./routes/library-auth');
 app.use('/api/library', libraryAuthRoutes);
 
+// Contact routes
+const contactRoutes = require('./routes/contact');
+app.use('/api/contact', contactRoutes);
+
 // Google OAuth routes
 // app.get('/api/auth/google',
 //   passport.authenticate('google', { scope: ['profile', 'email'] })
