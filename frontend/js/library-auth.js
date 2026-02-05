@@ -12,6 +12,7 @@
         KEYS: {
             ABS_TOKEN: 'absGuestToken',
             ABS_EXPIRY: 'absTokenExpiry',
+            ABS_ERROR_TIME: 'absErrorTime',
             CALIBRE_SESSION: 'calibreGuestSession',
             CALIBRE_EXPIRY: 'calibreSessionExpiry'
         },
@@ -44,6 +45,13 @@
 
         // Get Audiobookshelf token
         getAudiobookshelfToken: async function(forceRefresh = false) {
+            // Check for recent error to prevent loop
+            const lastError = localStorage.getItem(this.KEYS.ABS_ERROR_TIME);
+            if (!forceRefresh && lastError && (Date.now() - parseInt(lastError, 10) < 60000)) {
+                console.warn('LibraryAuth: Skipping token request due to recent error');
+                return null;
+            }
+
             // Check cache first
             if (!forceRefresh && this.isTokenValid(this.KEYS.ABS_EXPIRY)) {
                 const cachedToken = localStorage.getItem(this.KEYS.ABS_TOKEN);
@@ -71,14 +79,19 @@
                     // Cache the token for 23 hours (backend caches for 24)
                     localStorage.setItem(this.KEYS.ABS_TOKEN, data.token);
                     localStorage.setItem(this.KEYS.ABS_EXPIRY, Date.now() + (23 * 60 * 60 * 1000));
+                    localStorage.removeItem(this.KEYS.ABS_ERROR_TIME);
                     console.log('LibraryAuth: Got new Audiobookshelf token');
                     return data.token;
                 }
 
+                if (data.setup) {
+                   localStorage.setItem(this.KEYS.ABS_ERROR_TIME, Date.now());
+                }
                 console.warn('LibraryAuth: Could not get Audiobookshelf token', data.message);
                 return null;
 
             } catch (error) {
+                localStorage.setItem(this.KEYS.ABS_ERROR_TIME, Date.now());
                 console.error('LibraryAuth: Error getting Audiobookshelf token', error);
                 return null;
             }

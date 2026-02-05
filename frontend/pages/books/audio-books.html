@@ -2619,6 +2619,15 @@
                 }
             }
 
+            updateAudioProgress() {
+                // This is a placeholder to prevent the interval crash.
+                // The actual progress is handled by the global updateAudioProgress()
+                // or via the postMessage handler above.
+                if (typeof window.updateAudioProgress === 'function') {
+                    // console.debug('Syncing with global audio progress');
+                }
+            }
+
             handlePlayerUpdate(data) {
                 if (data.playing) {
                     this.showNowPlayingBar(data);

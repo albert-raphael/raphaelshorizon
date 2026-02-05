@@ -62,6 +62,9 @@ const embeddedStore = EMBEDDED_MODE ? require('./embeddedStore') : null;
 // Static files
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
+// Serve static frontend files
+app.use(express.static(path.join(__dirname, '../frontend')));
+
 // Health check route
 app.get('/api/health', (req, res) => {
   res.json({
