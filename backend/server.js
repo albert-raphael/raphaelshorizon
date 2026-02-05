@@ -61,8 +61,6 @@ const embeddedStore = EMBEDDED_MODE ? require('./embeddedStore') : null;
 
 // Static files
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
-
-// Serve static frontend files
 app.use(express.static(path.join(__dirname, '../frontend')));
 
 // Health check route
@@ -132,8 +130,11 @@ app.use('/api/contact', contactRoutes);
 //   }
 // );
 
-// Home route
+// Home route - redirect to homepage.html if not an API request
 app.get('/', (req, res) => {
+  if (req.accepts('html')) {
+    return res.sendFile(path.join(__dirname, '../frontend/homepage.html'));
+  }
   res.json({
     message: 'Welcome to Raphael\'s Horizon API',
     version: '1.0.0',
