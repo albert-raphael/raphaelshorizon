@@ -84,6 +84,11 @@ self.addEventListener('fetch', event => {
   const { request } = event;
   const url = new URL(request.url);
 
+  // EXCLUDE library subpaths from Service Worker handling
+  if (url.pathname.startsWith('/audiobookshelf') || url.pathname.startsWith('/calibre')) {
+    return; // Let the browser handle these directly
+  }
+
   // Handle different types of requests
   if (url.origin === location.origin) {
     // Same-origin requests
