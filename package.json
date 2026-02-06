@@ -71,7 +71,9 @@
       "target": [
         "zip"
       ],
-      "sign": false
+      "sign": false,
+      "certificateFile": null,
+      "certificatePassword": null
     },
     "nsis": {
       "oneClick": false,
