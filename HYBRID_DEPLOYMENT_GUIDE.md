@@ -14,7 +14,7 @@ This guide explains how to deploy Raphael's Horizon with:
                     ▼                       ▼
     ┌───────────────────────┐   ┌───────────────────────────────┐
     │       VERCEL          │   │      DIGITALOCEAN DROPLET     │
-    │  (raphaelshorizon.    │   │      (159.223.27.101)         │
+    │  (raphaelshorizon.    │   │      (167.99.134.4)           │
     │     vercel.app)       │   │                               │
     ├───────────────────────┤   │  ┌─────────────────────────┐  │
     │  • HTML/CSS/JS        │   │  │        NGINX            │  │

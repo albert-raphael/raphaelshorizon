@@ -10,9 +10,18 @@ if (typeof ENV_CONFIG === 'undefined') {
     window.ENV_CONFIG = {
         // Development (localhost)
         development: {
-            API_BASE_URL: 'http://localhost:5002/api',
+            API_BASE_URL: 'http://localhost:8000/api',
             AUDIOBOOKSHELF_URL: '/audiobookshelf/',
             CALIBRE_URL: '/calibre/',
+            ASSETS_URL: '',
+            GOOGLE_CLIENT_ID: '890457459901-tpah6030evi6btmtsq9q8s7f3mr19uor.apps.googleusercontent.com'
+        },
+        
+        // Electron packaged app
+        electron: {
+            API_BASE_URL: 'http://localhost:8000/api',
+            AUDIOBOOKSHELF_URL: 'http://localhost:8000/audiobookshelf/',
+            CALIBRE_URL: 'http://localhost:8000/calibre/',
             ASSETS_URL: '',
             GOOGLE_CLIENT_ID: '890457459901-tpah6030evi6btmtsq9q8s7f3mr19uor.apps.googleusercontent.com'
         },
@@ -35,6 +44,12 @@ if (typeof ENV_CONFIG === 'undefined') {
 // Auto-detect environment based on hostname
 function getEnvironment() {
     const hostname = window.location.hostname;
+    const protocol = window.location.protocol;
+    
+    // Electron packaged app (file:// protocol)
+    if (protocol === 'file:') {
+        return 'electron';
+    }
     
     // Local development
     if (hostname === 'localhost' || hostname === '127.0.0.1' || hostname === '0.0.0.0') {

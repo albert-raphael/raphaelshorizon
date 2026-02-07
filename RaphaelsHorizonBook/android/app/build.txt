@@ -1,0 +1,33 @@
+android {
+    defaultConfig {
+        applicationId "com.raphaelshorizon.book"
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        versionCode 1
+        versionName "1.0.0"
+        
+        // Add vector support
+        vectorDrawables.useSupportLibrary = true
+        
+        // For WebView file access
+        buildConfigField "boolean", "IS_NEW_ARCHITECTURE_ENABLED", isNewArchitectureEnabled().toString()
+    }
+    
+    // Add packaging options
+    packagingOptions {
+        pickFirst 'lib/x86/libc++_shared.so'
+        pickFirst 'lib/x86_64/libc++_shared.so'
+        pickFirst 'lib/armeabi-v7a/libc++_shared.so'
+        pickFirst 'lib/arm64-v8a/libc++_shared.so'
+    }
+}
+
+dependencies {
+    // Add required dependencies
+    implementation 'com.google.android.gms:play-services-auth:20.7.0'
+    implementation 'com.facebook.android:facebook-login:latest.release'
+    implementation project(':react-native-vector-icons')
+    implementation project(':react-native-webview')
+    implementation project(':react-native-fs')
+    implementation project(':react-native-document-picker')
+}

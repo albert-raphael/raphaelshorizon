@@ -40,7 +40,7 @@
   "build": {
     "appId": "com.raphaelshorizon.app",
     "productName": "RHorizon",
-    "icon": "electron/icons/icon",
+    "icon": "frontend/assets/icons/logo-square.png",
     "directories": {
       "output": "dist"
     },
@@ -69,11 +69,8 @@
     ],
     "win": {
       "target": [
-        "zip"
-      ],
-      "sign": false,
-      "certificateFile": null,
-      "certificatePassword": null
+        "nsis"
+      ]
     },
     "nsis": {
       "oneClick": false,
@@ -98,13 +95,14 @@
   ],
   "author": "Raphael's Horizon",
   "license": "MIT",
+  "dependencies": {
+    "electron-updater": "^6.5.1"
+  },
   "devDependencies": {
     "concurrently": "^8.2.2",
     "electron": "^26.2.0",
     "electron-builder": "^24.7.0",
-    "electron-is-dev": "^2.0.0",
     "electron-packager": "^17.1.2",
-    "electron-updater": "^6.5.1",
     "pkg": "^5.8.0"
   },
   "engines": {

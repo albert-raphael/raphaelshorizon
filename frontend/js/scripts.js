@@ -21,7 +21,7 @@ const CONFIG = {
 // ===== DOM ELEMENTS =====
 const elements = {
     header: document.querySelector('.main-header'),
-    mobileToggle: document.querySelector('.mobile-menu-toggle'),
+    mobileToggle: document.querySelector('.hamburger'),
     navMenu: document.querySelector('.nav-menu'),
     carousels: document.querySelectorAll('.quotes-carousel'),
     videoItems: document.querySelectorAll('.video-item'),
@@ -105,7 +105,7 @@ class NavigationManager {
 
     setupMobileNavigation() {
         // Query elements when method is called to ensure DOM is ready
-        const mobileToggle = document.querySelector('.mobile-menu-toggle');
+        const mobileToggle = document.querySelector('.hamburger');
         const navMenu = document.querySelector('.nav-menu');
         
         if (!mobileToggle || !navMenu) return;
@@ -145,7 +145,7 @@ class NavigationManager {
     }
 
     toggleMobileMenu() {
-        const mobileToggle = document.querySelector('.mobile-menu-toggle');
+        const mobileToggle = document.querySelector('.hamburger');
         const navMenu = document.querySelector('.nav-menu');
         
         if (!mobileToggle || !navMenu) return;
@@ -155,7 +155,7 @@ class NavigationManager {
         document.body.classList.toggle('menu-open');
 
         // Animate hamburger icon
-        const spans = mobileToggle.querySelectorAll('span');
+        const spans = mobileToggle.querySelectorAll('.hamburger-line');
         spans.forEach((span, index) => {
             span.style.transform = navMenu.classList.contains('active') 
                 ? this.getHamburgerTransform(index)
@@ -173,7 +173,7 @@ class NavigationManager {
     }
 
     closeMobileMenu() {
-        const mobileToggle = document.querySelector('.mobile-menu-toggle');
+        const mobileToggle = document.querySelector('.hamburger');
         const navMenu = document.querySelector('.nav-menu');
         
         if (!mobileToggle || !navMenu) return;
