@@ -15,14 +15,7 @@ router.get('/status', authenticate, async (req, res) => {
     if (!process.env.MONGO_URI) {
       const u = req.user || {};
       const subscription = u.subscription || {};
-      let isActive = false;
-      if (subscription.status === 'active') {
-        if (subscription.currentPeriodEnd) {
-          isActive = new Date(subscription.currentPeriodEnd) > new Date();
-        } else {
-          isActive = true;
-        }
-      }
+      let isActive = true; // All logged-in users have access
       // Sanitize subscription for JSON response to avoid circular refs or complex objects
       const safeSub = {
         provider: subscription.provider || null,
