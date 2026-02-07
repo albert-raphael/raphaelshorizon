@@ -1821,8 +1821,8 @@
                         <button class="audio-library-btn" onclick="refreshAudioLibrary()" title="Refresh library">
                             <i class="fas fa-sync-alt"></i> Refresh
                         </button>
-                        <button class="audio-library-btn logout-guest-btn" onclick="logoutFromAudiobookshelf()" title="Switch to Guest/Fix Session" style="background: rgba(255, 68, 68, 0.15); border-color: rgba(255, 68, 68, 0.3);">
-                            <i class="fas fa-user-slash"></i> Fix Session
+                        <button class="audio-library-btn logout-guest-btn" onclick="logoutFromAudiobookshelf()" title="Fix login session" style="background: rgba(255, 68, 68, 0.15); border-color: rgba(255, 68, 68, 0.3);">
+                            <i class="fas fa-user-check"></i> Fix Login
                         </button>
                         <button class="audio-library-btn" onclick="showAudioGuide()" title="Show audio guide">
                             <i class="fas fa-question-circle"></i> Guide
@@ -1842,7 +1842,7 @@
                         allow="autoplay; encrypted-media; fullscreen; microphone"
                         allowfullscreen
                         loading="eager"
-                        src="/audiobookshelf/?username=guest&password=GuestAccess2024!"
+                        src="/audiobookshelf/"
                     ></iframe>
                     
                     <div class="iframe-audio-overlay" id="audioLoading">
@@ -2177,12 +2177,28 @@
             <div class="modal-body">
                 <div class="guide-sections">
                     <div class="guide-section">
+                        <h4><i class="fas fa-user-check"></i> Guest Access</h4>
+                        <p><strong>Automatic Login:</strong> You should be automatically logged in as a guest user when accessing the audio library.</p>
+                        <p><strong>Guest Credentials:</strong> Username: <code>guest</code> | Password: <code>GuestAccess2024!</code></p>
+                        <p>If you see a login prompt, the automatic login may have failed. Use the "Fix Session" button above or manually enter these credentials.</p>
+                    </div>
+                    <div class="guide-section">
                         <h4><i class="fas fa-search"></i> Finding Audio Books</h4>
-                        <p>Use the search bar to find specific titles, authors, or genres.</p>
+                        <p>Use the search bar to find specific titles, authors, or genres. Browse by categories or use the library navigation.</p>
                     </div>
                     <div class="guide-section">
                         <h4><i class="fas fa-play-circle"></i> Playback Controls</h4>
-                        <p>Use playback controls to play, pause, skip chapters, adjust speed.</p>
+                        <p>Use playback controls to play, pause, skip chapters, adjust speed, and manage your listening experience.</p>
+                    </div>
+                    <div class="guide-section">
+                        <h4><i class="fas fa-tools"></i> Troubleshooting</h4>
+                        <p>If audio doesn't load or login fails:</p>
+                        <ul>
+                            <li>Click the "Fix Session" button in the menu above</li>
+                            <li>Refresh the page and try again</li>
+                            <li>Check your browser's audio permissions</li>
+                            <li>Try a different browser if issues persist</li>
+                        </ul>
                     </div>
                 </div>
             </div>
@@ -3000,13 +3016,13 @@
         }
 
         /**
-         * Log out from Audiobookshelf to clear session and force guest login
+         * Fix Audiobookshelf login session - force guest authentication
          */
         async function logoutFromAudiobookshelf() {
             const iframe = document.getElementById('audiobookshelfFrame');
             const loadingOverlay = document.getElementById('audioLoading');
             
-            showAudioNotification('Fixing session... switching to Guest', 'info');
+            showAudioNotification('Fixing login session...', 'info');
             loadingOverlay.style.display = 'flex';
 
             try {
@@ -3015,21 +3031,29 @@
                     window.LibraryAuth.clearTokens();
                 }
 
-                // First, try to call the logout endpoint in the iframe if possible (cross-origin might block this)
-                // However, the best way is to reload with a NEW fresh token
+                // Force refresh token and reload iframe with fresh authentication
                 if (window.LibraryAuth) {
                     await window.LibraryAuth.initAudiobookshelfIframe('audiobookshelfFrame', true);
                 } else {
-                    iframe.src = iframe.src;
+                    // Fallback: reload with direct guest credentials
+                    iframe.src = '/audiobookshelf/?username=guest&password=GuestAccess2024!';
+                    setTimeout(() => {
+                        iframe.src = '/audiobookshelf/';
+                    }, 2000);
                 }
             } catch (err) {
-                console.error('Logout error:', err);
-                iframe.src = iframe.src;
+                console.error('Login fix error:', err);
+                // Fallback to direct guest login
+                iframe.src = '/audiobookshelf/?username=guest&password=GuestAccess2024!';
+                setTimeout(() => {
+                    iframe.src = '/audiobookshelf/';
+                }, 3000);
             }
 
             setTimeout(() => {
                 loadingOverlay.style.display = 'none';
-            }, 3000);
+                showAudioNotification('Login session refreshed. If still not working, check the Guide for manual credentials.', 'success');
+            }, 4000);
         }
         
         function setAudioQuality(quality) {

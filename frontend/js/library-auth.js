@@ -43,7 +43,7 @@
             return Date.now() < parseInt(expiry, 10);
         },
 
-        // Get Audiobookshelf token
+        // Get Audiobookshelf token (always attempt guest login)
         getAudiobookshelfToken: async function(forceRefresh = false) {
             // Check for recent error to prevent loop
             const lastError = localStorage.getItem(this.KEYS.ABS_ERROR_TIME);
@@ -61,11 +61,12 @@
                 }
             }
 
-            // Request new token from backend
+            // Request new token from backend (guest access doesn't require main site auth)
             try {
                 const headers = { 'Content-Type': 'application/json' };
-                const authToken = this.getAuthToken();
-                if (authToken) headers['Authorization'] = 'Bearer ' + authToken;
+                // Don't require main site auth token for guest access
+                // const authToken = this.getAuthToken();
+                // if (authToken) headers['Authorization'] = 'Bearer ' + authToken;
 
                 const response = await fetch(this.getApiUrl() + '/library/audiobookshelf-token', {
                     method: 'POST',
