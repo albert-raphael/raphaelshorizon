@@ -1824,6 +1824,9 @@
                         <button class="audio-library-btn logout-guest-btn" onclick="logoutFromAudiobookshelf()" title="Fix login session" style="background: rgba(255, 68, 68, 0.15); border-color: rgba(255, 68, 68, 0.3);">
                             <i class="fas fa-user-check"></i> Fix Login
                         </button>
+                        <button class="audio-library-btn" onclick="showManualLogin()" title="Manual login with guest credentials" style="background: rgba(52, 152, 219, 0.15); border-color: rgba(52, 152, 219, 0.3);">
+                            <i class="fas fa-key"></i> Manual Login
+                        </button>
                         <button class="audio-library-btn" onclick="showAudioGuide()" title="Show audio guide">
                             <i class="fas fa-question-circle"></i> Guide
                         </button>
@@ -3287,7 +3290,31 @@
             });
         }
         
-        function showAudioNotification(message, type = 'info') {
+        function showManualLogin() {
+            const instructions = `
+Guest Login Credentials:
+
+Username: guest
+Password: GuestAccess2024!
+
+Instructions:
+1. If you see a login prompt in the audio library below
+2. Enter the credentials above
+3. Click Login or Sign In
+4. You should have immediate access to all audio books
+
+If login still fails, try the "Fix Login" button first.
+            `;
+            
+            alert(instructions);
+            
+            // Also try to focus the iframe to help with manual login
+            const iframe = document.getElementById('audiobookshelfFrame');
+            if (iframe) {
+                iframe.focus();
+                showAudioNotification('Manual login credentials shown. Try logging in manually.', 'info');
+            }
+        }
             const existing = document.querySelectorAll('.audio-notification');
             existing.forEach(el => el.remove());
             
@@ -3627,60 +3654,143 @@
         
         function performAutoLogin(iframeDoc) {
             try {
-                // Find and fill username field
-                const usernameField = iframeDoc.querySelector('input[name="username"]') || 
-                                    iframeDoc.querySelector('input[type="text"]') ||
-                                    iframeDoc.querySelector('input[placeholder*="user"]');
+                console.log('Attempting auto-login...');
                 
-                // Find and fill password field
+                // Try multiple selectors for username field
+                const usernameField = iframeDoc.querySelector('input[name="username"]') || 
+                                    iframeDoc.querySelector('input[name="user"]') ||
+                                    iframeDoc.querySelector('input[type="text"]') ||
+                                    iframeDoc.querySelector('input[placeholder*="user" i]') ||
+                                    iframeDoc.querySelector('input[placeholder*="name" i]');
+                
+                // Try multiple selectors for password field
                 const passwordField = iframeDoc.querySelector('input[name="password"]') || 
+                                    iframeDoc.querySelector('input[name="pass"]') ||
                                     iframeDoc.querySelector('input[type="password"]');
                 
-                // Find submit button
+                // Try multiple selectors for submit button
                 const submitButton = iframeDoc.querySelector('button[type="submit"]') || 
                                    iframeDoc.querySelector('input[type="submit"]') ||
                                    iframeDoc.querySelector('button:has-text("Login")') ||
-                                   iframeDoc.querySelector('button:has-text("Sign In")');
+                                   iframeDoc.querySelector('button:has-text("Sign In")') ||
+                                   iframeDoc.querySelector('button:has-text("Submit")') ||
+                                   iframeDoc.querySelector('.login-btn') ||
+                                   iframeDoc.querySelector('[data-testid*="login"] button');
+                
+                console.log('Found fields:', { username: !!usernameField, password: !!passwordField, submit: !!submitButton });
                 
                 if (usernameField && passwordField) {
-                    usernameField.value = 'guest';
-                    passwordField.value = 'GuestAccess2024!';
+                    // Clear any existing values first
+                    usernameField.value = '';
+                    passwordField.value = '';
                     
-                    console.log('Auto-filled guest credentials');
-                    
-                    // Submit the form
-                    if (submitButton) {
-                        submitButton.click();
-                        showAudioNotification('Auto-login successful!', 'success');
-                    } else {
-                        // Try to submit the form directly
-                        const form = usernameField.closest('form');
-                        if (form) {
-                            form.submit();
-                            showAudioNotification('Auto-login submitted!', 'success');
-                        }
-                    }
+                    // Fill with guest credentials
+                    setTimeout(() => {
+                        usernameField.value = 'guest';
+                        passwordField.value = 'GuestAccess2024!';
+                        usernameField.dispatchEvent(new Event('input', { bubbles: true }));
+                        passwordField.dispatchEvent(new Event('input', { bubbles: true }));
+                        
+                        console.log('Filled guest credentials');
+                        
+                        // Submit the form after a short delay
+                        setTimeout(() => {
+                            if (submitButton) {
+                                console.log('Clicking submit button');
+                                submitButton.click();
+                                showAudioNotification('Auto-login submitted!', 'success');
+                            } else {
+                                // Try to submit the form directly
+                                const form = usernameField.closest('form') || passwordField.closest('form');
+                                if (form) {
+                                    console.log('Submitting form directly');
+                                    form.submit();
+                                    showAudioNotification('Auto-login submitted!', 'success');
+                                } else {
+                                    console.log('No form or submit button found');
+                                    showAudioNotification('Auto-login failed: no submit method found', 'warning');
+                                }
+                            }
+                        }, 500);
+                    }, 200);
+                } else {
+                    console.log('Username or password field not found');
+                    showAudioNotification('Auto-login failed: login fields not found', 'warning');
                 }
             } catch (e) {
                 console.error('Auto-login failed:', e);
-                showAudioNotification('Auto-login failed, please login manually', 'warning');
+                showAudioNotification('Auto-login error: ' + e.message, 'error');
             }
         }
         
         function tryAlternativeAutoLogin() {
-            // Alternative method: modify iframe src with credentials
-            const iframe = document.getElementById('audiobookshelfFrame');
-            if (iframe && !iframe.src.includes('username=')) {
-                console.log('Trying alternative auto-login method');
-                iframe.src = '/audiobookshelf/login?username=guest&password=GuestAccess2024!';
-                
-                // Reset to normal URL after a delay
-                setTimeout(() => {
-                    if (iframe.src.includes('login?')) {
-                        iframe.src = '/audiobookshelf/';
+            // Alternative method 1: Try backend token authentication
+            console.log('Trying backend token authentication...');
+            
+            if (window.LibraryAuth) {
+                window.LibraryAuth.getAudiobookshelfToken(true).then(token => {
+                    if (token) {
+                        console.log('Got token from backend, reloading iframe with token');
+                        const iframe = document.getElementById('audiobookshelfFrame');
+                        iframe.src = '/audiobookshelf/?token=' + encodeURIComponent(token);
+                        showAudioNotification('Token-based login applied!', 'success');
+                    } else {
+                        // Alternative method 2: Try direct URL login
+                        console.log('Token failed, trying direct URL login');
+                        tryDirectURLLogin();
                     }
-                }, 5000);
+                }).catch(err => {
+                    console.error('Backend token failed:', err);
+                    tryDirectURLLogin();
+                });
+            } else {
+                tryDirectURLLogin();
             }
+        }
+        
+        function tryDirectURLLogin() {
+            // Alternative method 2: Try direct URL with credentials
+            console.log('Trying direct URL login method');
+            const iframe = document.getElementById('audiobookshelfFrame');
+            
+            // Try different URL formats
+            const loginUrls = [
+                '/audiobookshelf/login?username=guest&password=GuestAccess2024!',
+                '/audiobookshelf/?username=guest&password=GuestAccess2024!',
+                '/audiobookshelf/login',
+                '/audiobookshelf/'
+            ];
+            
+            let attemptIndex = 0;
+            const tryNextUrl = () => {
+                if (attemptIndex < loginUrls.length) {
+                    iframe.src = loginUrls[attemptIndex];
+                    console.log('Trying URL:', loginUrls[attemptIndex]);
+                    attemptIndex++;
+                    
+                    // If it's a login page URL, wait a bit then try form filling
+                    if (loginUrls[attemptIndex - 1].includes('login')) {
+                        setTimeout(() => {
+                            try {
+                                const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+                                if (iframeDoc && iframeDoc.querySelector('input[type="password"]')) {
+                                    performAutoLogin(iframeDoc);
+                                } else {
+                                    tryNextUrl();
+                                }
+                            } catch (e) {
+                                tryNextUrl();
+                            }
+                        }, 2000);
+                    } else {
+                        setTimeout(tryNextUrl, 3000);
+                    }
+                } else {
+                    showAudioNotification('All auto-login methods failed. Please use manual login.', 'warning');
+                }
+            };
+            
+            tryNextUrl();
         }
     </script>
     <script src="/js/api.js"></script>
