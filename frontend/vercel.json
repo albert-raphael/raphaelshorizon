@@ -22,12 +22,12 @@
     { "source": "/admin-login", "destination": "/pages/admin/login_admin.html", "permanent": false }
   ],
   "rewrites": [
-    { "source": "/api/:path*", "destination": "http://167.99.134.4/api/:path*" },
-    { "source": "/uploads/:path*", "destination": "http://167.99.134.4/uploads/:path*" },
-    { "source": "/audiobookshelf", "destination": "http://167.99.134.4/audiobookshelf/" },
-    { "source": "/audiobookshelf/:path*", "destination": "http://167.99.134.4/audiobookshelf/:path*" },
-    { "source": "/calibre", "destination": "http://167.99.134.4/calibre/" },
-    { "source": "/calibre/:path*", "destination": "http://167.99.134.4/calibre/:path*" },
+    { "source": "/api/:path*", "destination": "https://api.raphaelshorizon.com/api/:path*" },
+    { "source": "/uploads/:path*", "destination": "https://api.raphaelshorizon.com/uploads/:path*" },
+    { "source": "/audiobookshelf", "destination": "https://api.raphaelshorizon.com/audiobookshelf/" },
+    { "source": "/audiobookshelf/:path*", "destination": "https://api.raphaelshorizon.com/audiobookshelf/:path*" },
+    { "source": "/calibre", "destination": "https://api.raphaelshorizon.com/calibre/" },
+    { "source": "/calibre/:path*", "destination": "https://api.raphaelshorizon.com/calibre/:path*" },
     { "source": "/", "destination": "/homepage.html" }
   ]
 }
