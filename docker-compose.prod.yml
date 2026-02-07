@@ -79,7 +79,7 @@ services:
       - TZ=Europe/London
       - AUDIOBOOKSHELF_CONFIG_ALLOW_GUEST_LOGIN=true
       - AUDIOBOOKSHELF_CONFIG_GUEST_USERNAME=guest
-      - AUDIOBOOKSHELF_CONFIG_GUEST_PASSWORD=guest123
+      - AUDIOBOOKSHELF_CONFIG_GUEST_PASSWORD=GuestAccess2024!
     restart: unless-stopped
     deploy:
       resources:
