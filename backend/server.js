@@ -6,7 +6,11 @@ const session = require('express-session');
 const cookieParser = require('cookie-parser');
 
 // Load environment variables
-require('dotenv').config();
+if (process.env.NODE_ENV === 'production') {
+    require('dotenv').config({ path: path.join(__dirname, '../.env.production') });
+} else {
+    require('dotenv').config();
+}
 
 // const passport = require('./config/passport');
 
