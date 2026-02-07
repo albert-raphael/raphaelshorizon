@@ -3558,12 +3558,130 @@
             }
         };
 
-        // Initialize Library Authentication
+        // Initialize Library Authentication and UI
         document.addEventListener('DOMContentLoaded', function() {
+            console.log('Audio books page loaded');
+            
+            // Initialize library auth
             if (window.LibraryAuth) {
                 LibraryAuth.initAudiobookshelfIframe('audiobookshelfFrame');
             }
+            
+            // Ensure modal functions are available
+            window.showAudioGuide = showAudioGuide;
+            window.closeAudioGuide = closeAudioGuide;
+            window.showAudioTroubleshooting = showAudioTroubleshooting;
+            window.closeAudioTroubleshooting = closeAudioTroubleshooting;
+            
+            // Initialize auto-login system
+            initAudiobookshelfAutoLogin();
+            
+            console.log('Audio books initialization complete');
         });
+        
+        // Auto-login system for Audiobookshelf iframe
+        function initAudiobookshelfAutoLogin() {
+            const iframe = document.getElementById('audiobookshelfFrame');
+            if (!iframe) return;
+            
+            let loginAttempts = 0;
+            const maxAttempts = 3;
+            
+            // Monitor iframe for login page
+            const checkForLoginPage = () => {
+                try {
+                    const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+                    if (iframeDoc) {
+                        // Check if this is a login page
+                        const loginForm = iframeDoc.querySelector('form[action*="login"]') || 
+                                        iframeDoc.querySelector('input[name="username"]') ||
+                                        iframeDoc.querySelector('.login-form') ||
+                                        iframeDoc.querySelector('[data-testid*="login"]');
+                        
+                        if (loginForm && loginAttempts < maxAttempts) {
+                            console.log('Detected Audiobookshelf login page, attempting auto-login...');
+                            performAutoLogin(iframeDoc);
+                            loginAttempts++;
+                        }
+                    }
+                } catch (e) {
+                    // Cross-origin iframe, can't access content directly
+                    console.log('Cannot access iframe content (cross-origin), trying alternative method');
+                    tryAlternativeAutoLogin();
+                }
+            };
+            
+            // Check periodically for login page
+            const checkInterval = setInterval(checkForLoginPage, 2000);
+            
+            // Also check when iframe loads
+            iframe.addEventListener('load', function() {
+                setTimeout(checkForLoginPage, 1000);
+            });
+            
+            // Clean up after successful login or timeout
+            setTimeout(() => {
+                clearInterval(checkInterval);
+            }, 30000); // Stop checking after 30 seconds
+        }
+        
+        function performAutoLogin(iframeDoc) {
+            try {
+                // Find and fill username field
+                const usernameField = iframeDoc.querySelector('input[name="username"]') || 
+                                    iframeDoc.querySelector('input[type="text"]') ||
+                                    iframeDoc.querySelector('input[placeholder*="user"]');
+                
+                // Find and fill password field
+                const passwordField = iframeDoc.querySelector('input[name="password"]') || 
+                                    iframeDoc.querySelector('input[type="password"]');
+                
+                // Find submit button
+                const submitButton = iframeDoc.querySelector('button[type="submit"]') || 
+                                   iframeDoc.querySelector('input[type="submit"]') ||
+                                   iframeDoc.querySelector('button:has-text("Login")') ||
+                                   iframeDoc.querySelector('button:has-text("Sign In")');
+                
+                if (usernameField && passwordField) {
+                    usernameField.value = 'guest';
+                    passwordField.value = 'GuestAccess2024!';
+                    
+                    console.log('Auto-filled guest credentials');
+                    
+                    // Submit the form
+                    if (submitButton) {
+                        submitButton.click();
+                        showAudioNotification('Auto-login successful!', 'success');
+                    } else {
+                        // Try to submit the form directly
+                        const form = usernameField.closest('form');
+                        if (form) {
+                            form.submit();
+                            showAudioNotification('Auto-login submitted!', 'success');
+                        }
+                    }
+                }
+            } catch (e) {
+                console.error('Auto-login failed:', e);
+                showAudioNotification('Auto-login failed, please login manually', 'warning');
+            }
+        }
+        
+        function tryAlternativeAutoLogin() {
+            // Alternative method: modify iframe src with credentials
+            const iframe = document.getElementById('audiobookshelfFrame');
+            if (iframe && !iframe.src.includes('username=')) {
+                console.log('Trying alternative auto-login method');
+                iframe.src = '/audiobookshelf/login?username=guest&password=GuestAccess2024!';
+                
+                // Reset to normal URL after a delay
+                setTimeout(() => {
+                    if (iframe.src.includes('login?')) {
+                        iframe.src = '/audiobookshelf/';
+                    }
+                }, 5000);
+            }
+        }
     </script>
     <script src="/js/api.js"></script>
     <script src="/js/auth.js"></script>
