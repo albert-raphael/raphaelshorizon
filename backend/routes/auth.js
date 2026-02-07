@@ -113,7 +113,7 @@ router.post('/register', async (req, res) => {
         const userJson = user.toObject ? user.toObject() : { ...user };
         delete userJson.password;
         
-        res.json({ success: true, token, user: { ...userJson, id: user._id || user.id } });
+        res.json({ success: true, token, user: { ...userJson, id: user._id || user.id, subscriptionActive: true } });
     } catch (error) {
         console.error('Registration Error:', error);
         res.status(500).json({ success: false, message: error.message });
@@ -157,7 +157,7 @@ router.post('/login', async (req, res) => {
         const userJson = user.toObject ? user.toObject() : { ...user };
         delete userJson.password;
 
-        res.json({ success: true, token, user: { ...userJson, id: user._id || user.id } });
+        res.json({ success: true, token, user: { ...userJson, id: user._id || user.id, subscriptionActive: true } });
     } catch (error) {
         console.error('Login Error:', error);
         res.status(500).json({ success: false, message: error.message });
@@ -192,7 +192,7 @@ router.post('/admin-login', async (req, res) => {
         const userJson = user.toObject ? user.toObject() : { ...user };
         delete userJson.password;
         
-        res.json({ success: true, token, user: { ...userJson, id: user._id || user.id } });
+        res.json({ success: true, token, user: { ...userJson, id: user._id || user.id, subscriptionActive: true } });
     } catch (error) {
         console.error('Admin Login Error:', error);
         res.status(500).json({ success: false, message: error.message });
@@ -254,7 +254,7 @@ router.post('/google', async (req, res) => {
         const userJson = user.toObject ? user.toObject() : { ...user };
         delete userJson.password;
         
-        res.json({ success: true, token: authToken, user: { ...userJson, id: user._id || user.id } });
+        res.json({ success: true, token: authToken, user: { ...userJson, id: user._id || user.id, subscriptionActive: true } });
     } catch (error) {
         console.error('Google Auth Error:', error);
         res.status(401).json({ success: false, message: 'Invalid Google Token' });
@@ -273,7 +273,7 @@ router.get('/me', async (req, res) => {
 
         const userJson = user.toObject ? user.toObject() : { ...user };
         delete userJson.password;
-        res.json({ success: true, user: { ...userJson, id: user._id || user.id } });
+        res.json({ success: true, user: { ...userJson, id: user._id || user.id, subscriptionActive: true } });
     } catch (error) {
         res.status(401).json({ success: false, message: 'Invalid token' });
     }
