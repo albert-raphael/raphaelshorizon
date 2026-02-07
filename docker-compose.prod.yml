@@ -77,6 +77,9 @@ services:
       - AUDIOBOOKSHELF_UID=1000
       - AUDIOBOOKSHELF_GID=1000
       - TZ=Europe/London
+      - AUDIOBOOKSHELF_CONFIG_ALLOW_GUEST_LOGIN=true
+      - AUDIOBOOKSHELF_CONFIG_GUEST_USERNAME=guest
+      - AUDIOBOOKSHELF_CONFIG_GUEST_PASSWORD=guest123
     restart: unless-stopped
     deploy:
       resources:
